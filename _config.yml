@@ -14,7 +14,7 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: sunwoo-j
+title: 지식 곳간
 
 tagline: just for the record
 
@@ -61,7 +61,7 @@ analytics:
   google:
     id: G-YEQNWMMZN2
   goatcounter:
-    id: # fill in your GoatCounter ID
+    id: sunwoo-j
   umami:
     id: # fill in your Umami ID
     domain: # fill in your Umami domain
@@ -73,7 +73,7 @@ analytics:
 
 # Pageviews settings
 pageviews:
-  provider: # now only supports 'goatcounter'
+  provider: goatcounter
 
 # Prefer color scheme setting.
 #
