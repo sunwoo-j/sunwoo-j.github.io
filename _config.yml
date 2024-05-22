@@ -26,10 +26,10 @@ description: >- # used by seo meta and the atom feed
 url: "https://sunwoo-j.github.io"
 
 github:
-  username: sunwoo-j # change to your github username
+  username: sunwoo-j
 
-twitter:
-  username: twitter_username # change to your twitter username
+linkedin:
+  username: sunwoojung
 
 social:
   # Change to your full name.
@@ -38,11 +38,11 @@ social:
   email: jung.snw@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your twitter homepage
-    - https://github.com/sunwoo-j # change to your github homepage
+    - https://www.linkedin.com/in/sunwoojung
+    - https://github.com/sunwoo-j
     # Uncomment below to add more social links
+    # - https://twitter.com/username
     # - https://www.facebook.com/username
-    # - https://www.linkedin.com/in/username
 
 # Site Verification Settings
 webmaster_verifications:
