@@ -14,12 +14,12 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Hello World # the main title
+title: sunwoo-j
 
-tagline: sub sub sub sub sub title # it will display as the sub-title
+tagline: just for the record
 
 description: >- # used by seo meta and the atom feed
-  A minimal, responsive and feature-rich Jekyll theme for technical writing.
+  Personal webpage to record progress.
 
 # Fill in the protocol & hostname for your site.
 # e.g. 'https://username.github.io', note that it does not end with a '/'.
@@ -38,15 +38,15 @@ social:
   email: jung.snw@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://www.linkedin.com/in/sunwoojung
     - https://github.com/sunwoo-j
+    - https://www.linkedin.com/in/sunwoojung
     # Uncomment below to add more social links
     # - https://twitter.com/username
     # - https://www.facebook.com/username
 
 # Site Verification Settings
 webmaster_verifications:
-  google: # fill in your Google verification code
+  google: notql98y2GTWulNSs9JAfSPsTcBCnP6XoS9AlS1ZwAM
   bing: # fill in your Bing verification code
   alexa: # fill in your Alexa verification code
   yandex: # fill in your Yandex verification code
