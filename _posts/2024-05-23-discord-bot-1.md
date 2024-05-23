@@ -183,18 +183,19 @@ client.run('your token here')
 
 ![](/assets/img/discord bot/1_23.png)
 
-정상적으로 실행되었다면 Python 터미널에 이런 로그가 출력된 것을 확인할 수 있다. 만일 **Privileged Gateway Intents** 설정이 제대로 되지 않았을 경우 오류가 발생할 수 있다.
+정상적으로 실행되었다면 `on_ready()`에 넣은대로 터미널에 이런 로그가 출력된 것을 확인할 수 있다. 만일 **Privileged Gateway Intents** 설정이 제대로 되지 않았을 경우 아래와 같은 오류가 발생할 수 있다.
 
-> 이 에러가 뜬다면 **INTENTS**가 제대로 활성화가 되어 있는지 다시 한 번 확인해주자. 
-> ```python
-> discord.errors.PrivilegedIntentsRequired: Shard ID None is requesting privileged intents that have not been explicitly enabled in the developer portal. It is recommended to go to https://discord.com/developers/applications/ and explicitly enable the privileged intents within your application's page. If this is not possible, then consider disabling the privileged intents instead.
-> ```
+```python
+discord.errors.PrivilegedIntentsRequired: Shard ID None is requesting privileged intents that have not been explicitly enabled in the developer portal. It is recommended to go to https://discord.com/developers/applications/ and explicitly enable the privileged intents within your application's page. If this is not possible, then consider disabling the privileged intents instead.
+```
+
+> 이 error가 뜬다면 Privileged Gateway Intents가 제대로 활성화가 되어 있는지 다시 한 번 확인해주자. 
 {: .prompt-warning}
 
 ![](/assets/img/discord bot/1_24.png)
 
-그리고 방금까지만 해도 오프라인이었던 봇이 온라인으로 전환된 것을 확인할 수 있다. 드디어 빈 깡통에 생명을 불어넣은 것이다! 또 위에서 설정했듯이 `'$hello'`로 시작되는 메시지를 입력하면,
+그리고 방금까지만 해도 오프라인이었던 봇이 온라인으로 전환된 것을 확인할 수 있다. 드디어 빈 깡통에 생명을 불어넣은 것이다! 
 
-![](/assets/img/discord bot/1_25.png)
+<img src="/assets/img/discord bot/1_25.png" alt="0_0" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
-봇이 정해둔 답을 채팅으로 응답한다. 
+또 위에서 설정했듯이 `'$hello'`로 시작되는 메시지를 입력하면 봇이 정해둔 답을 채팅으로 응답한다. 
