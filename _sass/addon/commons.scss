@@ -898,8 +898,12 @@ $btn-mb: 0.5rem;
 /* --- top-bar --- */
 
 #topbar-wrapper {
-  height: $topbar-height;
-  background-color: var(--topbar-bg);
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensures it stays above other elements */
+  height: $topbar-height; /* Existing height */
+  background-color: var(--topbar-bg); /* Existing background color */
 }
 
 #topbar {
