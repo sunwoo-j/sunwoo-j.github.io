@@ -1,15 +1,17 @@
 ---
-title: 디스코드 봇 제작 - 1. 디스코드 봇 생성
+title: 디스코드 봇 제작 - 1. 디스코드 봇 생성과 기초 설정
 date: 2024-05-22 09:31:20 +/-TTTT
-lastmod: 2022-05-23 14:31:20 +/-TTTT
+lastmod: 2022-05-24 11:07:00 +/-TTTT
 categories: [Python, Discord.py]
-tags: [python, discord, bot]
-description: 디스코드 봇을 생성하고 서버에 연결시키기
+tags: [python, discord, bot, .env]
+description: 디스코드 봇을 생성하고 채팅에 대답하게 하기
 ---
 
 > 이 글에서 다루는 내용
 > - 디스코드 봇을 생성하는 방법
 > - 테스트용 서버에 봇 추가하기
+> - Python으로 개발 설정하기
+> - 봇이 채팅에 응답하게 하기
 
 ## 봇 생성하기
 
@@ -199,3 +201,84 @@ discord.errors.PrivilegedIntentsRequired: Shard ID None is requesting privileged
 <img src="/assets/img/discord bot/1_25.png" alt="0_0" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 또 위에서 설정했듯이 `'$hello'`로 시작되는 메시지를 입력하면 봇이 정해둔 답을 채팅으로 응답한다. 
+
+### 3. 보안 설정하기
+
+혼자서 봇과 놀거면 상관없겠지만 최종적으로 봇을 배포하는 것이 목표이기 때문에 코드에 봇 토큰을 그대로 남겨둘 수 없다. 때문에 `.env` 파일을 활용해 토큰을 저장할 것이다. 
+
+```tree
+📦Discord Bot
+ ┣ 📜.env
+ ┗ 📜bot.py
+ ```
+
+```text
+# .env
+BOT_TOKEN={봇 토큰}
+```
+
+봇을 구동하는 Python 파일과 같은 폴더에 `.env` 파일을 생성해주고 그 안에 `BOT_TOKEN` 환경 변수를 만들어 토큰을 지정해주자.
+
+```bash
+pip install -U python-dotenv
+```
+
+이제 코드를 실행할 때 `.env`에서 토큰을 읽어오게 하면 되는데 Python에서 `.env` 파일을 읽기 위해서는 `dotenv` 라이브러리가 필요하니 `pip`로 설치하면 된다.
+
+```python
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+TOKEN = os.getenv('BOT_TOKEN')
+```
+
+다시 코드로 돌아가 필요한 라이브러리를 import해주고 필요한 코드를 추가해주자. `load_dotenv()`가 `.env`의 환경 변수들을 불러와 사용할 수 있게 해준다.
+
+```python
+client.run(TOKEN)
+```
+
+마지막으로 토큰이 있던 자리를 불러온 토큰으로 교체해주면 끝이다.
+
+당장 할 수 있는 건 `$hello`에 응답하는 것 뿐이지만 조건문에서 원하는만큼 응답 종류를 불릴 수 있다. 이것만 해도 단둘이(~~사실 혼자~~) 있는 적막한 서버에서 나와 놀아주는 사람이 있는 듯한 기분을 낼 수 있다. 다음 글에서는 접속해 있는 길드의 정보를 얻는 방법에 대해 다뤄볼 것이다.
+
+## 부록
+
+### i. 전체 코드
+
+```python
+# bot.py
+import os, discord
+from dotenv import load_dotenv
+
+load_dotenv()
+TOKEN = os.getenv('BOT_TOKEN')
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+client = discord.Client(intents=intents)
+
+@client.event
+async def on_ready():
+    print(f'We have logged in as {client.user}')
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.content.startswith('$hello'):
+        await message.channel.send('Hello!')
+
+client.run(TOKEN)
+```
+
+### ii. 폴더 구조
+
+```tree
+📦Discord Bot
+ ┣ 📜.env
+ ┗ 📜bot.py
+ ```
