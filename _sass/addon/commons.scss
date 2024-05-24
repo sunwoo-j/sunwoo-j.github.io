@@ -898,7 +898,7 @@ $btn-mb: 0.5rem;
 /* --- top-bar --- */
 
 #topbar-wrapper {
-  position: -webkit-sticky; /* For Safari */
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 1000; /* Ensures it stays above other elements */
