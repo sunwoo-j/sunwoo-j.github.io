@@ -1,10 +1,10 @@
 ---
-title: 디스코드 봇 DIY - 2. 명령어 설정
-date: 2024-05-24 11:07:32 +/-TTTT
-lastmod: 2022-05-24 22:57:40 +/-TTTT
+title: 디스코드 봇 DIY - 3.  길드 환영 메시지와 DM
+date: 2024-05-24 23:48:25 +/-TTTT
+lastmod: 2022-05-24 23:48:25 +/-TTTT
 categories: [Python, discord.py]
-tags: [python, discord, bot, exception]
-description: 확장 라이브러리로 명령어 설정하기
+tags: [python, discord, bot]
+description: 길드의 새 멤버에게 환영인사 보내기
 ---
 
 > 이 글에서 다루는 내용

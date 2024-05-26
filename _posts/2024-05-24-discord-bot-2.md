@@ -9,7 +9,8 @@ description: 확장 라이브러리로 명령어 설정하기
 
 > 이 글에서 다루는 내용
 > - `Client`에서 `Bot`으로 전환하기
-> - 테스트용 서버에 봇 추가하기
+> - `Command`를 활용해 명령어 생성하기
+> - 간단한 error handling 설정하기
 
 ## Bot과 확장 라이브러리
 
@@ -111,7 +112,7 @@ async def multiply(ctx, first_int: int, second_int: int):
     await ctx.send("결과는 ", product, "입니다.")
 ```
 
-`first_int`와 `second_int`에 `: int`를 붙여서 이 parameter들은 정수값을 받는다고 설정해둔 것이다. 다만 정수가 아닌 값을 넣지 못하게 막아둘 수는 없어서 error handling은 따로 해야 한다. 더 나아가 parameter에는 단순히 string이나 int 같은 기본적인 type 말고도 길드나 멤버 같은 디스코드 API만의 특수한 type도 들어갈 수 있다.
+`first_int`와 `second_int`에 `: int`를 붙여서 이 parameter들은 정숫값을 받는다고 설정해둔 것이다. 다만 정수가 아닌 값을 넣지 못하게 막아둘 수는 없어서 error handling은 따로 해야 한다. 더 나아가 parameter에는 단순히 string이나 int 같은 기본적인 type 말고도 길드나 멤버 같은 디스코드 API만의 특수한 type도 들어갈 수 있다.
 
 ```python
 @bot.command(name='참가일', help="멤버의 서버 참가 날짜를 알려줍니다")
@@ -124,7 +125,7 @@ async def joined(ctx, member: discord.Member):
 
 <img src="/assets/img/discord bot/2_3.png" alt="2_3" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
-이런식으로 `Member`가 현재 길드에 언제 참가했는지 보여줄 수 있다. 참고로 `display_name`은 채팅 등 디스코트 UI에 보여지는 별명, `name`은 사용자명, `id`는 사용자 고유 ID이니 적재적소에 활용할 수 있도록 하자.
+이런 식으로 `Member`가 현재 길드에 언제 참가했는지 보여줄 수 있다. 참고로 `display_name`은 채팅 등 디스코드 UI에 보이는 별명, `name`은 사용자명, `id`는 사용자 고유 ID이니 적재적소에 활용할 수 있도록 하자.
 
 ### 3. 명령어 Exception 관리하기
 
@@ -137,14 +138,14 @@ async def multiply_error(ctx, error):
 
 확장 라이브러리의 장점이 여기 또 나온다. `Command`의 **exception**을 넘겨받아 따로 error handling을 할 수 있는 건데, 위의 경우 argument가 정해진 type과 다르게 주어질 때 발생하는 `BadArgument`를 처리하고 있다. 
 
-> `Commands`에서 발생할 수 있는 exception 리스트는 [여기](https://discordpy.readthedocs.io/en/latest/ext/commands/api.html?highlight=command%20error#exceptions)서 확인할 수 있다.
+> `Commands`에서 발생할 수 있는 exception 목록은 [여기](https://discordpy.readthedocs.io/en/latest/ext/commands/api.html?highlight=command%20error#exceptions)서 확인할 수 있다.
 {: .prompt-info}
 
 ![](/assets/img/discord%20bot/2_4.png) | ![](/assets/img/discord%20bot/2_5.png)
 
 정상적으로 int type이 주어졌을 때와 그렇지 않을 때 각자 다른 응답을 하는 것을 볼 수 있다. 
 
-이외에도 parameter마다 설명을 추가하거나 생성된 리스트에서 변수를 정하는 식으로 오류를 원천차단 하는 방법이 있지만 나중에 다른 명령어 시스템을 다룰 때 정리해 보겠다. 
+이외에도 parameter마다 설명을 추가하거나 생성된 리스트에서 변수를 정하는 식으로 오류를 원천 차단 하는 방법이 있지만 나중에 다른 명령어 시스템을 다룰 때 정리해 보겠다. 
 
 ## 부록
 
