@@ -4,7 +4,7 @@ date: 2024-05-24 11:07:32 +/-TTTT
 lastmod: 2022-05-24 22:57:40 +/-TTTT
 categories: [Python, discord.py]
 tags: [python, discord, bot, exception]
-description: 확장 라이브러리로 명령어 설정하기
+description: discord.ext.commands로 명령어 설정하기
 ---
 
 > 이 글에서 다루는 내용
@@ -14,7 +14,7 @@ description: 확장 라이브러리로 명령어 설정하기
 
 ## Bot과 확장 라이브러리
 
-`Bot`은 앞서 본 `Client`의 기능들을 상속받는 일종의 subclass이다. `Client`만 활용해서 봇을 개발할 수도 있겠지만, `Client`는 event를 일일이 지정해 줘야 한다는 단점이 있다. 쉽게 말해 번거롭다는 뜻이다. 이와 같은 단점들을 보완하기 위해 `discord.py`는 확장 라이브러리인 `discord.ext`(extension)을 포함하고 있다. 이 라이브러리에 `Bot`이 들어있는데, 편리성을 위해 만들어진 만큼 비교적 간편하게 명령어를 추가할 수 있다. 
+`Bot`은 앞서 본 `Client`의 기능들을 상속받는 일종의 subclass이다. `Client`만 활용해서 봇을 개발할 수도 있겠지만, `Client`는 이벤트를 일일이 지정해 줘야 한다는 단점이 있다. 쉽게 말해 번거롭다는 뜻이다. 이와 같은 단점들을 보완하기 위해 `discord.py`는 확장 라이브러리인 `discord.ext`(extension)을 포함하고 있다. 이 라이브러리에 `Bot`이 들어있는데, 편리성을 위해 만들어진 만큼 비교적 간편하게 명령어를 추가할 수 있다. 
 
 ### 1. Bot으로 명령어 추가하기
 
@@ -84,7 +84,7 @@ async def hello(ctx):
 bot.run(TOKEN)
 ```
 
-두 코드 모두 동일하게 작동한다. 자세히 들여다보면 `on_message()` 대신에 `Command`를 활용한 것을 볼 수 있다. `Client`를 사용할 때는 텍스트로 함수를 호출하기 위해서 `on_message()`라는 `event`를 특정해 줘야 했지만, `Command`를 활용하면 `event`를 따로 설정할 필요 없이 바로 명령어가 인식되는 모습이다. Decorator에서 `name='hello'`로 parameter를 지정했기 때문에 `command_prefix`와 `name`이 합쳐진 `$hello`를 입력하면 연결된 함수가 호출된다. 
+두 코드 모두 동일하게 작동한다. 자세히 들여다보면 `on_message()` 대신에 `Command`를 활용한 것을 볼 수 있다. `Client`를 사용할 때는 텍스트로 함수를 호출하기 위해서 `on_message()`라는 이벤트를 특정해 줘야 했지만, `Command`를 활용하면 이벤트를 따로 설정할 필요 없이 바로 명령어가 인식되는 모습이다. Decorator에서 `name='hello'`로 argument를 지정했기 때문에 `command_prefix`와 `name`이 합쳐진 `$hello`를 입력하면 연결된 함수가 호출된다. 
 
 > **`ctx`**는 명령어를 실행한 사람이 누군지와 어떤 채널에서 입력됐는지 등의 [context 정보](https://discordpy.readthedocs.io/en/latest/ext/commands/commands.html#invocation-context)를 담고 있다.
 {: .prompt-info}
@@ -99,7 +99,7 @@ bot.run(TOKEN)
 
 ![](/assets/img/discord%20bot/2_2.png)
 
-명령어 Decorator에 `help` parameter를 추가하면 설명도 달 수 있다. 어떤 명령어들이 있고 무엇을 하는지 사용자에게 보여줄 수 있는 가장 간단한 방법이다. 하여간 이런 식으로 `Client`에는 없는 추가 기능들이 자잘하게 있다.
+명령어 Decorator에 `help` argument를 추가하면 설명도 달 수 있다. 어떤 명령어들이 있고 무엇을 하는지 사용자에게 보여줄 수 있는 가장 간단한 방법이다. 하여간 이런 식으로 `Client`에는 없는 추가 기능들이 자잘하게 있다.
 
 ### 2. 명령어에 Parameter 추가하기
 
@@ -138,7 +138,7 @@ async def multiply_error(ctx, error):
 
 확장 라이브러리의 장점이 여기 또 나온다. `Command`의 **exception**을 넘겨받아 따로 error handling을 할 수 있는 건데, 위의 경우 argument가 정해진 type과 다르게 주어질 때 발생하는 `BadArgument`를 처리하고 있다. 
 
-> `Commands`에서 발생할 수 있는 exception 목록은 [여기](https://discordpy.readthedocs.io/en/latest/ext/commands/api.html?highlight=command%20error#exceptions)서 확인할 수 있다.
+> `Commands`에서 발생할 수 있는 exception 목록은 [여기](https://discordpy.readthedocs.io/en/latest/ext/commands/api.html?error#exceptions)서 확인할 수 있다.
 {: .prompt-info}
 
 ![](/assets/img/discord%20bot/2_4.png) | ![](/assets/img/discord%20bot/2_5.png)

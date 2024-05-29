@@ -150,9 +150,9 @@ async def on_message(message):
 client.run('your token here')
 ```
 
-코드를 보면 `client`를 먼저 설정하고 `on_ready()`와 `on_message()`라는 `event`들에 대한 event handler를 지정한 것을 볼 수 있다. 여기서 말하는 `event`는 메시지 전송이나 유저 밴, 길드 채널 생성과 같은 특이사항이 발생했을 때 디스코드가 보내는 일종의 데이터라고 보면 된다. `on_ready()`는 그중 `Client`가 디스코드와의 연결을 성공했을 때 보내지는 `event`로, 코드에서 설정한 `client`가 다음 명령을 받아들일 준비가 되었을 때 호출된다고 보면 된다. `on_message()`는 마찬가지로 메시지가 전송됐을 때 발동되는 함수이다.
+코드를 보면 `client`를 먼저 설정하고 `on_ready()`와 `on_message()`라는 **이벤트(event)**들에 대한 event handler를 지정한 것을 볼 수 있다. 여기서 말하는 이벤트는 메시지 전송이나 유저 밴, 길드 채널 생성과 같은 상황이 발생했을 때 디스코드가 보내는 일종의 데이터라고 보면 된다. `on_ready()`는 그중 `Client`가 디스코드와의 연결을 성공했을 때 보내지는 이벤트로, 코드에서 설정한 `client`가 다음 명령을 받아들일 준비가 되었을 때 호출된다고 보면 된다. `on_message()`는 마찬가지로 메시지가 전송됐을 때 발동되는 함수이다.
 
-> `discord.py`에서 다루는 `event` 목록은 [여기서](https://discordpy.readthedocs.io/en/latest/api.html?highlight=event#discord-api-events) 확인할 수 있다.
+> `discord.py`에서 다루는 이벤트 목록은 [여기서](https://discordpy.readthedocs.io/en/latest/api.html?#discord-api-events) 확인할 수 있다.
 {: .prompt-info}
 
 하지만 이 코드만 가지고 내 봇을 콕 집어 실행시킬 수 없는데, 이때 필요한 것이 내 봇의 **토큰(token)**이다. 토큰은 봇의 고유 식별자로, 봇이 디스코드 API와 통신을 주고받는 데에 꼭 필요하다. 
@@ -167,7 +167,7 @@ client.run('your token here')
 
 ![](/assets/img/discord bot/1_21.png)
 
-새로 발급된 토큰은 생성됐을 때만 노출되고 페이지를 새로고침하면 사라지게 된다. 그렇기 때문에 <kbd>Copy</kbd>로 복사해 주고 어딘가 안전한 곳에 저장해야 한다. 토큰을 잊어버렸다면 다시 <kbd>Reset Token</kbd>으로 재발급해야 한다.
+새로 발급된 토큰은 생성됐을 때만 노출되고 페이지를 새로고침하면 사라지게 된다. 그렇기 때문에 <kbd>Copy</kbd>로 복사해 주고 어딘가 안전한 곳에 저장해야 한다. 토큰을 잃어버렸다면 다시 <kbd>Reset Token</kbd>으로 재발급해야 한다.
 
 > **이 토큰은 봇의 권한을 총괄하는 비밀번호와 같으므로, 절대 공유해서는 안 된다.**
 {: .prompt-danger }
@@ -176,7 +176,7 @@ client.run('your token here')
 
 ![](/assets/img/discord bot/1_22.png)
 
-[Intents](https://discord.com/developers/docs/topics/gateway#gateway-intents)는 디스코드가 보내는 `event`의 종류를 설정하는 값들인데, 민감한 정보를 담고 있는 `GUILD_PRESENCES`, `GUILD_MEMBERS`, `MESSAGE_CONTENT` 등의 Privileged Gateway Intents는 기본적으로 접근이 막혀있기 때문에 접근을 허용해 주어야 한다. 스크롤을 내려 **Privileged Gateway Intents** 섹션에서 모든 intent를 활성화시키고 <kbd>Save Changes</kbd>를 눌러 저장해 주자.
+[Intents](https://discord.com/developers/docs/topics/gateway#gateway-intents)는 디스코드가 보내는 이벤트의 종류를 설정하는 값들인데, 민감한 정보를 담고 있는 `GUILD_PRESENCES`, `GUILD_MEMBERS`, `MESSAGE_CONTENT` 등의 Privileged Gateway Intents는 기본적으로 접근이 막혀있기 때문에 접근을 허용해 주어야 한다. 스크롤을 내려 **Privileged Gateway Intents** 섹션에서 모든 intent를 활성화시키고 <kbd>Save Changes</kbd>를 눌러 저장해 주자.
 
 > 나중에 봇이 100개 이상의 서버에 추가되면 디스코드에서 Intents 활용이 적합한지 심사하게 된다.
 {: .prompt-info}
@@ -185,7 +185,7 @@ client.run('your token here')
 intents = discord.Intents.all()
 ```
 
-모든 intent를 활성화시켰기 때문에 코드에서 `discord.Intents.default()`를 `discord.Intents.all()`로 바꿔주었다. 이제 코드에서 `your token here` 대신 발급받은 토큰을 붙여넣기하여 실행시켜보자.
+모든 intent를 활성화시켰기 때문에 코드에서 `discord.Intents.default()`를 `discord.Intents.all()`로 바꿔주었다. 이러면 앞으로 intent 권한 때문에 고통받을 일은 없다. 이제 코드에서 `your token here` 대신 발급받은 토큰을 붙여넣기하여 실행시켜보자.
 
 ![](/assets/img/discord bot/1_23.png)
 
