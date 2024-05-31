@@ -1,7 +1,7 @@
 ---
-title: 디스코드 봇 DIY - 2. 명령어 설정
+title: 디스코드 봇 DIY - 2. 기본적인 명령어 설정
 date: 2024-05-24 11:07:32 +/-TTTT
-lastmod: 2022-05-24 22:57:40 +/-TTTT
+lastmod: 2024-05-24 22:57:40 +/-TTTT
 categories: [Python, discord.py]
 tags: [python, discord, bot]
 description: discord.py 확장 라이브러리로 명령어 설정하기

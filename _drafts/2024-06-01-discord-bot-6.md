@@ -1,14 +1,14 @@
 ---
-title: 디스코드 봇 DIY - 5. Embed, 버튼, 드롭다운 메뉴
+title: 디스코드 봇 DIY - 6.  유저 데이터베이스
 date: 2024-05-31 14:25:09 +/-TTTT
 lastmod: 2024-05-31 14:25:09 +/-TTTT
 categories: [Python, discord.py]
 tags: [python, discord, bot, database]
-description: Embed와 UI로 봇의 메시지를 더 예쁘게 만들기
+description: 엑셀 파일로 유저 정보 등록하고 관리하기
 ---
 
 > 이 글에서 다루는 내용
-> - ㅇㅇㅇ
+> - 
 
 ## 
 

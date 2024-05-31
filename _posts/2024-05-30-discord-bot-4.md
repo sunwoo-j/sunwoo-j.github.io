@@ -1,7 +1,7 @@
 ---
 title: 디스코드 봇 DIY - 4. Application Command
 date: 2024-05-30 10:44:15 +/-TTTT
-lastmod: 2022-05-31 11:02:25 +/-TTTT
+lastmod: 2024-05-31 11:02:25 +/-TTTT
 categories: [Python, discord.py]
 tags: [python, discord, bot]
 description: 내 디스코드 앱과 상호작용하는 기본적인 방법들

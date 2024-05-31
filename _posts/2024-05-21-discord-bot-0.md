@@ -1,7 +1,7 @@
 ---
 title: 디스코드 봇 DIY - 0. 개념과 개발 계획
 date: 2024-05-21 10:45:40 +/-TTTT
-lastmod: 2022-05-22 14:45:00 +/-TTTT
+lastmod: 2024-05-22 14:45:00 +/-TTTT
 categories: [Python, discord.py]
 tags: [python, discord, bot, planning]
 description: 디스코드 봇의 개념과 봇 개발 계획

@@ -1,7 +1,7 @@
 ---
 title: 디스코드 봇 DIY - 3.  신규 멤버 환영 메시지
 date: 2024-05-27 10:53:19 +/-TTTT
-lastmod: 2022-05-29 18:59:33 +/-TTTT
+lastmod: 2024-05-29 18:59:33 +/-TTTT
 categories: [Python, discord.py]
 tags: [python, discord, bot]
 description: 디스코드 이벤트 활용해서 환영 메시지 보내기
