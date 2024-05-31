@@ -3,7 +3,7 @@ title: 디스코드 봇 DIY - 3.  신규 멤버 환영 메시지
 date: 2024-05-27 10:53:19 +/-TTTT
 lastmod: 2022-05-29 18:59:33 +/-TTTT
 categories: [Python, discord.py]
-tags: [python, discord, bot, event]
+tags: [python, discord, bot]
 description: 디스코드 이벤트 활용해서 환영 메시지 보내기
 ---
 
@@ -78,15 +78,15 @@ DM을 제외하면 글을 보낼 수 있는 남은 공간은 길드의 채팅 �
 
 ![](/assets/img/discord%20bot/3_2.png)
 
-바로 확인 할 수는 없고 **개발자 모드**를 활성화해야 한다. 아래 톱니바퀴를 눌러 사용자 설정에 들어가자.
+바로 확인 할 수는 없고 **개발자 모드**를 활성화해야 한다. 아래 톱니바퀴를 눌러 <kbd>사용자 설정</kbd>에 들어가자.
 
 ![](/assets/img/discord%20bot/3_3.png)
 
-왼쪽 목록에서 앱 설정 아래 있는 **고급**에 들어가고 첫 번째 항목인 **개발자 모드**를 활성화하면 된다.
+왼쪽 목록에서 앱 설정 아래 있는 <kbd>고급</kbd>에 들어가서 첫 번째 항목인 <kbd>개발자 모드</kbd>를 활성화하면 된다.
 
 ![](/assets/img/discord%20bot/3_4.png)
 
-이제 서버로 돌아가 봇이 채팅을 보냈으면 하는 채팅 채널을 우클릭하면 **채널 ID 복사하기**가 뜰 것이다. ID를 복사했으면 이제 코드에 써먹어보자.
+이제 서버로 돌아가 봇이 채팅을 보냈으면 하는 채팅 채널을 우클릭하면 <kbd>채널 ID 복사하기</kbd>가 뜰 것이다. ID를 복사했으면 이제 코드에 써먹어보자.
 
 ```python
 @bot.event
@@ -113,7 +113,7 @@ async def on_member_join(member):
 
 ![](/assets/img/discord%20bot/3_7.png)
 
-좌측 상단의 길드 이름을 우클릭하고 **서버 ID 복사하기**를 눌러주면 복사가 된다. 원래 테스트하고 있던 서버에서 계속 테스트를 진행할 것이기 때문에 `.env` 파일에 `GUILD_ID`와 `CHANNEL_ID` 항목을 추가해서 복사한 고유 ID를 넣어줬다. 
+좌측 상단의 길드 이름을 우클릭하고 <kbd>서버 ID 복사하기</kbd>를 눌러주면 복사가 된다. 원래 테스트하고 있던 서버에서 계속 테스트를 진행할 것이기 때문에 `.env` 파일에 `GUILD_ID`와 `CHANNEL_ID` 항목을 추가해서 복사한 고유 ID를 넣어줬다. 
 
 ```text
 # .env
@@ -160,7 +160,7 @@ async def on_member_join(member):
 
 `on_member_join()`의 argument로 받은 `member`에게서 막 참가한 길드의 ID를 따와 `welcome_channel`에서 상응하는 채널 ID를 받아내게 했으며, ID로 특정된 채널에 메시지를 출력하도록 설정했다. 이러면 길드마다 각각 설정된 개별 채널로 환영 메시지를 전송할 수 있다. 
 
-지금은 길드와 채널 ID를 직접 환경 변수로 적어 넣었지만, 길드 관리자가 환영 메시지를 보낼 채널을 봇에게 설정하도록 할 수 있겠다. 또, 길드마다 설정을 저장하려면 데이터베이스가 필요하기 때문에 나중에 다시 돌아오는 편이 나을 거라 생각된다. 다음은 기본적인 사용자 정보를 저장할 수 있는 데이터베이스를 만들어 볼 것이다.
+지금은 길드와 채널 ID를 직접 환경 변수로 적어 넣었지만, 길드 관리자가 환영 메시지를 보낼 채널을 봇에게 설정하도록 할 수 있겠다. 또, 길드마다 설정을 저장하려면 데이터베이스가 필요하기 때문에 나중에 다시 돌아오는 편이 나을 거라 생각된다. 다음은 본격적인 봇 개발을 시작하기 앞서 
 
 ## 부록
 
@@ -176,7 +176,7 @@ load_dotenv()
 TOKEN = os.getenv('BOT_TOKEN')
 GUILD = int(os.getenv('GUILD_ID'))
 CHANNEL = int(os.getenv('CHANNEL_ID'))
-welcome_channel = {GUILD:CHANNEL}
+welcome_channel = {GUILD:CHANNEL} # 길드별 환영 메시지 전송 채널
 
 intents = discord.Intents.all()
 

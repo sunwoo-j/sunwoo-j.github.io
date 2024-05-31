@@ -3,7 +3,7 @@ title: 디스코드 봇 DIY - 1. 디스코드 봇 생성
 date: 2024-05-22 09:31:20 +/-TTTT
 lastmod: 2022-05-24 11:07:00 +/-TTTT
 categories: [Python, discord.py]
-tags: [python, discord, bot, .env]
+tags: [python, discord, bot]
 description: 디스코드 봇을 생성하고 채팅에 대답하게 하기
 ---
 
