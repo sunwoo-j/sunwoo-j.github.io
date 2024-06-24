@@ -1,7 +1,7 @@
 ---
 title: 디스코드 봇 DIY - 4. Application Command
 date: 2024-05-30 10:44:15 +/-TTTT
-lastmod: 2024-05-31 11:02:25 +/-TTTT
+last_modified_at: 2024-05-31 11:02:25 +/-TTTT
 categories: [Python, discord.py]
 tags: [python, discord, bot]
 description: 내 디스코드 앱과 상호작용하는 기본적인 방법들
@@ -170,7 +170,7 @@ async def joined(interaction: discord.Interaction, message: discord.Message):
 
 *"다람쥐 헌 쳇바퀴에 타고파"* 메시지의 공백 포함 글자수와 공백 제외 글자수가 정상적으로 출력됐다.
 
-이렇게 Slash Command, User Command, Message Command 세 가지 Application Command 모두 구현하는 데 성공했다. 다음에는 봇의 출력을 더 보기 쉽게, 그리고 예쁘게 만들기 위해 필요한 embed 같은 요소들을 알아볼 것이다.
+이렇게 Slash Command, User Command, Message Command 세 가지 Application Command 모두 구현하는 데 성공했다. 다음에는 봇의 출력을 더 보기 쉽게, 그리고 예쁘게 만들기 위해 필요한 embed 같은 UI 요소들을 알아볼 것이다.
 
 ## 부록
 
@@ -226,14 +226,10 @@ async def hello(interaction: discord.Interaction):
     await interaction.response.send_message("Hello!")
 
 @bot.tree.command(name='곱하기', description="숫자 두 개를 곱합니다")
-async def multiply(ctx, first_int: int, second_int: int):
-    product = first_int * second_int
-    await ctx.send(f"결과는 {product}입니다.")
-
-@multiply.error
-async def multiply_error(ctx, error):
-    if isinstance(error, commands.BadArgument):
-        await ctx.send("오류: 정수 두 개를 입력해 주세요.")
+@app_commands.describe(정수1="첫 번째 정수", 정수2="두 번째 정수")
+async def multiply(interaction: discord.Interaction, 정수1: int, 정수2: int):
+    product = 정수1 * 정수2
+    await interaction.response.send_message(f"결과는 {product}입니다.")
 
 @bot.tree.command(name='참가일', description="멤버의 서버 참가 날짜를 알려줍니다")
 @app_commands.describe(member="조회할 멤버")
