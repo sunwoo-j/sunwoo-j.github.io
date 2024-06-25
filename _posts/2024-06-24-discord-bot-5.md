@@ -3,7 +3,7 @@ title: 디스코드 봇 DIY - 5. Embed, 버튼, 드롭다운 메뉴
 date: 2024-06-24 16:15:09 +/-TTTT
 last_modified_at: 2024-06-24 16:15:09 +/-TTTT
 categories: [Python, discord.py]
-tags: [python, discord, bot, UI, persistency]
+tags: [python, discord, bot, UI]
 description: UI로 봇의 메시지를 더 예쁘게 만들기
 ---
 
@@ -267,7 +267,7 @@ class SelectView(discord.ui.View):
     @discord.ui.select(
         custom_id='select_view', # custom_id 지정
         placeholder="국적을 선택하세요",
-...
+        ...
 
 @bot.tree.command(name='국적', description="국적을 선택합니다")
 async def country(interaction: discord.Interaction):
@@ -330,14 +330,6 @@ async def on_ready():
 @bot.event
 async def setup_hook():
     await bot.tree.sync() # tree 동기화
-
-""" @bot.command(name="sync")
-async def sync(ctx):
-    if ctx.author.id == ADMIN:
-        await bot.tree.sync()
-        await ctx.send("동기화가 완료되었습니다.")
-    else:
-        await ctx.send("권한이 없습니다.") """
     
 @bot.event
 async def on_member_join(member):
@@ -496,6 +488,9 @@ bot.run(TOKEN)
 
 ```tree
 📦Discord Bot
+ ┣ 📂cogs
+ ┃ ┣ 📜interface.py
+ ┃ ┗ 📜welcome.py
  ┣ 📜.env
  ┣ 📜bot.py
  ┣ 📜icon.gif

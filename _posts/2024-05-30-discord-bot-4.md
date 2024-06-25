@@ -205,14 +205,6 @@ async def on_ready():
 @bot.event
 async def setup_hook():
     await bot.tree.sync() # tree 동기화
-
-""" @bot.command(name="sync")
-async def sync(ctx):
-    if ctx.author.id == ADMIN:
-        await bot.tree.sync()
-        await ctx.send("동기화가 완료되었습니다.")
-    else:
-        await ctx.send("권한이 없습니다.") """
     
 @bot.event
 async def on_member_join(member):
