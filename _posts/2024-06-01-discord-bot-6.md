@@ -1,19 +1,20 @@
 ---
-title: 디스코드 봇 DIY - 6.  Cog로 코드 정리하기
+title: 디스코드 봇 DIY - 6.  모듈화와 실시간 기능 추가
 date: 2024-06-25 14:42:37 +/-TTTT
-last_modified_at: 2024-06-25 14:42:37 +/-TTTT
+last_modified_at: 2024-06-25 16:46:06 +/-TTTT
 categories: [Python, discord.py]
 tags: [python, discord, bot, modularization]
-description: Cog를 이용해 기능별로 모듈화하기
+description: Cog로 코드 모듈화와 실시간 수정 두 마리 토끼 잡기  
 ---
 
 > 이 글에서 다루는 내용
 > - 카테고리별로 파일 만들어서 관리하기
 > - 메인 파일에 생성한 Cog들 불러오기
+> - 봇 재시작 없이 새로운 기능 추가하기
 
-## Cog
+## Cog와 모듈화
 
-**Cog**는 `discord.py`에서 모듈이나 익스텐션을 뜻하는 용어이다. 지금은 `bot.py`에 모든 명령과 기능들이 다 합쳐져 있지만 Cog를 사용하면 카테고리별로 묶어 관리하는 것이 가능해진다. 이러면 자연스럽게 이것저것 다 섞여 있던 `bot.py`처럼 코드가 엉망이 되는 것을 방지할 수 있다.
+**Cog**는 `discord.py`에서 **모듈**이나 **익스텐션**을 뜻하는 용어이다. 지금은 `bot.py`에 모든 명령과 기능들이 다 합쳐져 있지만 Cog를 사용하면 카테고리별로 묶어 관리하는 것이 가능해진다. 이러면 자연스럽게 이것저것 다 섞여 있던 `bot.py`처럼 코드가 엉망이 되는 것을 방지할 수 있다.
 
 > Cog에 대한 예시와 자세한 설명은 [이곳](https://discordpy.readthedocs.io/en/stable/ext/commands/cogs.html)에서 볼 수 있다.
 {: .prompt-info}
@@ -22,7 +23,7 @@ description: Cog를 이용해 기능별로 모듈화하기
 
 ### 1. Cog 파일 생성하기
 
-먼저, `bot.py`가 있는 폴더 안에 `cogs/` 폴더를 생성해준다. 이 폴더 안에 앞으로 만들 Cog 파일들을 전부 보관할 것이다. 멤버가 새로 들어왔을 때 메시지를 출력하는 기능과 환영 Embed를 출력하는 기능은 환영이라는 주제에 들어맞기 때문에 폴더 안에 `welcome.py` 파일을 만들어 Cog를 만들어 보겠다.
+먼저, `bot.py`가 있는 폴더 안에 `cogs/` 폴더를 생성해 준다. 이 폴더 안에 앞으로 만들 Cog 파일들을 전부 보관할 것이다. 멤버가 새로 들어왔을 때 메시지를 출력하는 기능과 환영 Embed를 출력하는 기능은 환영이라는 주제에 들어맞기 때문에 폴더 안에 `welcome.py` 파일을 만들어 Cog를 만들어 보겠다.
 
 ```python
 # /cogs/welcome.py
@@ -92,7 +93,7 @@ async def load_extensions():
 ...
 ```
 
-이 함수를 우선 `bot.py`에 추가하자. `load_extension()`은 앞서 `setup()`으로 등록 해놓은 Cog를 불러오는 함수로, argument는 Cog 파일 경로에서 확장명을 제외하고 `/`를 `.`으로 대치한 string을 넣어주면 된다. 우리의 경우 경로가 `cogs/welcome.py`이므로 `cogs.welcome`이 된다.
+이 함수를 우선 `bot.py`에 추가하자. `load_extension()`은 앞서 `setup()`으로 등록해놓은 Cog를 불러오는 함수로, argument는 Cog 파일 경로에서 확장명을 제외하고 `/`를 `.`으로 대치한 string을 넣어주면 된다. 우리의 경우 경로가 `cogs/welcome.py`이므로 `cogs.welcome`이 된다.
 
 ```python
 # bot.py
@@ -104,7 +105,7 @@ async def setup_hook():
 ...
 ```
 
-추가한 함수를 `setup_hook` event에 넣어서 봇이 서버에 로그인을 성공했을 때 Cog를 불러올 수 있도록 설정해주자. `load_extensions()`는 coroutine으로 `async` 함수 안에 추가해야 하는데, `on_ready`은 여러 번 호출될 수 있는 반면에 `setup_hook`은 실행 시 단 한 번만 호출되므로 Cog를 추가하는 목적에 적합하다. (이유는 잘 모르겠지만 `on_ready`에 넣으니 동작을 하지 않는다)
+추가한 함수를 `setup_hook` event에 넣어서 봇이 서버에 로그인을 성공했을 때 Cog를 불러올 수 있도록 설정해 주자. `load_extensions()`는 coroutine으로 `async` 함수 안에 추가해야 하는데, `on_ready`은 여러 번 호출될 수 있는 반면에 `setup_hook`은 실행 시 단 한 번만 호출되므로 Cog를 추가하는 목적에 적합하다. (이유는 잘 모르겠지만 `on_ready`에 넣으니 동작을 하지 않는다)
 
 ### 3. View 및 인터페이스 Cog로 옮기기
 
@@ -157,7 +158,7 @@ async def setup(bot):
     await bot.add_cog(Interface(bot))
 ```
 
-지난 번에 인터페이스 테스트 용으로 만들었던 명령어들을 `cogs/` 폴더 안에 `interface.py` 파일을 새로 만들고 옮겨 넣었다. 코드를 전부 Cog class 안에 넣어도 되지만, 위처럼 View class들은 밖으로 빼주고 명령어들만 Cog 안에 넣어도 정상적으로 인터페이스까지 출력된다. 이 점을 활용해 인터페이스는 별도의 파일에 따로 저장하고 필요할 때 모듈을 불러오는 식으로 세분화할 수 있다.
+지난번에 인터페이스 테스트 용으로 만들었던 명령어들을 `cogs/` 폴더 안에 `interface.py` 파일을 새로 만들고 옮겨 넣었다. 코드를 전부 Cog class 안에 넣어도 되지만, 위처럼 View class들은 밖으로 빼주고 명령어들만 Cog 안에 넣어도 정상적으로 인터페이스까지 출력된다. 이 점을 활용해 인터페이스는 별도의 파일에 따로 저장하고 필요할 때 모듈을 불러오는 식으로 세분화할 수 있다.
 
 ### 4. 여러 개의 Cog 한 번에 추가하기
 
@@ -175,14 +176,145 @@ async def load_extensions():
 
 `cogs/` 폴더 안에 있는 모든 Python 파일을 불러오도록 수정했다.
 
-<img src="/assets/img/discord bot/6_1.png" alt="6_1" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/6_1.png" alt="6_1" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
 
-모든 Cog가 추가된 것을 터미널에서 확인할 수 있다.
+`interface.py`를 포함한 모든 Cog가 추가된 것을 터미널에서 확인할 수 있다.
 
 > 폴더 안의 모든 Python 파일에 `setup()` 함수가 없으면 오류가 발생한다.
 {: .prompt-warning}
 
-이제 모듈화를 마쳤으니 본격적으로 각각의 기능들을 추가해 넣을 시간이다. 하지만 아직 준비할 것이 한 가지 남아있다. 바로 데이터베이스이다. 다음에는 엑셀을 활용해 데이터베이스를 설정하는 방법에 대해 알아보겠다.
+## 실시간 기능 추가
+
+Cog의 장점은 모듈화에서 끝나지 않는다. 지금까지 기능을 추가해 적용하려면 실행되고 있던 봇을 정지하고 다시 실행해야 했다. 하지만 Cog를 활용하면 봇을 **재시작하지 않고도** 기능이나 명령어를 추가 혹은 수정할 수 있다.
+
+### 1. Cog Unload 하기
+
+봇을 구동할 때 불러왔던 Cog들을 unload, 또는 비활성화 시킬 수 있다. `load_extension()` 함수의 반대가 되는 `unload_extension()`을 사용하면 된다. 봇을 멈추지 않고 작업을 수행할 수 있도록 명령어를 추가했다.
+
+```python
+# bot.py
+...
+@bot.command(name='unload')
+@commands.is_owner()
+async def unload(ctx, extension: str):
+    try:
+        await bot.unload_extension(f'cogs.{extension}')
+        await ctx.send(f'{extension} Cog를 제거했습니다.')
+    except Exception as e:
+        await ctx.send(f'오류: {e}')
+...
+```
+
+일반 사용자들이 접근하지 못하도록 Application Command가 아닌 일반 명령어를 사용했고 `@commands.is_owner()` decorator를 통해 명령어를 입력한 사람이 봇의 소유자인지 확인하는 절차도 추가했다. Parameter로 Cog의 이름을 입력하게 하여 일치하는 Cog를 비활성화하도록 만들었다.
+
+비활성화를 했으니 다시 활성화할 수 있는 명령어도 추가하자.
+
+```python
+# bot.py
+...
+@bot.command(name='load')
+@commands.is_owner()
+async def unload(ctx, extension: str):
+    try:
+        await bot.load_extension(f'cogs.{extension}')
+        await ctx.send(f'{extension} Cog를 불러왔습니다.')
+        await bot.tree.sync()
+    except Exception as e:
+        await ctx.send(f'오류: {e}')
+...
+```
+
+Unload할 때와 달리 새로 불러올 때는 tree의 명령어를 수정했을 수 있기 때문에 `bot.tree.sync()`로 동기화를 해주어야 한다.
+
+<img src="/assets/img/discord bot/6_2.png" alt="6_2" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+
+Interface Cog를 unload 했다가 다시 불러온 모습이다.
+
+```python
+# cogs/interface.py
+...
+async def setup(bot):
+    await bot.add_cog(Interface(bot))
+    
+async def teardown(bot):
+    print("몸이 이상해요..")
+```
+
+`load_extension()`을 할 때 Cog의 `setup()`이 호출되는 것처럼 `unload_extension()`은 `teardown()`을 호출하게끔 되어있다. Unload 할 때 수행할 코드가 있다면 `teardown()` 함수 안에 추가하면 된다.
+
+<img src="/assets/img/discord bot/6_3.png" alt="6_3" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
+
+Unload를 할 때 `teardown()`에 적은 대로 메시지가 출력되는 것을 확인할 수 있다.
+
+### 2. Cog Reload 하기
+
+`unload_extension()`와 `load_extension()`로 나누어 쓰지 않고 `reload_extension()`으로 한 번에 Cog를 다시 불러올 수 있다.
+
+```python
+# bot.py
+...
+@bot.command(name='reload')
+@commands.is_owner()
+async def reload(ctx, extension: str):
+    try:
+        await bot.reload_extension(f'cogs.{extension}')
+        await ctx.send(f'{extension} Cog를 다시 불러왔습니다.')
+        await bot.tree.sync()
+    except Exception as e:
+        await ctx.send(f'오류: {e}')
+...
+```
+
+`load_extension()`을 할 때처럼 tree를 동기화해 주어야 한다.
+
+```python
+# cogs/interface.py
+    ...
+    @app_commands.command(name='추가', description="새로운 명령어")
+    async def new_command(self, interaction: discord.Interaction):
+        await interaction.response.send_message("새로 만들어졌어요.")
+    ...
+```
+
+봇을 실행하는 도중에 interface에 위처럼 새로운 명령어를 추가한 뒤 reload를 작동시켰다.
+
+<img src="/assets/img/discord bot/6_4.png" alt="6_4" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+
+성공이다. 봇을 다시 시작하지 않고도 새로 추가한 명령어를 사용할 수 있게 만들었다.
+
+<img src="/assets/img/discord bot/6_5.png" alt="6_5" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+
+도중에 오류가 발생하면 간단하게 메시지로 확인할 수도 있다.
+
+### 3. 새로운 Cog 추가하기
+
+이미 존재하는 Cog 파일을 수정하는 것 외에 새로운 파일과 Cog를 생성해 추가하는 것도 가능하다.
+
+```python
+# cogs/new.py
+import discord
+from discord import app_commands
+from discord.ext import commands
+
+class New(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+    
+    @app_commands.command(name='bye', description="작별인사를 합니다")
+    async def bye(self, interaction: discord.Interaction):
+        await interaction.response.send_message("잘가요")
+    
+async def setup(bot):
+    await bot.add_cog(New(bot))
+```
+
+테스트를 위해 봇 동작 중에 `new.py`라는 파일과 **New** Cog를 새로 만들었다.
+
+<img src="/assets/img/discord bot/6_6.png" alt="6_6" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+
+`$load new`를 해주니 문제없이 추가한 명령어를 사용할 수 있다.
+
+이제 모듈화도 이루었고 끊김 없이 개발을 할 수 있도록 준비를 마쳤으니 본격적으로 각각의 기능들을 추가해 넣을 시간이다. 하지만 아직 준비할 것이 한 가지 남아있는데, 바로 데이터베이스이다. 다음에는 엑셀을 활용해 데이터베이스를 설정하는 방법에 대해 알아보겠다.
 
 ## 부록
 
@@ -363,6 +495,24 @@ async def setup(bot):
 ```
 
 ```python
+# cogs/new.py
+import discord
+from discord import app_commands
+from discord.ext import commands
+
+class New(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+    
+    @app_commands.command(name='bye', description="인사를 합니다")
+    async def bye(self, interaction: discord.Interaction):
+        await interaction.response.send_message("잘가요")
+    
+async def setup(bot):
+    await bot.add_cog(New(bot))
+```
+
+```python
 # cogs/welcome.py
 import discord
 from discord import app_commands
@@ -408,3 +558,16 @@ async def setup(bot):
     await bot.add_cog(Welcome(bot))
 ```
 
+### ii. 폴더 구조
+
+```tree
+📦Discord Bot
+ ┣ 📂cogs
+ ┃ ┣ 📜interface.py
+ ┃ ┣ 📜new.py
+ ┃ ┗ 📜welcome.py
+ ┣ 📜.env
+ ┣ 📜bot.py
+ ┣ 📜icon.gif
+ ┗ 📜thumbnail.png
+ ```
