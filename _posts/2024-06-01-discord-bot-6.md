@@ -1,7 +1,7 @@
 ---
 title: 디스코드 봇 DIY - 6.  모듈화와 실시간 기능 추가
 date: 2024-06-25 14:42:37 +/-TTTT
-last_modified_at: 2024-06-25 16:46:06 +/-TTTT
+last_modified_at: 2024-06-27 17:09:56 +/-TTTT
 categories: [Python, discord.py]
 tags: [python, discord, bot, modularization]
 description: Cog로 코드 모듈화와 실시간 수정 두 마리 토끼 잡기  
@@ -14,16 +14,16 @@ description: Cog로 코드 모듈화와 실시간 수정 두 마리 토끼 잡�
 
 ## Cog와 모듈화
 
-**Cog**는 `discord.py`에서 **모듈**이나 **익스텐션**을 뜻하는 용어이다. 지금은 `bot.py`에 모든 명령과 기능들이 다 합쳐져 있지만 Cog를 사용하면 카테고리별로 묶어 관리하는 것이 가능해진다. 이러면 자연스럽게 이것저것 다 섞여 있던 `bot.py`처럼 코드가 엉망이 되는 것을 방지할 수 있다.
+**Cog**는 `discord.py`에서 **모듈**이나 **익스텐션**을 뜻하는 용어이다. 지금은 `bot.py`에 모든 명령과 기능들이 다 섞여 있지만 Cog를 사용하면 카테고리별로 묶어 관리하는 것이 가능해진다. 이러면 자연스럽게 스파게티 코드가 되는 것도 미연에 방지할 수 있다.
 
 > Cog에 대한 예시와 자세한 설명은 [이곳](https://discordpy.readthedocs.io/en/stable/ext/commands/cogs.html)에서 볼 수 있다.
 {: .prompt-info}
 
-앞으로 만들 기능들을 생각하면 아직 1%도 안한 느낌이지만, 미리 모듈화하여 더 복잡해지기 전에 관리를 시작하는 편이 좋을 것이다. 
+앞으로 만들 기능들을 생각하면 아직 1%도 안 한 느낌이지만, 미리 모듈화하여 더 복잡해지기 전에 관리를 시작하는 편이 좋을 것이다. 
 
 ### 1. Cog 파일 생성하기
 
-먼저, `bot.py`가 있는 폴더 안에 `cogs/` 폴더를 생성해 준다. 이 폴더 안에 앞으로 만들 Cog 파일들을 전부 보관할 것이다. 멤버가 새로 들어왔을 때 메시지를 출력하는 기능과 환영 Embed를 출력하는 기능은 환영이라는 주제에 들어맞기 때문에 폴더 안에 `welcome.py` 파일을 만들어 Cog를 만들어 보겠다.
+먼저, `bot.py`가 있는 폴더 안에 `cogs/` 폴더를 생성해 준다. 이 폴더 안에 앞으로 만들 Cog 파일들을 전부 보관할 것이다. 멤버가 새로 들어왔을 때 메시지를 출력하는 기능과 환영 Embed를 출력하는 기능은 환영이라는 주제를 공유하기 때문에 폴더 안에 `welcome.py` 파일을 만들어 Cog를 만들어 보겠다.
 
 ```python
 # /cogs/welcome.py
@@ -71,19 +71,19 @@ async def setup(bot):
     await bot.add_cog(Welcome(bot))
 ```
 
-Cog는 `discord.ext.commands`에 속해있기 때문에 `commands.Cog`를 상속하는 class를 우선 만들어 준다. `bot.py`에서 이벤트를 확인할 때는 `@bot.event` decorator를 사용했지만, Cog의 경우에는 `@commands.Cog.listener()` decorator를 대신 사용해야 한다. 마찬가지로 Application Command도 `@bot.tree.command` 대신 `@application_commands.command`로 바꿔주면 된다.
+Cog도 `discord.ext.commands` 확장 라이브러리에 속해있기 때문에 `commands.Cog`의 subclass를 우선 만들어 준다. 앞서 이벤트를 확인할 때는 `@bot.event` decorator를 사용해 이벤트에 대응하는 함수를 만들었지만, Cog의 경우에는 `@commands.Cog.listener` decorator를 대신 사용해야 한다. 마찬가지로 Slash Command도 `bot.py`에서 사용하던 `@bot.tree.command` 대신 `@application_commands.command`로 바꿔준다.
 
-> 일반적인 `@bot.command()` 명령어는 `@commands.command()`로 바꿔주면 된다.
+> `@bot.command` decorator를 사용하는 **일반 명령어**는 `@commands.command`를 대신 사용한다.
 {: .prompt-info}
 
-> Cog에 추가한 명령어와 실행 모듈에 있는 명령어 **이름이 같으면** 오류가 발생한다.
+> Cog에 추가한 명령어와 실행 모듈에 있는 명령어의 **이름이 같으면** 오류가 발생한다.
 {: .prompt-warning}
 
-Class에 기능들을 넣었다면 마지막에 `setup()`으로 Cog를 Bot에 등록하는 함수를 만들어 주면 끝이다.
+Class에 기능들을 넣었다면 마지막에 `setup()`으로 Cog를 Bot에 **등록하는 함수**를 만들어 주면 끝이다.
 
 ### 2. 메인 모듈에 Cog 연결하기
 
-Cog에 기능들을 추가해도 실행하는 건 `welcome.py`이 아니기 때문에 봇에 반영이 되지 않는다. 봇에 추가한 기능들을 반영하려면 실행되는 메인 모듈인 `bot.py`에 Cog를 연결시켜야 한다. 
+Cog에 기능들을 추가해도 실행하는 건 `welcome.py`이 아니라 `bot.py`이기 때문에 봇에 반영이 되지 않는다. 봇에 추가한 기능들을 반영하려면 실행되는 **메인 모듈**에 Cog를 연결해야 한다. 
 
 ```python
 # bot.py
@@ -93,7 +93,7 @@ async def load_extensions():
 ...
 ```
 
-이 함수를 우선 `bot.py`에 추가하자. `load_extension()`은 앞서 `setup()`으로 등록해놓은 Cog를 불러오는 함수로, argument는 Cog 파일 경로에서 확장명을 제외하고 `/`를 `.`으로 대치한 string을 넣어주면 된다. 우리의 경우 경로가 `cogs/welcome.py`이므로 `cogs.welcome`이 된다.
+이 함수를 우선 `bot.py`에 추가하자. `load_extension()`은 앞서 Cog 파일에서 `setup()`으로 등록한 Cog를 불러오는 함수로, argument는 Cog 파일 경로에서 **확장명을 제외**하고 `/`을 `.`으로 **대치**한 string을 넣어주면 된다. 우리의 경우 경로가 `cogs/welcome.py`이므로 `cogs.welcome`이 된다.
 
 ```python
 # bot.py
@@ -105,11 +105,11 @@ async def setup_hook():
 ...
 ```
 
-추가한 함수를 `setup_hook` event에 넣어서 봇이 서버에 로그인을 성공했을 때 Cog를 불러올 수 있도록 설정해 주자. `load_extensions()`는 coroutine으로 `async` 함수 안에 추가해야 하는데, `on_ready`은 여러 번 호출될 수 있는 반면에 `setup_hook`은 실행 시 단 한 번만 호출되므로 Cog를 추가하는 목적에 적합하다. (이유는 잘 모르겠지만 `on_ready`에 넣으니 동작을 하지 않는다)
+추가한 함수를 `setup_hook()` 이벤트에 넣어서 봇이 서버에 로그인했을 때 Cog를 불러올 수 있도록 설정해 주자. `on_ready()`은 여러 번 호출될 수 있는 반면에 `setup_hook()`은 실행 시 단 한 번만 호출되므로 Cog를 추가하는 목적에 적합하다. ~~이유는 잘 모르겠지만 `on_ready()`에 넣으니 아예 동작을 하지 않는다.~~
 
 ### 3. View 및 인터페이스 Cog로 옮기기
 
-UI 요소를 추가한 명령어에는 이미 View 때문에 class를 가지고 있다. 이 경우에는 Cog로 어떻게 옮기는지에 대한 방법을 한 번 짚고 넘어가겠다. 
+UI 요소를 추가한 명령어에는 이미 View의 subclass가 있다. 이 경우에는 Cog로 어떻게 옮기는지에 대한 방법을 한 번 짚고 넘어가겠다. 
 
 ```python
 # cogs/interface.py
@@ -158,11 +158,11 @@ async def setup(bot):
     await bot.add_cog(Interface(bot))
 ```
 
-지난번에 인터페이스 테스트 용으로 만들었던 명령어들을 `cogs/` 폴더 안에 `interface.py` 파일을 새로 만들고 옮겨 넣었다. 코드를 전부 Cog class 안에 넣어도 되지만, 위처럼 View class들은 밖으로 빼주고 명령어들만 Cog 안에 넣어도 정상적으로 인터페이스까지 출력된다. 이 점을 활용해 인터페이스는 별도의 파일에 따로 저장하고 필요할 때 모듈을 불러오는 식으로 세분화할 수 있다.
+지난번에 인터페이스 테스트용으로 만들었던 명령어들을 `cogs/` 폴더 안에 `interface.py` 파일을 새로 만들고 옮겨 넣었다. 코드를 전부 **Interface Cog** 안에 넣어도 되지만, 위처럼 UI 요소들은 밖으로 빼주고 명령어들만 Cog 안에 넣어도 정상적으로 인터페이스까지 출력된다. 이 점을 활용해 인터페이스는 **별도의 파일**에 따로 저장하고 필요할 때 모듈을 불러오는 식으로 세분화할 수 있다.
 
 ### 4. 여러 개의 Cog 한 번에 추가하기
 
-앞서 `bot.py`에서 `welcome.py` Cog만 불러왔었지만, 기능이 하나 둘 추가될 때마다 Cog의 갯수도 함께 늘어날 것이다. 이에 대비해 `cogs/` 폴더 안의 Cog들을 전부 불러오도록 코드를 고쳐보자.
+앞서 `bot.py`에서 `welcome.py` Cog만 불러오도록 했지만, 기능이 하나둘 추가될 때마다 Cog의 개수도 함께 늘어날 것이다. 이에 대비해 `cogs/` 폴더 안의 Cog들을 전부 불러오도록 코드를 고쳐보자.
 
 ```python
 # bot.py
@@ -174,13 +174,13 @@ async def load_extensions():
             await bot.load_extension(extension)
 ```
 
-`cogs/` 폴더 안에 있는 모든 Python 파일을 불러오도록 수정했다.
+`cogs/` 폴더 안에 있는 모든 Python 파일을 열어 Cog들을 불러오도록 수정했다.
 
 <img src="/assets/img/discord bot/6_1.png" alt="6_1" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
 
 `interface.py`를 포함한 모든 Cog가 추가된 것을 터미널에서 확인할 수 있다.
 
-> 폴더 안의 모든 Python 파일에 `setup()` 함수가 없으면 오류가 발생한다.
+> `cogs/` 폴더의 **모든 Python 파일**마다 `setup()` 함수가 없으면 오류가 발생한다.
 {: .prompt-warning}
 
 ## 실시간 기능 추가
@@ -189,7 +189,7 @@ Cog의 장점은 모듈화에서 끝나지 않는다. 지금까지 기능을 추
 
 ### 1. Cog Unload 하기
 
-봇을 구동할 때 불러왔던 Cog들을 unload, 또는 비활성화 시킬 수 있다. `load_extension()` 함수의 반대가 되는 `unload_extension()`을 사용하면 된다. 봇을 멈추지 않고 작업을 수행할 수 있도록 명령어를 추가했다.
+봇을 구동할 때 불러왔던 Cog들을 **unload**, 또는 비활성화시킬 수 있다. `load_extension()` 함수의 반대가 되는 `unload_extension()`을 사용하면 된다. 봇을 멈추지 않고 작업을 수행할 수 있도록 명령어를 추가했다.
 
 ```python
 # bot.py
@@ -205,9 +205,9 @@ async def unload(ctx, extension: str):
 ...
 ```
 
-일반 사용자들이 접근하지 못하도록 Application Command가 아닌 일반 명령어를 사용했고 `@commands.is_owner()` decorator를 통해 명령어를 입력한 사람이 봇의 소유자인지 확인하는 절차도 추가했다. Parameter로 Cog의 이름을 입력하게 하여 일치하는 Cog를 비활성화하도록 만들었다.
+일반 사용자들이 접근하지 못하도록 Slash Command가 아닌 **일반 명령어**를 사용했고 `@commands.is_owner()` decorator를 통해 명령어를 입력한 사람이 봇의 소유자인지 확인하는 절차도 추가했다. Parameter로 Cog의 이름을 입력하게 하여 일치하는 Cog를 비활성화하도록 만들었다.
 
-비활성화를 했으니 다시 활성화할 수 있는 명령어도 추가하자.
+비활성화했으니 다시 활성화할 수 있는 명령어도 추가하자.
 
 ```python
 # bot.py
@@ -224,7 +224,7 @@ async def unload(ctx, extension: str):
 ...
 ```
 
-Unload할 때와 달리 새로 불러올 때는 tree의 명령어를 수정했을 수 있기 때문에 `bot.tree.sync()`로 동기화를 해주어야 한다.
+Unload할 때와 달리 새로 불러올 때는 tree의 명령어를 수정했을 수 있기 때문에 `bot.tree.sync()`로 **동기화**를 해주어야 한다.
 
 <img src="/assets/img/discord bot/6_2.png" alt="6_2" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
@@ -248,7 +248,7 @@ Unload를 할 때 `teardown()`에 적은 대로 메시지가 출력되는 것을
 
 ### 2. Cog Reload 하기
 
-`unload_extension()`와 `load_extension()`로 나누어 쓰지 않고 `reload_extension()`으로 한 번에 Cog를 다시 불러올 수 있다.
+`unload_extension()`과 `load_extension()`으로 나누어 쓰지 않고 `reload_extension()`으로 한 번에 Cog를 다시 불러올 수 있다.
 
 ```python
 # bot.py
@@ -276,19 +276,19 @@ async def reload(ctx, extension: str):
     ...
 ```
 
-봇을 실행하는 도중에 interface에 위처럼 새로운 명령어를 추가한 뒤 reload를 작동시켰다.
+봇을 실행하는 도중에 `interface.py` 파일에 위처럼 새로운 명령어를 추가한 뒤 reload를 작동시켰다.
 
 <img src="/assets/img/discord bot/6_4.png" alt="6_4" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
-성공이다. 봇을 다시 시작하지 않고도 새로 추가한 명령어를 사용할 수 있게 만들었다.
+성공이다. 봇을 다시 시작하지 않고도 새로 추가한 명령어를 사용할 수 있게 했다.
 
 <img src="/assets/img/discord bot/6_5.png" alt="6_5" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
-도중에 오류가 발생하면 간단하게 메시지로 확인할 수도 있다.
+도중에 오류가 발생하면 간단하게 메시지로 확인된다.
 
 ### 3. 새로운 Cog 추가하기
 
-이미 존재하는 Cog 파일을 수정하는 것 외에 새로운 파일과 Cog를 생성해 추가하는 것도 가능하다.
+이미 존재하는 Cog 파일을 수정하는 것 외에 **새로운 파일과 Cog**를 생성해 추가하는 것도 가능하다.
 
 ```python
 # cogs/new.py
@@ -308,13 +308,13 @@ async def setup(bot):
     await bot.add_cog(New(bot))
 ```
 
-테스트를 위해 봇 동작 중에 `new.py`라는 파일과 **New** Cog를 새로 만들었다.
+테스트를 위해 봇 동작 중에 `cogs/` 폴더 안에 `new.py`라는 파일과 **New Cog**를 새로 만들었다.
 
 <img src="/assets/img/discord bot/6_6.png" alt="6_6" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
-`$load new`를 해주니 문제없이 추가한 명령어를 사용할 수 있다.
+`$load new`를 해주니 봇 재시작 없이 추가한 명령어를 사용할 수 있다.
 
-이제 모듈화도 이루었고 끊김 없이 개발을 할 수 있도록 준비를 마쳤으니 본격적으로 각각의 기능들을 추가해 넣을 시간이다. 하지만 아직 준비할 것이 한 가지 남아있는데, 바로 데이터베이스이다. 다음에는 엑셀을 활용해 데이터베이스를 설정하는 방법에 대해 알아보겠다.
+이제 모듈화도 이루었고 끊임없이 개발할 수 있도록 준비를 마쳤으니, 본격적으로 각각의 기능들을 추가해 넣을 시간이다. 하지만 아직 준비할 것이 한 가지 남아있는데, 바로 데이터베이스이다. 다음에는 엑셀을 활용해 데이터베이스를 설정하는 방법에 대해 알아보겠다.
 
 ## 부록
 

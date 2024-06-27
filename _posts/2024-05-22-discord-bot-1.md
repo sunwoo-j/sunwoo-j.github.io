@@ -23,7 +23,7 @@ description: 디스코드 봇을 생성하고 채팅에 대답하게 하기
 
 ![](/assets/img/discord%20bot/1_0.png)
 
-완료되면 아래처럼 애플리케이션(Application)을 생성할 수 있는 개발자 포털 홈페이지가 나온다. 애플리케이션을 생성함으로써 인증 토큰을 제공받고 권한을 설정하는 등 디스코드 API와 상호작용을 할 수 있게 된다.
+완료되면 아래처럼 애플리케이션(Application)을 생성할 수 있는 개발자 포털 홈페이지가 나온다. 애플리케이션을 생성함으로써 인증 토큰을 제공받고 권한을 설정하는 등 디스코드 API와 상호 작용을 할 수 있게 된다.
 
 ![](/assets/img/discord bot/1_1.png)
 
@@ -37,7 +37,7 @@ description: 디스코드 봇을 생성하고 채팅에 대답하게 하기
 
 이제 생성된 애플리케이션에 대한 정보가 화면에 뜬다. 여기서 아이콘, 이름과 설명 등을 수정할 수 있지만 애플리케이션 정보는 봇을 이용하는 사용자에게 직접적으로 보이지는 않는다.
 
-> 봇 외에도 디스코드 API와 상호작용을 하는 모든 프로그램은 [디스코드 애플리케이션](https://discord.com/developers/docs/game-sdk/applications)이 필요하다.
+> 봇 외에도 디스코드 API와 상호 작용을 하는 모든 프로그램은 [디스코드 애플리케이션](https://discord.com/developers/docs/game-sdk/applications)이 필요하다.
 {: .prompt-info }
 
 우리는 봇을 만들 것이기 때문에 좌측 메뉴에서 <kbd>Bot</kbd> 탭을 눌러 이동해 주자.
@@ -121,9 +121,9 @@ $ pip install discord.py
 
 ### 2. 디스코드와 봇 연결시키기
 
-명령어를 받고 답을 하려면 먼저 디스코드와 봇이 서로 통신이 되어야 한다. `discord.py`에는 통신을 위한 몇 가지 방법이 존재하는데 그중에서 우선 [**Client**](https://discordpy.readthedocs.io/en/stable/api.html#clients)에 대해 다뤄볼 것이다.
+명령어를 받고 답을 하려면 먼저 디스코드와 봇이 서로 통신이 되어야 한다. `discord.py`에는 통신을 위한 몇 가지 방법이 존재하는데 그중에서 우선 [`Client`](https://discordpy.readthedocs.io/en/stable/api.html#clients)에 대해 다뤄볼 것이다.
 
-`discord.Client`는 디스코드와의 연결을 나타내는 기본적인 객체라고 보면 되는데, 이를 활용해 디스코드 웹소켓과 API와의 상호작용이 가능하다. 아래는 `discord.py` documentation에서 제공하는 [간단한 시작 코드](https://discordpy.readthedocs.io/en/latest/quickstart.html#a-minimal-bot)다. 이번 글에서는 이 코드를 활용해 볼 것이다.
+`discord.Client`는 디스코드와의 연결을 나타내는 기본적인 객체라고 보면 되는데, 이를 활용해 디스코드 웹소켓과 API와의 상호 작용이 가능하다. 아래는 `discord.py` documentation에서 제공하는 [간단한 시작 코드](https://discordpy.readthedocs.io/en/latest/quickstart.html#a-minimal-bot)다. 이번 글에서는 이 코드를 활용해 볼 것이다.
 
 ```python
 # This example requires the 'message_content' intent.
@@ -150,7 +150,7 @@ async def on_message(message):
 client.run('your token here')
 ```
 
-코드를 보면 `client`를 먼저 설정하고 `on_ready()`와 `on_message()`라는 **이벤트(Event)**들에 대한 Event Handler를 지정한 것을 볼 수 있다. 여기서 말하는 이벤트는 메시지 전송, 사용자 밴과 채널 생성처럼 상태에 변화가 생겼을 때 디스코드가 호출하는 일종의 함수라고 이해하면 된다. `on_ready()`는 그중에서 `Client`가 디스코드와의 연결을 성공했을 때 보내지는 이벤트로, 봇이 사용자와 상호작용을 할 준비가 되었을 때 호출된다고 보면 된다. 
+코드를 보면 `client`를 먼저 설정하고 `on_ready()`와 `on_message()`라는 **이벤트(Event)**들에 대한 Event Handler를 지정한 것을 볼 수 있다. 여기서 말하는 이벤트는 메시지 전송, 사용자 밴과 채널 생성처럼 상태에 변화가 생겼을 때 디스코드가 호출하는 일종의 함수라고 이해하면 된다. `on_ready()`는 그중에서 `Client`가 디스코드와의 연결을 성공했을 때 보내지는 이벤트로, 봇이 사용자와 상호 작용을 할 준비가 되었을 때 호출된다고 보면 된다. 
 
 `on_message()`는 봇이 속한 길드에서 메시지가 전송됐을 때 발동되는 이벤트이다.
 
