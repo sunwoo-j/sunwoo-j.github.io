@@ -299,191 +299,195 @@ UI를 추가하니 봇이 더욱 풍부해지는 느낌이지만 요소가 추�
 ## 부록
 
 ### i. 전체 코드
+<details>
+<summary>코드 보기</summary>
+<div markdown="1">
+    ``` python
+    # bot.py
+    import os, discord
+    from discord import app_commands
+    from discord.ext import commands
+    from dotenv import load_dotenv
+    from datetime import datetime
 
-``` python
-# bot.py
-import os, discord
-from discord import app_commands
-from discord.ext import commands
-from dotenv import load_dotenv
-from datetime import datetime
+    load_dotenv()
+    TOKEN = os.getenv('BOT_TOKEN')
+    GUILD = int(os.getenv('GUILD_ID'))
+    CHANNEL = int(os.getenv('CHANNEL_ID'))
+    ADMIN = int(os.getenv('ADMIN_ID'))
+    welcome_channel = {GUILD:CHANNEL} # 길드별 환영 메시지 전송 채널
 
-load_dotenv()
-TOKEN = os.getenv('BOT_TOKEN')
-GUILD = int(os.getenv('GUILD_ID'))
-CHANNEL = int(os.getenv('CHANNEL_ID'))
-ADMIN = int(os.getenv('ADMIN_ID'))
-welcome_channel = {GUILD:CHANNEL} # 길드별 환영 메시지 전송 채널
+    intents = discord.Intents.all()
 
-intents = discord.Intents.all()
+    bot = commands.Bot(command_prefix='$', intents=intents)
 
-bot = commands.Bot(command_prefix='$', intents=intents)
+    @bot.event
+    async def on_ready():
+        bot.add_view(SelectView())
+        guild = discord.utils.find(lambda g: g.id == GUILD, bot.guilds)
+        print(
+            f"{bot.user}(으)로 접속했습니다.\n"
+            f"접속 길드: {guild.name} (ID: {guild.id})"
+        )
 
-@bot.event
-async def on_ready():
-    bot.add_view(SelectView())
-    guild = discord.utils.find(lambda g: g.id == GUILD, bot.guilds)
-    print(
-        f"{bot.user}(으)로 접속했습니다.\n"
-        f"접속 길드: {guild.name} (ID: {guild.id})"
-    )
-
-@bot.event
-async def setup_hook():
-    await bot.tree.sync() # tree 동기화
-    
-@bot.event
-async def on_member_join(member):
-    guild_id = welcome_channel.get(member.guild.id, None)
-    if guild_id is not None:
-        channel = bot.get_channel(guild_id)
-        await channel.send(f"{member.display_name}님이 서버에 참가하셨습니다.")
-
-@bot.tree.command(name='hello', description="인사를 합니다")
-async def hello(interaction: discord.Interaction):
-    embed = discord.Embed(
-        title=":raised_hands: 반갑습니다!",
-        description="서버에 오신 것을 환영합니다.",
-        color=discord.Color.gold(),
-        timestamp=datetime.now(),
-        url='https://sunwoo-j.github.io/'
-    )
-    embed.add_field(name="동해물과 백두산이", value="마르고 닳도록 하느님이 보우하사 우리나라 만세", inline=False)
-
-    embed.add_field(name="무궁화 삼천리", value="화려강산", inline=True)
-    embed.add_field(name="대한사람", value="대한으로", inline=True)
-    embed.add_field(name="길이 보전하세", value="(간주)", inline=True)
-    
-    file = discord.File('icon.gif')
-    
-    embed.set_author(name="디스코드 봇 DIY", icon_url='attachment://icon.gif')
-    embed.set_thumbnail(url='https://picsum.photos/100/100')
-    embed.set_field_at
-    embed.set_image(url='https://picsum.photos/600/400')
-    embed.set_footer(text="Footer가 들어가는 공간", icon_url='attachment://icon.gif')
- 
-    await interaction.response.send_message("안녕하세요", embed=embed, file=file)
-
-class ButtonView(discord.ui.View):
-    def __init__(self, timeout):
-        super().__init__(timeout=timeout)
-        self.message = None
-        self.button_pressed = False
-
-    async def on_timeout(self):
-        if not self.button_pressed:
-            for child in self.children:
-                if isinstance(child, discord.ui.Button):
-                    child.disabled = True
-                    child.label = "실패!"
-                    child.style = discord.ButtonStyle.danger
-        await self.message.edit(view=self)
+    @bot.event
+    async def setup_hook():
+        await bot.tree.sync() # tree 동기화
         
-    @discord.ui.button(label="10초 안에 누르세요!", style=discord.ButtonStyle.primary)
-    async def button_response(self, interaction: discord.Interaction, button: discord.ui.Button):
-        self.button_pressed = True
-        button.disabled = True
-        button.label = "성공!"
-        button.style = discord.ButtonStyle.success
-        await interaction.response.edit_message(view=self)
+    @bot.event
+    async def on_member_join(member):
+        guild_id = welcome_channel.get(member.guild.id, None)
+        if guild_id is not None:
+            channel = bot.get_channel(guild_id)
+            await channel.send(f"{member.display_name}님이 서버에 참가하셨습니다.")
+
+    @bot.tree.command(name='hello', description="인사를 합니다")
+    async def hello(interaction: discord.Interaction):
+        embed = discord.Embed(
+            title=":raised_hands: 반갑습니다!",
+            description="서버에 오신 것을 환영합니다.",
+            color=discord.Color.gold(),
+            timestamp=datetime.now(),
+            url='https://sunwoo-j.github.io/'
+        )
+        embed.add_field(name="동해물과 백두산이", value="마르고 닳도록 하느님이 보우하사 우리나라 만세", inline=False)
+
+        embed.add_field(name="무궁화 삼천리", value="화려강산", inline=True)
+        embed.add_field(name="대한사람", value="대한으로", inline=True)
+        embed.add_field(name="길이 보전하세", value="(간주)", inline=True)
         
-@bot.tree.command(name='버튼', description="버튼 실험용 명령어")
-async def button(interaction: discord.Interaction):
-    view = ButtonView(timeout=10.0)
-    await interaction.response.send_message(view=view)
-    view.message = await interaction.original_response()
-    
-class SelectView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-        self.message = None
+        file = discord.File('icon.gif')
         
-    @discord.ui.select(
-        custom_id='select_view',
-        placeholder="국적을 선택하세요",
-        min_values=1, # 골라야 할 최소 갯수
-        max_values=1, # 고를 수 있는 최대 갯수
-        options=[
-            discord.SelectOption(
-                label="대한민국",
-                description="대한민국 국민입니다.",
-                emoji='🇰🇷'
-            ),
-            discord.SelectOption(
-                label="미국",
-                description="미국 국민입니다.",
-                emoji='🇺🇸'
-            ),
-            discord.SelectOption(
-                label="일본",
-                description="일본 국민입니다.",
-                emoji='🇯🇵'
-            )
-        ]
-    )
-    async def select_response(self, interaction: discord.Interaction, select: discord.ui.Select):
-        await interaction.response.edit_message(content=f"{select.values[0]} 국적을 선택하셨습니다.")
+        embed.set_author(name="디스코드 봇 DIY", icon_url='attachment://icon.gif')
+        embed.set_thumbnail(url='https://picsum.photos/100/100')
+        embed.set_field_at
+        embed.set_image(url='https://picsum.photos/600/400')
+        embed.set_footer(text="Footer가 들어가는 공간", icon_url='attachment://icon.gif')
+    
+        await interaction.response.send_message("안녕하세요", embed=embed, file=file)
 
-@bot.tree.command(name='국적', description="국적을 선택합니다")
-async def country(interaction: discord.Interaction):
-    view = SelectView()
-    await interaction.response.send_message(view=view)
-    
-class ActionRowView(discord.ui.View):
-    @discord.ui.button(label="버튼 1", row=0, style=discord.ButtonStyle.primary)
-    async def first_button_callback(self, interaction, button):
-        await interaction.response.send_message("간지러워요!")
+    class ButtonView(discord.ui.View):
+        def __init__(self, timeout):
+            super().__init__(timeout=timeout)
+            self.message = None
+            self.button_pressed = False
 
-    @discord.ui.button(label="버튼 2", row=0, style=discord.ButtonStyle.primary)
-    async def second_button_callback(self, interaction, button):
-        await interaction.response.send_message("간지러워요!")
-    
-    @discord.ui.button(label="버튼 3", row=2, style=discord.ButtonStyle.secondary)
-    async def third_button_callback(self, interaction, button):
-        await interaction.response.send_message("간지러워요!")
-    
-    @discord.ui.select(
-        placeholder="저는 드롭다운 메뉴에요",
-        row=1,
-        options=[
-            discord.SelectOption(label="1"),
-            discord.SelectOption(label="2"),
-            discord.SelectOption(label="3")
-        ]
-    )
-    async def select_callback(self, interaction, select):
-        await interaction.response.send_message(f"숫자 {select.values[0]}번을 골랐어요.")
+        async def on_timeout(self):
+            if not self.button_pressed:
+                for child in self.children:
+                    if isinstance(child, discord.ui.Button):
+                        child.disabled = True
+                        child.label = "실패!"
+                        child.style = discord.ButtonStyle.danger
+            await self.message.edit(view=self)
+            
+        @discord.ui.button(label="10초 안에 누르세요!", style=discord.ButtonStyle.primary)
+        async def button_response(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.button_pressed = True
+            button.disabled = True
+            button.label = "성공!"
+            button.style = discord.ButtonStyle.success
+            await interaction.response.edit_message(view=self)
+            
+    @bot.tree.command(name='버튼', description="버튼 실험용 명령어")
+    async def button(interaction: discord.Interaction):
+        view = ButtonView(timeout=10.0)
+        await interaction.response.send_message(view=view)
+        view.message = await interaction.original_response()
         
-@bot.tree.command(name='액션', description="Action Row 데모를 보여줍니다")
-async def country(interaction: discord.Interaction):
-    view = ActionRowView()
-    await interaction.response.send_message(view=view)
+    class SelectView(discord.ui.View):
+        def __init__(self):
+            super().__init__(timeout=None)
+            self.message = None
+            
+        @discord.ui.select(
+            custom_id='select_view',
+            placeholder="국적을 선택하세요",
+            min_values=1, # 골라야 할 최소 갯수
+            max_values=1, # 고를 수 있는 최대 갯수
+            options=[
+                discord.SelectOption(
+                    label="대한민국",
+                    description="대한민국 국민입니다.",
+                    emoji='🇰🇷'
+                ),
+                discord.SelectOption(
+                    label="미국",
+                    description="미국 국민입니다.",
+                    emoji='🇺🇸'
+                ),
+                discord.SelectOption(
+                    label="일본",
+                    description="일본 국민입니다.",
+                    emoji='🇯🇵'
+                )
+            ]
+        )
+        async def select_response(self, interaction: discord.Interaction, select: discord.ui.Select):
+            await interaction.response.edit_message(content=f"{select.values[0]} 국적을 선택하셨습니다.")
 
-@bot.tree.command(name='곱하기', description="숫자 두 개를 곱합니다")
-@app_commands.describe(정수1="첫 번째 정수", 정수2="두 번째 정수")
-async def multiply(interaction: discord.Interaction, 정수1: int, 정수2: int):
-    product = 정수1 * 정수2
-    await interaction.response.send_message(f"결과는 {product}입니다.")
+    @bot.tree.command(name='국적', description="국적을 선택합니다")
+    async def country(interaction: discord.Interaction):
+        view = SelectView()
+        await interaction.response.send_message(view=view)
+        
+    class ActionRowView(discord.ui.View):
+        @discord.ui.button(label="버튼 1", row=0, style=discord.ButtonStyle.primary)
+        async def first_button_callback(self, interaction, button):
+            await interaction.response.send_message("간지러워요!")
 
-@bot.tree.command(name='참가일', description="멤버의 서버 참가 날짜를 알려줍니다")
-@app_commands.describe(member="조회할 멤버")
-async def joined(interaction: discord.Interaction, member: discord.Member):
-    join_date = member.joined_at.strftime("%Y-%m-%d")
-    await interaction.response.send_message(f"{member.display_name}님은 {join_date}에 서버에 참가했습니다.")
+        @discord.ui.button(label="버튼 2", row=0, style=discord.ButtonStyle.primary)
+        async def second_button_callback(self, interaction, button):
+            await interaction.response.send_message("간지러워요!")
+        
+        @discord.ui.button(label="버튼 3", row=2, style=discord.ButtonStyle.secondary)
+        async def third_button_callback(self, interaction, button):
+            await interaction.response.send_message("간지러워요!")
+        
+        @discord.ui.select(
+            placeholder="저는 드롭다운 메뉴에요",
+            row=1,
+            options=[
+                discord.SelectOption(label="1"),
+                discord.SelectOption(label="2"),
+                discord.SelectOption(label="3")
+            ]
+        )
+        async def select_callback(self, interaction, select):
+            await interaction.response.send_message(f"숫자 {select.values[0]}번을 골랐어요.")
+            
+    @bot.tree.command(name='액션', description="Action Row 데모를 보여줍니다")
+    async def country(interaction: discord.Interaction):
+        view = ActionRowView()
+        await interaction.response.send_message(view=view)
 
-@bot.tree.context_menu(name="참가일")
-async def joined_user_menu(interaction: discord.Interaction, member: discord.Member):
-    join_date = member.joined_at.strftime("%Y-%m-%d")
-    await interaction.response.send_message(f"{member.display_name}님은 {join_date}에 서버에 참가했습니다.")
-    
-@bot.tree.context_menu(name="글자수")
-async def character_count(interaction: discord.Interaction, message: discord.Message):
-    characters = len(message.content)
-    characters_no_space = len(message.content.replace(' ', ''))
-    await interaction.response.send_message(f"공백 포함 {characters}자, 공백 제외 {characters_no_space}자")
+    @bot.tree.command(name='곱하기', description="숫자 두 개를 곱합니다")
+    @app_commands.describe(정수1="첫 번째 정수", 정수2="두 번째 정수")
+    async def multiply(interaction: discord.Interaction, 정수1: int, 정수2: int):
+        product = 정수1 * 정수2
+        await interaction.response.send_message(f"결과는 {product}입니다.")
 
-bot.run(TOKEN)
-```
+    @bot.tree.command(name='참가일', description="멤버의 서버 참가 날짜를 알려줍니다")
+    @app_commands.describe(member="조회할 멤버")
+    async def joined(interaction: discord.Interaction, member: discord.Member):
+        join_date = member.joined_at.strftime("%Y-%m-%d")
+        await interaction.response.send_message(f"{member.display_name}님은 {join_date}에 서버에 참가했습니다.")
+
+    @bot.tree.context_menu(name="참가일")
+    async def joined_user_menu(interaction: discord.Interaction, member: discord.Member):
+        join_date = member.joined_at.strftime("%Y-%m-%d")
+        await interaction.response.send_message(f"{member.display_name}님은 {join_date}에 서버에 참가했습니다.")
+        
+    @bot.tree.context_menu(name="글자수")
+    async def character_count(interaction: discord.Interaction, message: discord.Message):
+        characters = len(message.content)
+        characters_no_space = len(message.content.replace(' ', ''))
+        await interaction.response.send_message(f"공백 포함 {characters}자, 공백 제외 {characters_no_space}자")
+
+    bot.run(TOKEN)
+    ```
+</div>
+</details>
 
 ### ii. 폴더 구조
 
@@ -496,4 +500,8 @@ bot.run(TOKEN)
  ┣ 📜bot.py
  ┣ 📜icon.gif
  ┗ 📜thumbnail.png
- ```
+```
+
+### iii. 깃허브 리포지토리
+
+<https://github.com/sunwoo-j/discord-bot-diy>

@@ -267,33 +267,37 @@ client.run(TOKEN)
 ## 부록
 
 ### i. 전체 코드
+<details>
+<summary>코드 보기</summary>
+<div markdown="1">
+    ```python
+    # bot.py
+    import os, discord
+    from dotenv import load_dotenv
 
-```python
-# bot.py
-import os, discord
-from dotenv import load_dotenv
+    load_dotenv()
+    TOKEN = os.getenv('BOT_TOKEN')
 
-load_dotenv()
-TOKEN = os.getenv('BOT_TOKEN')
+    intents = discord.Intents.all()
 
-intents = discord.Intents.all()
+    client = discord.Client(intents=intents)
 
-client = discord.Client(intents=intents)
+    @client.event
+    async def on_ready():
+        print(f'{client.user}(으)로 접속했습니다.')
 
-@client.event
-async def on_ready():
-    print(f'{client.user}(으)로 접속했습니다.')
+    @client.event
+    async def on_message(message):
+        if message.author == client.user:
+            return
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+        if message.content.startswith('$hello'):
+            await message.channel.send('Hello!')
 
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
-
-client.run(TOKEN)
-```
+    client.run(TOKEN)
+    ```
+</div>
+</details>
 
 ### ii. 폴더 구조
 
@@ -301,4 +305,8 @@ client.run(TOKEN)
 📦Discord Bot
  ┣ 📜.env
  ┗ 📜bot.py
- ```
+```
+
+### iii. 깃허브 리포지토리
+
+<https://github.com/sunwoo-j/discord-bot-diy>
