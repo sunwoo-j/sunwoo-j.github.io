@@ -168,58 +168,59 @@ async def on_member_join(member):
 <details>
 <summary>코드 보기</summary>
 <div markdown="1">
-    ```python
-    # bot.py
-    import os, discord
-    from discord.ext import commands
-    from dotenv import load_dotenv
 
-    load_dotenv()
-    TOKEN = os.getenv('BOT_TOKEN')
-    GUILD = int(os.getenv('GUILD_ID'))
-    CHANNEL = int(os.getenv('CHANNEL_ID'))
-    welcome_channel = {GUILD:CHANNEL} # 길드별 환영 메시지 전송 채널
+```python
+# bot.py
+import os, discord
+from discord.ext import commands
+from dotenv import load_dotenv
 
-    intents = discord.Intents.all()
+load_dotenv()
+TOKEN = os.getenv('BOT_TOKEN')
+GUILD = int(os.getenv('GUILD_ID'))
+CHANNEL = int(os.getenv('CHANNEL_ID'))
+welcome_channel = {GUILD:CHANNEL} # 길드별 환영 메시지 전송 채널
 
-    bot = commands.Bot(command_prefix='$', intents=intents)
+intents = discord.Intents.all()
 
-    @bot.event
-    async def on_ready():
-        guild = discord.utils.find(lambda g: g.id == GUILD, bot.guilds)
-        print(
-            f"{bot.user}(으)로 접속했습니다.\n"
-            f"접속 길드: {guild.name} (ID: {guild.id})"
-        )
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+@bot.event
+async def on_ready():
+    guild = discord.utils.find(lambda g: g.id == GUILD, bot.guilds)
+    print(
+        f"{bot.user}(으)로 접속했습니다.\n"
+        f"접속 길드: {guild.name} (ID: {guild.id})"
+    )
+    
+@bot.event
+async def on_member_join(member):
+    guild_id = welcome_channel.get(member.guild.id, None)
+    if guild_id is not None:
+        channel = bot.get_channel(guild_id)
+        await channel.send(f"{member.display_name}님이 서버에 참가하셨습니다.")
+
+@bot.command(name='hello', help="인사를 합니다")
+async def hello(ctx):
+    await ctx.send("Hello!")
+
+@bot.command(name='곱하기', help="숫자 두 개를 곱합니다")
+async def multiply(ctx, first_int: int, second_int: int):
+    product = first_int * second_int
+    await ctx.send(f"결과는 {product}입니다.")
+
+@multiply.error
+async def multiply_error(ctx, error):
+    if isinstance(error, commands.BadArgument):
+        await ctx.send("오류: 정수 두 개를 입력해 주세요.")
         
-    @bot.event
-    async def on_member_join(member):
-        guild_id = welcome_channel.get(member.guild.id, None)
-        if guild_id is not None:
-            channel = bot.get_channel(guild_id)
-            await channel.send(f"{member.display_name}님이 서버에 참가하셨습니다.")
+@bot.command(name='참가일', help="멤버의 서버 참가 날짜를 알려줍니다")
+async def joined(ctx, member: discord.Member):
+    join_date = member.joined_at.strftime("%Y-%m-%d")
+    await ctx.send(f"{member.display_name}님은 {join_date}에 서버에 참가했습니다.")
 
-    @bot.command(name='hello', help="인사를 합니다")
-    async def hello(ctx):
-        await ctx.send("Hello!")
-
-    @bot.command(name='곱하기', help="숫자 두 개를 곱합니다")
-    async def multiply(ctx, first_int: int, second_int: int):
-        product = first_int * second_int
-        await ctx.send(f"결과는 {product}입니다.")
-
-    @multiply.error
-    async def multiply_error(ctx, error):
-        if isinstance(error, commands.BadArgument):
-            await ctx.send("오류: 정수 두 개를 입력해 주세요.")
-            
-    @bot.command(name='참가일', help="멤버의 서버 참가 날짜를 알려줍니다")
-    async def joined(ctx, member: discord.Member):
-        join_date = member.joined_at.strftime("%Y-%m-%d")
-        await ctx.send(f"{member.display_name}님은 {join_date}에 서버에 참가했습니다.")
-
-    bot.run(TOKEN)
-    ```
+bot.run(TOKEN)
+```
 </div>
 </details>
 

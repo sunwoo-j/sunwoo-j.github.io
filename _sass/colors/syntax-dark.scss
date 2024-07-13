@@ -161,4 +161,8 @@
   .highlight .ss {
     color: #90a959;
   }
+
+  .sponsor iframe {
+    filter: invert(1) hue-rotate(180deg);
+  }
 }

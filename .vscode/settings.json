@@ -24,4 +24,6 @@
   // Stylint extension settings
   "stylelint.snippet": ["css", "less", "postcss", "scss"],
   "stylelint.validate": ["css", "less", "postcss", "scss"]
+
+  "discord.enabled": false
 }

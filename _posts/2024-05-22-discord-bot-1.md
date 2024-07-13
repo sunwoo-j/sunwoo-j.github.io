@@ -116,7 +116,7 @@ Python으로 개발을 하기 위해서 `discord.py` [라이브러리](https://d
 먼저 `pip`으로 `discord.py`를 설치해 준다.
 
 ```bash
-$ pip install discord.py
+$ pip install -U discord.py
 ```
 
 ### 2. 디스코드와 봇 연결시키기
@@ -270,32 +270,33 @@ client.run(TOKEN)
 <details>
 <summary>코드 보기</summary>
 <div markdown="1">
-    ```python
-    # bot.py
-    import os, discord
-    from dotenv import load_dotenv
 
-    load_dotenv()
-    TOKEN = os.getenv('BOT_TOKEN')
+```python
+# bot.py
+import os, discord
+from dotenv import load_dotenv
 
-    intents = discord.Intents.all()
+load_dotenv()
+TOKEN = os.getenv('BOT_TOKEN')
 
-    client = discord.Client(intents=intents)
+intents = discord.Intents.all()
 
-    @client.event
-    async def on_ready():
-        print(f'{client.user}(으)로 접속했습니다.')
+client = discord.Client(intents=intents)
 
-    @client.event
-    async def on_message(message):
-        if message.author == client.user:
-            return
+@client.event
+async def on_ready():
+    print(f'{client.user}(으)로 접속했습니다.')
 
-        if message.content.startswith('$hello'):
-            await message.channel.send('Hello!')
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
 
-    client.run(TOKEN)
-    ```
+    if message.content.startswith('$hello'):
+        await message.channel.send('Hello!')
+
+client.run(TOKEN)
+```
 </div>
 </details>
 
