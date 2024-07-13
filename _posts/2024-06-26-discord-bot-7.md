@@ -1,7 +1,7 @@
 ---
 title: 디스코드 봇 DIY - 7. SQLite로 데이터베이스 구축하기
-date: 2024-06-28 10:04:09 +/-TTTT
-last_modified_at: 2024-06-28 10:04:09 +/-TTTT
+date: 2024-07-13 17:12:21 +/-TTTT
+last_modified_at: 2024-07-13 17:12:21 +/-TTTT
 categories: [Python, discord.py]
 tags: [python, discord, bot, database, sql, sqlite]
 description: SQLite로 데이터 저장하고 불러오기
