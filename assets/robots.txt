@@ -6,4 +6,7 @@ permalink: /robots.txt
 User-agent: *
 Allow: /
 
+User-agent: Yeti
+Allow: /
+
 Sitemap: {{ '/sitemap.xml' | absolute_url }}
