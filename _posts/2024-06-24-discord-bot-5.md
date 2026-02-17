@@ -3,7 +3,7 @@ title: 디스코드 봇 DIY - 5. Embed, 버튼, 드롭다운 메뉴
 date: 2024-06-24 16:15:09 +/-TTTT
 last_modified_at: 2024-06-27 16:32:47 +/-TTTT
 categories: [Python, discord.py]
-tags: [python, discord, bot, UI]
+tags: [python, discord, bot, ui]
 description: UI로 봇의 메시지를 더 예쁘게 꾸미기
 ---
 
