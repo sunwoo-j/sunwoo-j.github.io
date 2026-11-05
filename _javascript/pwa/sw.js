@@ -22,7 +22,7 @@ self.addEventListener('install', (event) => {
 
   event.waitUntil(
     caches.open(swconf.cacheName).then((cache) => {
-      return cache.addAll(swconf.resources);
+      return cache.addAll(swconf.resources).then(() => self.skipWaiting());
     })
   );
 });
@@ -41,7 +41,7 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
 
@@ -53,6 +53,12 @@ self.addEventListener('message', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.headers.has('range')) {
+    return;
+  }
+
+  // Page titles and content should reflect the latest deployment when online.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
     return;
   }
 
