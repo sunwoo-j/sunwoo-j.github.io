@@ -50,12 +50,7 @@
 
   {{ seo_tags }}
 
-  <title>
-    {%- unless page.layout == 'home' -%}
-      {{ page.title | append: ' | ' }}
-    {%- endunless -%}
-    {{ site.title }}
-  </title>
+  {% include document-title.html %}
 
   {% include_cached favicons.html %}
 
