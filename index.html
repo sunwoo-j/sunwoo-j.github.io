@@ -1,4 +1,39 @@
 ---
-layout: home
-# Index page
+layout: lily
+title: Sunwoo Jung — Play. Make. Repeat.
+description: 게임을 만들고, 경험을 탐구하고, 배운 것을 기록합니다. 정선우의 개인 웹사이트.
+image: /assets/img/tiger-lily/hero.webp
 ---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-top mono"><span>GAME DEVELOPMENT & CREATIVE EXPLORATION</span><span>PERSONAL SPACE · EST. 2024</span></div>
+  <h1 id="hero-title"><span>SUNWOO</span><span class="surname">JUNG<span class="orange">.</span></span></h1>
+  <div class="hero-art"><img src="{{ '/assets/img/tiger-lily/hero.webp' | relative_url }}" alt="검은 반점이 있는 선명한 형광 주황색 타이거 릴리" width="1254" height="1254" fetchpriority="high"></div>
+  <div class="hero-note"><span class="tiny-cross" aria-hidden="true">{% include lily-symbol.html %}</span><p>호기심을 따라 만들고,<br>만드는 과정에서 배웁니다.</p></div>
+  <span class="art-coordinate mono">LILIUM LANCIFOLIUM<br>UNRULY BY NATURE.</span>
+  <div class="hero-bottom"><p class="mono">A DEVELOPER’S MIND.<br>A PLAYER’S HEART.</p><a class="round-link" href="#work"><span>EXPLORE MY WORLD</span><span class="circle" aria-hidden="true">{% include lily-arrow.html direction='down-right' %}</span></a></div>
+</section>
+
+<div class="ticker" aria-label="Play. Make. Repeat."><div class="ticker-track" aria-hidden="true">{% for group in (1..2) %}<div class="ticker-group">{% for i in (1..4) %}<span>PLAY. MAKE. REPEAT.</span><span class="ticker-star">{% include lily-symbol.html %}</span>{% endfor %}</div>{% endfor %}</div></div>
+
+<section class="intro section-pad" id="about" aria-labelledby="about-title">
+  <div class="section-kicker mono"><span>01 / THE PERSON BEHIND THE PIXELS</span><span>안녕하세요, 정선우입니다.</span></div>
+  <div class="intro-grid"><div class="intro-symbol" aria-hidden="true">{% include lily-symbol.html %}</div><div><h2 id="about-title">A LITTLE CURIOUS.<br>A LOT OF <em>POSSIBILITIES.</em></h2><div class="intro-copy"><p>좋은 게임은 어떻게 만들어질까?<br>어떤 인터페이스가 사람의 마음을 움직일까?</p><p>게임 개발과 디자인 사이에서 답을 찾아갑니다. 직접 만들어 본 것, 막혔던 순간, 새롭게 알게 된 것. 그 모든 과정을 이곳에 차곡차곡 기록합니다.</p></div><a class="text-link" href="https://github.com/sunwoo-j">MORE ON GITHUB <span aria-hidden="true">{% include lily-arrow.html direction='up-right' %}</span></a></div></div>
+</section>
+
+<section class="work section-pad" id="work" aria-labelledby="work-title">
+  <div class="section-kicker mono"><span>02 / THINGS I’M EXPLORING</span><span>IDEAS INTO SOMETHING REAL</span></div>
+  <div class="section-heading"><h2 id="work-title">IN THE <em>MAKING.</em></h2><span class="mono">BUILD · BREAK · LEARN</span></div>
+  <div class="work-grid">
+    <article class="project project-main"><a class="project-visual city-visual" href="{{ '/journal/' | relative_url }}?topic=Unity" aria-label="Delivery Simulator와 함께 배우는 Unity 기록 보기"><span class="visual-label mono"><span class="status-dot"></span> EXPLORATION IN PROGRESS</span><svg class="city-map" viewBox="0 0 720 440" fill="none" aria-hidden="true"><defs><pattern id="city-grid" width="76" height="68" patternUnits="userSpaceOnUse" patternTransform="rotate(-22)"><rect x="9" y="8" width="57" height="48" rx="3" fill="#1d201e" stroke="#414640" stroke-width="1"/><path d="M17 16H58M17 24H58M17 32H58M17 40H58" stroke="#30352e" stroke-width="2"/></pattern></defs><rect width="720" height="440" fill="url(#city-grid)"/><path d="M-20 290L180 210L260 350L490 257L430 128L740 4" stroke="#090909" stroke-width="32"/><path class="route-line" d="M-20 290L180 210L260 350L490 257L430 128L740 4" stroke="#ff5c1a" stroke-width="5" stroke-linejoin="round"/><circle cx="180" cy="210" r="13" fill="#ff5c1a" stroke="#0b0b0b" stroke-width="6"/><circle cx="490" cy="257" r="13" fill="#ff5c1a" stroke="#0b0b0b" stroke-width="6"/><path d="M355 220l22-11 18 10-22 12z" fill="#ff8a55"/><path d="M355 220v25l18 12v-26z" fill="#ff5c1a"/><path d="M373 231l22-12v25l-22 13z" fill="#a8320c"/></svg><div class="project-overlay"><span class="mono">01 — UNITY / GAME DEVELOPMENT</span><strong>DELIVERY<br>SIMULATOR<span>{% include lily-arrow.html direction='up-right' %}</span></strong></div><span class="visual-caption mono">ROUTE STUDY / CONCEPT VISUAL</span></a><div class="project-info"><h3>도시를 탐험하고, 게임을 만들고.</h3><p>Unity로 만들어가는 Delivery Simulator.<br>현실의 도시와 플레이어의 선택을 게임으로 옮기는 과정.</p><span class="pill">UNITY</span><span class="pill">DEV JOURNAL</span></div></article>
+    <article class="project project-side"><a class="project-visual bot-visual" href="{{ '/journal/' | relative_url }}?topic=Python" aria-label="디스코드 봇 DIY 개발 기록 보기"><span class="visual-label mono">SMALL TOOLS. REAL POSSIBILITIES.</span><div class="bot-art" aria-hidden="true"><div class="bot-antenna"></div><div class="bot-face"><i></i><i></i><span></span></div><span class="bot-spark spark-one">+</span><span class="bot-spark spark-two">{% include lily-symbol.html %}</span><div class="code-label mono">&gt; hello, world<span class="blink">_</span></div></div><div class="project-overlay"><span class="mono">02 — PYTHON / DISCORD.PY</span><strong>A BOT OF<br>MY OWN.<span>{% include lily-arrow.html direction='up-right' %}</span></strong></div></a><div class="project-info"><h3>작은 아이디어에서, 나만의 봇까지.</h3><p>첫 명령어부터 SQLite 데이터베이스까지.<br>직접 만들며 쌓아가는 디스코드 봇 개발 기록.</p><span class="pill">PYTHON</span><span class="pill">BUILD LOG</span></div></article>
+  </div>
+</section>
+
+<section class="journal section-pad" id="journal" aria-labelledby="journal-title">
+  <div class="section-kicker mono"><span>03 / NOTES FROM THE PROCESS</span><span>지식 곳간 — JUST FOR THE RECORD</span></div>
+  <div class="section-heading"><h2 id="journal-title">THE <em>JOURNAL.</em></h2><a class="text-link all-entries" href="{{ '/journal/' | relative_url }}">ALL ENTRIES <span aria-hidden="true">{% include lily-arrow.html direction='right' %}</span></a></div>
+  <div class="journal-list">{% for post in site.posts limit:4 %}{% include lily-entry.html %}{% endfor %}</div>
+</section>
+
+<section class="contact section-pad" id="contact" aria-labelledby="contact-title"><div class="section-kicker mono"><span>04 / GOOD THINGS START WITH A HELLO</span><span>LET’S CONNECT</span></div><a class="contact-title" href="mailto:jung.snw@gmail.com"><h2 id="contact-title">LET’S TALK<span>.</span></h2><span class="contact-arrow" aria-hidden="true">{% include lily-arrow.html direction='up-right' %}</span></a><div class="contact-bottom"><p>게임, 디자인, 그리고 재미있는 아이디어.<br>함께 나누고 싶은 이야기가 있다면.</p><a class="text-link" href="mailto:jung.snw@gmail.com">JUNG.SNW@GMAIL.COM <span aria-hidden="true">{% include lily-arrow.html direction='up-right' %}</span></a></div></section>

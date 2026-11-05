@@ -1,0 +1,15 @@
+---
+layout: lily
+title: Journal — Sunwoo Jung
+description: 게임 개발, UI/UX, 그리고 만드는 과정에서 배운 것들의 기록.
+permalink: /journal/
+---
+<section class="journal-page section-pad">
+  <div class="section-kicker mono"><a href="{{ '/' | relative_url }}">{% include lily-arrow.html direction='left' %} BACK HOME</a><span>지식 곳간 — JUST FOR THE RECORD</span></div>
+  <h1 class="page-title">THE <em>JOURNAL.</em></h1>
+  <p class="page-description">만들고, 고민하고, 배운 것들.<br>완성된 답보다 그 답을 찾아가는 과정의 기록입니다.</p>
+  <div class="journal-controls"><div class="filter-group" role="group" aria-label="주제별 글 필터"><button type="button" data-filter="all" aria-pressed="true">ALL <span>{{ site.posts.size }}</span></button>{% assign topics = site.posts | map: 'categories' | uniq | sort %}{% for topic in topics %}<button type="button" data-filter="{{ topic | escape }}" aria-pressed="false">{{ topic }}</button>{% endfor %}</div><label class="search-label"><span class="sr-only">글 검색</span><input type="search" id="journal-search" placeholder="기록 검색" autocomplete="off"><svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="2"/><path d="M15 15L21 21" stroke="currentColor" stroke-width="2"/></svg></label></div>
+  <p class="filter-status mono" aria-live="polite">{{ site.posts.size }} ENTRIES</p>
+  <div class="journal-list">{% for post in site.posts %}{% include lily-entry.html %}{% endfor %}</div>
+  <p class="empty-state" hidden>일치하는 기록이 없습니다. 다른 검색어나 주제를 선택해 주세요.</p>
+</section>

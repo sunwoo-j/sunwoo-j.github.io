@@ -25,3 +25,6 @@ package-lock.json
 
 # Draft
 _draft
+
+# Local build diagnostics
+/output/

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="{{ page.lang | default: site.lang | default: 'ko' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090909">
+  {% seo %}
+  <link rel="icon" href="{{ '/assets/img/tiger-lily/mark.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/lily.css' | relative_url }}">
+  <script src="{{ '/assets/js/lily.js' | relative_url }}" defer></script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+  <header class="site-header">
+    <a href="{{ '/' | relative_url }}" class="brand" aria-label="Sunwoo Jung 홈"><span class="brand-mark" aria-hidden="true">{% include lily-symbol.html %}</span><span>SUNWOO<br>JUNG<span class="orange">.</span></span></a>
+    <a class="header-note mono" href="{{ '/' | relative_url }}#about">AN INDEPENDENT MIND.<br>ALWAYS IN PROGRESS.</a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" type="button">MENU <span aria-hidden="true">+</span></button>
+    <nav id="main-nav" aria-label="메인 메뉴"><a href="{{ '/' | relative_url }}#work">WORK <span>01</span></a><a href="{{ '/journal/' | relative_url }}">JOURNAL <span>02</span></a><a href="{{ '/' | relative_url }}#about">ABOUT <span>03</span></a><a class="nav-contact" href="{{ '/' | relative_url }}#contact">SAY HELLO <span aria-hidden="true">{% include lily-arrow.html direction='up-right' %}</span></a></nav>
+  </header>
+  <main id="main">{{ content }}</main>
+  <footer class="site-footer"><a class="footer-brand" href="{{ '/' | relative_url }}">SUNWOO JUNG<span class="orange">.</span></a><span class="mono">© {{ 'now' | date: '%Y' }} · MADE OF CURIOSITY.</span><div class="footer-links"><a href="https://github.com/sunwoo-j">GITHUB {% include lily-arrow.html direction='up-right' %}</a><a href="https://www.linkedin.com/in/sunwoojung">LINKEDIN {% include lily-arrow.html direction='up-right' %}</a><a href="#top" aria-label="맨 위로">BACK TO TOP {% include lily-arrow.html direction='up' %}</a><button class="motion-toggle" type="button" aria-pressed="false">MOTION: <span class="motion-state">ON</span></button></div></footer>
+</body>
+</html>

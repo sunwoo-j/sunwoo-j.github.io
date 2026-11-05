@@ -1,0 +1,3 @@
+<article class="journal-entry" data-topics="{{ post.categories | join: '|' | escape }}" data-search="{{ post.title | escape }} {{ post.description | escape }} {{ post.tags | join: ' ' | escape }}">
+  <a href="{{ post.url | relative_url }}"><time class="mono" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time><div class="entry-copy"><span class="entry-category mono">{{ post.categories | join: ' / ' }}</span><h3>{{ post.title }}</h3></div><span class="entry-arrow" aria-hidden="true">{% include lily-arrow.html direction='up-right' %}</span></a>
+</article>

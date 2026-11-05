@@ -145,7 +145,6 @@ pwa:
     deny_paths:
       # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
 
-paginate: 10
 
 # The base URL of your site
 baseurl: ""
@@ -174,7 +173,7 @@ defaults:
       path: "" # An empty string here means all files in the project
       type: posts
     values:
-      layout: post
+      layout: lily-post
       comments: true # Enable comments in posts.
       toc: true # Display TOC column in posts.
       # DO NOT modify the following parameter unless you are confident enough
@@ -211,6 +210,7 @@ exclude:
   - "*.gem"
   - "*.gemspec"
   - docs
+  - output
   - tools
   - README.md
   - LICENSE

@@ -1,0 +1,14 @@
+---
+layout: lily
+---
+<article class="article-page">
+  <header class="article-header section-pad"><a class="text-link" href="{{ '/journal/' | relative_url }}">{% include lily-arrow.html direction='left' %} BACK TO JOURNAL</a><div class="article-meta mono"><span>{{ page.categories | join: ' / ' }}</span><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y.%m.%d' }}</time></div><h1>{{ page.title }}</h1>{% if page.description %}<p class="page-description">{{ page.description }}</p>{% endif %}<p class="byline mono">BY SUNWOO JUNG</p></header>
+  <div class="article-body">{{ content }}</div>
+  {% if page.comments and site.comments.provider == 'giscus' %}
+  <section class="article-comments" aria-label="댓글">
+    <h2 class="mono">CONVERSATION</h2>
+    <script src="https://giscus.app/client.js" data-repo="{{ site.comments.giscus.repo }}" data-repo-id="{{ site.comments.giscus.repo_id }}" data-category="{{ site.comments.giscus.category }}" data-category-id="{{ site.comments.giscus.category_id }}" data-mapping="{{ site.comments.giscus.mapping | default: 'pathname' }}" data-strict="{{ site.comments.giscus.strict | default: '0' }}" data-reactions-enabled="{{ site.comments.giscus.reactions_enabled | default: '1' }}" data-emit-metadata="0" data-input-position="{{ site.comments.giscus.input_position | default: 'bottom' }}" data-theme="noborder_dark" data-lang="{{ site.comments.giscus.lang | default: site.lang }}" data-loading="lazy" crossorigin="anonymous" async></script>
+  </section>
+  {% endif %}
+  <nav class="article-nav" aria-label="다른 글 읽기">{% if page.previous.url %}<a href="{{ page.previous.url | relative_url }}"><span class="mono">{% include lily-arrow.html direction='left' %} PREVIOUS ENTRY</span><strong>{{ page.previous.title }}</strong></a>{% endif %}{% if page.next.url %}<a href="{{ page.next.url | relative_url }}"><span class="mono">NEXT ENTRY {% include lily-arrow.html direction='right' %}</span><strong>{{ page.next.title }}</strong></a>{% endif %}</nav>
+</article>

@@ -1,5 +1,5 @@
 ---
-title: 디스코드 봇 DIY - 6.  모듈화와 실시간 기능 추가
+title: 디스코드 봇 DIY - 6. 모듈화와 실시간 기능 추가
 date: 2024-06-25 14:42:37 +/-TTTT
 last_modified_at: 2024-06-27 17:09:56 +/-TTTT
 categories: [Python, discord.py]
