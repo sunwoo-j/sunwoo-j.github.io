@@ -1,12 +1,24 @@
 ---
 title: 디스코드 봇 DIY - 7. SQLite로 데이터베이스 구축하기
-date: 2024-07-13 17:12:21 +/-TTTT
-last_modified_at: 2024-07-13 17:12:21 +/-TTTT
-categories: [Python, discord.py]
-tags: [python, discord, bot, database, sql, sqlite]
+date: 2024-07-13 17:12:21 +0900
+last_modified_at: 2024-07-13 17:12:21 +0900
+categories:
+- Python
+- discord.py
+tags:
+- python
+- discord
+- bot
+- database
+- sql
+- sqlite
 description: SQLite로 데이터 저장하고 불러오기
+reviewed_at: 2026-11-06
+lang: ko
+english_title: Discord Bot DIY — 7. Building a SQLite Database
+english_description: Store and retrieve player data with Python and SQLite.
+translation_url: /en/posts/discord-bot-7/
 ---
-
 > 이 글에서 다루는 내용
 > - SQLite로 새 데이터베이스 생성하기
 > - 데이터베이스에 정보 기록하기
@@ -37,17 +49,17 @@ description: SQLite로 데이터 저장하고 불러오기
 
 **SQLite**는 경량의 **관계형 데이터베이스 관리 시스템(RDBMS)**이다. 서버에 의존하지 않고 **단일 파일**로 데이터베이스를 저장하며, 매우 간편하게 설정할 수 있어 봇 개발의 초기 단계에서 사용하기 적합하다. 추후 디스코드 봇의 사용량이 증가하고 데이터가 복잡해지면 SQLite의 한계에 도달할 수 있다. 이때는 더욱 강력한 **PostgreSQL**로 전환할 생각이다.
 
-간단하게 사용할 데이터베이스로 엑셀을 사용할 수도 있지만, 엑셀은 데이터가 쌓일수록 성능이 저하되고 무엇보다 데이터를 쓰는 중에 실시간으로 파일을 열어보지 못한다는 치명적인 단점이 있다.
+스프레드시트 파일에도 데이터를 저장할 수 있지만, 이 프로젝트에서는 SQL 조회와 트랜잭션을 지원하는 SQLite를 선택했다. 파일을 직접 열어 수정할 때는 봇과의 동시 쓰기로 잠금 충돌이 생길 수 있다는 점에 주의하자.
 
-### 1. sqlite3 모듈 설치하기
+### 1. sqlite3 모듈 확인하기
 
 Python 개발 환경에서 SQLite를 활용하려면 `sqlite3` 모듈을 사용해야 한다. 
 
 ```bash
-pip install -U sqlite3
+python -c "import sqlite3; print(sqlite3.sqlite_version)"
 ```
 
-`sqlite3`은 **Python Standard Library**에 포함되어 있어 Python과 함께 기본으로 설치되지만, 문제가 있으면 위 명령을 통해 설치 및 업데이트를 진행하면 된다.
+`sqlite3`은 **Python 표준 라이브러리**에 포함되어 있으므로 일반적인 Python 설치에서는 `pip`으로 따로 설치하지 않는다. 위 명령으로 동작 여부와 SQLite 버전을 확인할 수 있다. 모듈을 불러올 수 없다면 사용 중인 Python 배포판의 SQLite 지원 여부를 확인하자.
 
 > `sqlite3`의 자세한 사용법은 [**공식 문서**](https://docs.python.org/3/library/sqlite3.html)에서 확인할 수 있다.
 {: .prompt-info}
@@ -60,7 +72,7 @@ pip install -U sqlite3
 
 - [*DB Browser for SQLite - Standard installer for 64-bit Windows*](https://download.sqlitebrowser.org/DB.Browser.for.SQLite-3.12.2-win64.msi)
 
-![](/assets/img/discord%20bot/7_1.png)
+![2. DB Browser for SQLite 설치하기 — 화면 예시](/assets/img/discord%20bot/7_1.png)
 
 설치 후 프로그램을 열면 이런 모습이다. 프로그램의 인터페이스에서 손수 새로운 데이터베이스를 만들 수 있지만, 코드를 통해서 데이터베이스가 있는지 확인하고 없다면 자동으로 새로 생성하는 절차를 밟게 할 것이다.
 
@@ -107,7 +119,7 @@ cur = con.cursor()
 
 `con = sqlite3.connect(DB_PATH)`로 `DB_PATH`에 위치한 데이터베이스 파일과 연결을 생성하여 `con` 변수에 할당했으며, `DB_PATH`에 파일이 존재하지 않는다면 파일 이름에 맞게 **새로운 파일**을 생성한다. 
 
-다음으로 `cur`에 **커서(Cursor)**를 지정했는데, 커서는 SQL 명령을 처리한 결괏값을 저장하는 **임시 메모리**이다. `sqlite3`에서 데이터베이스의 데이터를 불러오거나 수정하려면 커서가 꼭 필요하다.
+다음으로 `cur`에 **커서(Cursor)**를 지정했는데, 커서는 SQL 문을 실행하고 조회 결과를 순회하는 **객체**이다. `con.execute()`처럼 연결 객체의 편의 메서드를 사용해도 내부에서 커서가 생성된다.
 
 이제 함수를 통해 데이터베이스의 구조를 정의하고 초기 설정을 구현해 보겠다.
 
@@ -189,7 +201,7 @@ CREATE TABLE IF NOT EXISTS player (
 
 스크립트와 함수를 추가했지만, 아직 호출하는 코드는 작성하지 않았는데, `db/` 폴더 안에 `__init__.py` 파일을 추가해서 해결할 것이다.
 
-> `__init__.py` 파일은 해당 **패키지를 구성하는 모듈**이 import될 때마다 실행된다.
+> `__init__.py`는 일반적으로 해당 패키지가 프로세스에서 처음 import될 때 실행된다. 이미 불러온 모듈은 캐시되므로 import할 때마다 다시 실행되는 것은 아니다.
 {: .prompt-info}
 
 ```python
@@ -201,11 +213,11 @@ db.build()
 
 이러면 데이터베이스 관련 작업을 하기 전 `build()` 함수를 통해 `build.sql`에 작성한 스크립트가 실행되며 `player` 테이블이 만들어지게 된다.
 
-![](/assets/img/discord%20bot/7_2.png)
+![db/__init__.py — 화면 예시](/assets/img/discord%20bot/7_2.png)
 
 봇을 실행하면 `data/` 폴더 안에 `database.db` 파일이 생성된 것을 확인할 수 있다.
 
-![](/assets/img/discord%20bot/7_3.png)
+![db/__init__.py — 화면 예시](/assets/img/discord%20bot/7_3.png)
 
 파일을 아까 설치한 DB Browser 프로그램으로 열면 `player` 테이블과 칼럼들 목록이 보인다.
 
@@ -256,20 +268,20 @@ async def setup(bot):
 
 `"INSERT INTO player ..."` 구문을 `execute()`로 실행하면 `player` 테이블에서 `user_id`와 `join_date` 칼럼에 주어진 값을 지정하여 **새 레코드를 생성**한다. `user_id`에는 중복되지 않는 디스코드 사용자 고유 ID를 지정하고 `join_date`에는 현재 시간을 넣어준다.
 
-> `%s` 대신에 `?`를 사용하는 이유는 [**인젝션 공격**](https://namu.wiki/w/SQL%20injection)을 방지하기 위해서이다.
+> Python `sqlite3`의 `?` 플레이스홀더와 별도 매개변수로 값을 전달하면 문자열을 직접 이어 붙이는 방식의 SQL 인젝션 위험을 줄일 수 있다. 핵심은 기호 자체가 아니라 [매개변수 바인딩](https://docs.python.org/3.12/library/sqlite3.html#sqlite3-placeholders)이다.
 {: .prompt-info}
 
-더불어 이미 등록된 사용자라면 등록하지 못하도록 중복 오류에 대한 error handling을 설정했다. `"INSERT INTO"` 대신에 `"INSERT IGNORE INTO"`를 쓰면 알아서 **Primary Key가 중복되는 데이터**는 등록하지 않지만, 따로 exception을 부르지는 않는다. 나는 메시지를 보내고 싶으므로 일부러 오류를 발생시키는 방법을 사용했다.
+더불어 이미 등록된 사용자라면 등록하지 못하도록 중복 오류에 대한 error handling을 설정했다. `"INSERT INTO"` 대신에 `"INSERT OR IGNORE INTO"`를 쓰면 알아서 **Primary Key가 중복되는 데이터**는 등록하지 않지만, 따로 exception을 부르지는 않는다. 나는 메시지를 보내고 싶으므로 일부러 오류를 발생시키는 방법을 사용했다.
 
-<img src="/assets/img/discord bot/7_4.png" alt="7_4" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/7_4.png" alt="cogs/player.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 봇을 실행하면 명령어가 정상적으로 작동한다. 플레이어를 등록한 상태에서 다시 명령어를 사용하면 중복된 키를 확인하고 오류 메시지를 출력한다.
 
-![](/assets/img/discord%20bot/7_5.png)
+![cogs/player.py — 화면 예시](/assets/img/discord%20bot/7_5.png)
 
 DB Browser에서 `player` 테이블을 선택하고 우클릭 메뉴에서 <kbd>Browse Table</kbd>을 선택하면 테이블을 보는 화면으로 넘어갈 수 있다. 위쪽의 <kbd>Browse Data</kbd> 탭을 선택해도 된다.
 
-![](/assets/img/discord%20bot/7_6.png)
+![cogs/player.py — 화면 예시](/assets/img/discord%20bot/7_6.png)
 
 방금 플레이어로 추가한 내 디스코드 계정의 ID가 등록 시간과 함께 등록되어 있는 것을 확인할 수 있다.
 
@@ -340,7 +352,7 @@ def record(command, *values):
 > `@app_commands.rename()`을 사용하면 UI에 보이는 명령어 argument의 이름을 변경할 수 있다.
 {: .prompt-info}
 
-<img src="/assets/img/discord bot/7_7.png" alt="7_7" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/7_7.png" alt="cogs/player.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 명령어를 입력하면 argument로 입력한 플레이어의 `user_id`를 `player` 테이블에서 대조하여 상응하는 레코드를 불러온 뒤에 잔액을 제외한 플레이어의 정보를 임베드로 보여준다.
 
@@ -371,11 +383,11 @@ def record(command, *values):
 
 관리자 권한이 있는 경우에 플레이어의 잔액을 변경하는 명령어다. `affected_rows`가 0이라면 변경이 이루어진 행이 없고 주어진 `user_id`를 가진 플레이어가 존재하지 않는다는 뜻이므로 그에 맞는 출력을 해주었다.
 
-<img src="/assets/img/discord bot/7_9.png" alt="7_9" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/7_9.png" alt="cogs/player.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 플레이어가 존재한다면 잔액이 입력한 금액으로 변경되고 그렇지 않다면 아래처럼 메시지가 출력된다.
 
-![](/assets/img/discord%20bot/7_10.png)
+![cogs/player.py — 화면 예시](/assets/img/discord%20bot/7_10.png)
 
 DB Browser에서도 플레이어의 `balance` 항목이 설정한 금액인 33333으로 변경된 것을 확인할 수 있다. 
 
@@ -400,11 +412,11 @@ DB Browser에서도 플레이어의 `balance` 항목이 설정한 금액인 3333
             await interaction.response.send_message("플레이어로 등록되지 않은 사용자입니다.")
 ```
 
-<img src="/assets/img/discord bot/7_11.png" alt="7_11" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/7_11.png" alt="cogs/player.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 플레이어 잔액을 변경할 때와 마찬가지로 변경된 행이 있다면 탈퇴가 성공한 것으로 간주하고 없다면 존재하지 않는 플레이어로 간주한다.
 
-![](/assets/img/discord%20bot/7_12.png)
+![cogs/player.py — 화면 예시](/assets/img/discord%20bot/7_12.png)
 
 플레이어 탈퇴를 진행한 뒤 DB Browser로 돌아가면 테이블에서 플레이어가 삭제된 것을 확인할 수 있다.
 
@@ -423,11 +435,11 @@ def close():
 
 DB Browser를 활용해서 데이터베이스를 관리할 수도 있다.
 
-![](/assets/img/discord%20bot/7_13.png)
+![db/db.py — 화면 예시](/assets/img/discord%20bot/7_13.png)
 
 수정하고 싶은 테이블을 선택한 뒤 우클릭 메뉴에서 <kbd>Modify Table</kbd>을 선택하거나 상단 툴바에서 <kbd>Modify Table</kbd>을 클릭하면 테이블의 **기본 정보 및 칼럼을 수정**할 수 있다.
 
-<img src="/assets/img/discord bot/7_14.png" alt="7_14" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/7_14.png" alt="db/db.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 보이는 것처럼 칼럼의 이름, 타입, Primary Key 여부, 기본값 등을 코드를 만질 필요 없이 바로 수정할 수 있다.
 

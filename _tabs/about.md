@@ -1,5 +1,8 @@
 ---
-# the default layout is 'page'
+layout: lily-page
+title: 지식 곳간 소개
+lang: ko
+translation_url: /en/about/
 icon: fas fa-info-circle
 order: 4
 ---

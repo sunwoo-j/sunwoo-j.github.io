@@ -31,12 +31,13 @@
     if (motionButton) {
       motionButton.querySelector('.motion-state').textContent = isPaused ? 'OFF' : 'ON';
       motionButton.setAttribute('aria-pressed', String(isPaused));
-      motionButton.setAttribute('aria-label', isPaused ? '애니메이션 켜기' : '애니메이션 끄기');
+      motionButton.setAttribute('aria-label', window.siteLanguage.text(isPaused ? 'motionOn' : 'motionOff'));
       motionButton.disabled = motionQuery.matches;
-      if (motionQuery.matches) motionButton.setAttribute('aria-label', '시스템 설정에 따라 애니메이션 꺼짐');
+      if (motionQuery.matches) motionButton.setAttribute('aria-label', window.siteLanguage.text('motionSystem'));
     }
   }
   applyMotion();
+  document.addEventListener('languagechange', applyMotion);
   motionQuery.addEventListener('change', applyMotion);
   motionButton?.addEventListener('click', () => {
     paused = !paused;
@@ -64,7 +65,7 @@
       if (!entry.hidden) count++;
     }
     filters.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.filter === active)));
-    status.textContent = `${count} ${count === 1 ? 'ENTRY' : 'ENTRIES'}`;
+    status.textContent = window.siteLanguage.text(count === 1 ? 'entry' : 'entries').replace('{count}', count);
     empty.hidden = count !== 0;
     if (updateUrl) {
       const url = new URL(location.href);
@@ -75,5 +76,6 @@
   }
   filters.forEach(button => button.addEventListener('click', () => { active = button.dataset.filter; filterEntries(); }));
   search.addEventListener('input', () => filterEntries());
+  document.addEventListener('languagechange', () => filterEntries(false));
   filterEntries(false);
 })();

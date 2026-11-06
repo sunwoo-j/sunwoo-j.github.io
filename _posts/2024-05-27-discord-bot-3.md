@@ -1,12 +1,21 @@
 ---
-title: 디스코드 봇 DIY - 3.  신규 멤버 환영 메시지
-date: 2024-05-27 10:53:19 +/-TTTT
-last_modified_at: 2024-06-27 14:59:33 +/-TTTT
-categories: [Python, discord.py]
-tags: [python, discord, bot]
+title: 디스코드 봇 DIY - 3. 신규 멤버 환영 메시지
+date: 2024-05-27 10:53:19 +0900
+last_modified_at: 2024-06-27 14:59:33 +0900
+categories:
+- Python
+- discord.py
+tags:
+- python
+- discord
+- bot
 description: 디스코드 이벤트 활용해서 환영 메시지 보내기
+reviewed_at: 2026-11-06
+lang: ko
+english_title: Discord Bot DIY — 3. Welcoming New Members
+english_description: Use member events, guild IDs, and channel IDs to send welcome messages.
+translation_url: /en/posts/discord-bot-3/
 ---
-
 > 이 글에서 다루는 내용
 > - 이벤트 종류 이해하기
 > - 새로운 멤버가 들어올 때 환영 DM 보내기
@@ -19,7 +28,7 @@ description: 디스코드 이벤트 활용해서 환영 메시지 보내기
 > 이벤트에 대응하는 함수는 앞에 `async def`를 붙여 coroutine으로 정의되어야 한다. 
 {: .prompt-warning}
 
-아래는 `discord.py`에서 나눠놓은 이벤트 카테고리들을 표로 만들어 가져왔다. [**Event Reference** 페이지](https://discordpy.readthedocs.io/en/latest/api.html?#discord-api-events)에서 본인이 만들고자 하는 기능에 맞는 카테고리로 이동해 해당하는 이벤트를 찾으면 수월한 개발이 가능하다. 인텐트를 `discord.Intents.all()`로 설정하지 않고 필요한 것만 따로 설정할 생각이라면 카테고리별 인텐트 필요사항을 확인하면 된다.  
+아래는 `discord.py`에서 나눠놓은 이벤트 카테고리들을 표로 만들어 가져왔다. [**Event Reference** 페이지](https://discordpy.readthedocs.io/en/latest/api.html?#discord-api-events)에서 본인이 만들고자 하는 기능에 맞는 카테고리로 이동해 해당하는 이벤트를 찾으면 수월한 개발이 가능하다. 인텐트를 `discord.Intents.all()`로 설정하지 않고 필요한 것만 따로 설정할 생각이라면 카테고리별 인텐트 필요사항을 확인하면 된다. 아래 표는 개요이며, 정확한 요구 사항은 각 이벤트의 공식 문서를 확인하자.
 
 | 카테고리         | 설명                         | 인텐트 추가 필요사항                                     |
 | :--------------- | :--------------------------- | :------------------------------------------------------- |
@@ -65,45 +74,45 @@ async def on_member_join(member):
 
 `on_member_join()`에는 들어온 멤버가 parameter로 설정되어 있기 때문에 받아온 `member` 객체를 활용해 호출될 함수를 짜주면 된다. `member.send()`를 통해 작성한 메시지가 참가한 멤버에게 DM으로 보내지게 된다.
 
-> 인텐트 설정을 **all로 설정**하지 않았다면 `intents.members = True`를 따로 추가해 주어야 한다.
+> 코드에 `intents.members = True`를 추가하고 개발자 포털에서도 **Server Members Intent**를 활성화해야 `on_member_join()` 이벤트를 받을 수 있다.
 {: .prompt-warning}
 
-![](/assets/img/discord%20bot/3_1.png)
+![1. 길드 참가 환영 DM 보내기 — 화면 예시](/assets/img/discord%20bot/3_1.png)
 
- 깡통 계정으로 길드에 참가하자마자 봇에게 DM을 받은 모습이다. 지금은 단순한 메시지만 한 줄 보냈지만, 길드 규정이나 안내 같은 중요한 내용을 따로 보낼 수도 있겠다. 다만 DM으로 보낼 때의 단점이 명확한데, 만약 사용자가 **DM을 차단해 놓았다면** 메시지가 제대로 전달되지 않는다. 그 때문에 DM보다 **길드 내의 채널**을 활용하는 편이 나을 수 있다.
+ 깡통 계정으로 길드에 참가하자마자 봇에게 DM을 받은 모습이다. 지금은 단순한 메시지만 한 줄 보냈지만, 길드 규정이나 안내 같은 중요한 내용을 따로 보낼 수도 있겠다. `member.send()`는 DM 차단 시 `discord.Forbidden`을 발생시킬 수 있으므로 예외를 처리해야 한다. 또한 `get_channel()`이 `None`을 반환할 수 있으므로 채널 존재 여부와 전송 권한도 확인하자. 다만 DM으로 보낼 때의 단점이 명확한데, 만약 사용자가 **DM을 차단해 놓았다면** 메시지가 제대로 전달되지 않는다. 그 때문에 DM보다 **길드 내의 채널**을 활용하는 편이 나을 수 있다.
 
 ### 2. 길드 채널에 환영 메시지 보내기
 
 DM을 제외하면 글을 보낼 수 있는 공간은 길드의 채팅 채널이다. 지난번에 명령어를 다룰 때는 `ctx`로 명령어를 입력한 채널의 정보를 불러와 다시 메시지를 보낼 수 있었지만, `on_member_join()`에는 채널 정보 없이 `member`만 주어진다. 그렇기 때문에 채널에 메시지를 보내려면 직접 **채널 ID**를 가져와야 한다.
 
-![](/assets/img/discord%20bot/3_2.png)
+![2. 길드 채널에 환영 메시지 보내기 — 화면 예시](/assets/img/discord%20bot/3_2.png)
 
 바로 확인할 수는 없고 **개발자 모드**를 활성화해야 한다. 아래 톱니바퀴를 눌러 <kbd>사용자 설정</kbd>에 들어가자.
 
-![](/assets/img/discord%20bot/3_3.png)
+![2. 길드 채널에 환영 메시지 보내기 — 화면 예시](/assets/img/discord%20bot/3_3.png)
 
 왼쪽 목록에서 앱 설정 아래 있는 <kbd>고급</kbd>에 들어가서 첫 번째 항목인 **개발자 모드**를 활성화하면 된다.
 
-![](/assets/img/discord%20bot/3_4.png)
+![2. 길드 채널에 환영 메시지 보내기 — 화면 예시](/assets/img/discord%20bot/3_4.png)
 
 이제 길드로 돌아가 봇이 채팅을 보냈으면 하는 채팅 채널을 우클릭하면 <kbd>채널 ID 복사하기</kbd>가 나타날 것이다. ID를 복사했으면 이제 코드에서 활용해 보자.
 
 ```python
 @bot.event
 async def on_member_join(member):
-    channel = bot.get_channel(채널 ID)
+    channel = bot.get_channel(123456789012345678) # 실제 채널 ID로 교체
     await channel.send(f"{member.display_name}님이 서버에 참가하셨습니다.")
 ```
 
 채널 ID는 봇 토큰과 다르게 int type이니 따옴표 없이 그대로 괄호 안에 붙여주면 된다. 
 
-<img src="/assets/img/discord bot/3_5.png" alt="3_5" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/3_5.png" alt="2. 길드 채널에 환영 메시지 보내기 — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 깡통 계정으로 다시 서버에 들어오니 복사한 ID의 채널에 메시지를 보내는 모습을 확인할 수 있다. 지금은 채널이 한 개밖에 없어서 일반 채널의 ID를 그대로 붙여넣기 했지만 채널이 여러 개라면 관리자가 원하는 채널에 보낼 수 있도록 **변수 처리**하는 편이 나을 것이다.
 
 또 다른 문제도 있다. 지금은 테스트용 길드 하나만 두고 있지만, 디스코드 봇을 개발하면 일반적으로 여러 개의 길드에 접속하게 된다. 그렇다면 메시지를 보내도록 설정된 채널이 속한 길드가 아닌, **내 봇이 존재하는 다른 길드**에 참가하더라도 이 채널로 모든 환영 메시지가 모이게 된다.
 
-<img src="/assets/img/discord bot/3_6.png" alt="3_6" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/3_6.png" alt="2. 길드 채널에 환영 메시지 보내기 — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 **봇 테스트 서버**와 별도로 길드를 하나 더 생성해서 봇을 추가한 후에 깡통 계정을 초대해 보았다. 그러니 이미 멤버임에도 불구하고 원래 있던 길드에 환영 메시지가 재출력되는 것을 확인할 수 있었다. 이제 이 문제를 어떻게 해결할지 알아보자.
 
@@ -111,7 +120,7 @@ async def on_member_join(member):
 
 길드도 채널과 마찬가지로 고유 ID를 가지고 있다. 채널 ID를 확인하기 위해 개발자 옵션을 활성화했으니, 마찬가지로 **길드 ID**도 디스코드 인터페이스에서 확인할 수 있다.
 
-![](/assets/img/discord%20bot/3_7.png)
+![3. 길드 특정하기 — 화면 예시](/assets/img/discord%20bot/3_7.png)
 
 좌측 상단의 길드 이름을 우클릭하고 <kbd>서버 ID 복사하기</kbd>를 눌러주면 복사가 된다. 원래 테스트하고 있던 서버에서 계속 테스트를 진행할 것이기 때문에 `.env` 파일에 `GUILD_ID`와 `CHANNEL_ID` 항목을 추가해서 복사한 길드 고유 ID와 코드에 넣었던 채널 ID를 지정해 주었다. 
 

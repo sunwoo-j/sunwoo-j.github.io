@@ -1,12 +1,21 @@
 ---
 title: 디스코드 봇 DIY - 2. 기본적인 명령어 설정
-date: 2024-05-24 11:07:32 +/-TTTT
-last_modified_at: 2024-06-27 13:34:40 +/-TTTT
-categories: [Python, discord.py]
-tags: [python, discord, bot]
+date: 2024-05-24 11:07:32 +0900
+last_modified_at: 2024-06-27 13:34:40 +0900
+categories:
+- Python
+- discord.py
+tags:
+- python
+- discord
+- bot
 description: discord.py 확장 라이브러리로 명령어 설정하기
+reviewed_at: 2026-11-06
+lang: ko
+english_title: Discord Bot DIY — 2. Basic Commands
+english_description: Create commands, convert parameters, and handle errors with discord.py.
+translation_url: /en/posts/discord-bot-2/
 ---
-
 > 이 글에서 다루는 내용
 > - `Client`에서 `Bot`으로 전환하기
 > - `Command`를 활용해 명령어 생성하기
@@ -21,12 +30,16 @@ description: discord.py 확장 라이브러리로 명령어 설정하기
 ```python
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='!') # 명령어 인식 기호
+import discord
+
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix='!', intents=intents) # 명령어 인식 기호
 ```
 
-`Bot`은 확장 라이브러리에 들어있기 때문에 `import discord`와 별개로 라이브러리를 추가해 주어야 한다. 그리고 `Bot`을 초기화할 때는 `command_prefix`를 지정해야 하는데, 메시지가 여기서 **지정된 string으로 시작**해야 명령어로 인식된다. 이 경우에는 `'!'`로 설정되었으므로 느낌표로 시작하는 모든 메시지가 명령어로 인식이 된다.
+`Bot`은 확장 라이브러리에 들어있기 때문에 `import discord`와 별개로 라이브러리를 추가해 주어야 한다. 그리고 `Bot`을 초기화할 때는 `command_prefix`를 지정해야 하는데, 메시지가 여기서 **지정된 string으로 시작**해야 명령어로 인식된다. 이 경우에는 `'!'`로 설정되었으므로 느낌표 뒤의 이름이 등록된 명령어와 일치하면 해당 명령어가 실행된다.
 
-> `command_prefix`를 여러 개 지정하고 싶다면 `('!', '?')`처럼 지정할 수 있다. 빈 string을 지정할 수도 있는데, 이 경우에는 모든 입력이 명령어로 인식된다.
+> `command_prefix`를 여러 개 지정하고 싶다면 `('!', '?')`처럼 지정할 수 있다. 빈 string을 지정할 수도 있는데, 이 경우에는 접두사 없이 등록된 명령어 이름으로 호출할 수 있다.
 {: .prompt-info}
 
 `Command`는 명령어로 발동시키는 함수를 나타내는 class다. 일반 함수 앞에 `@bot.command` decorator를 붙이면 `Command` 객체가 되는데, `command_prefix` 뒤에 붙은 명령어가 decorator에서 정한 `name`과 일치한다면 `Command`가 발동한다. 예시로 이전에 쓴 코드를 `@bot.command`를 활용해 바꿔 보겠다. 
@@ -89,7 +102,7 @@ bot.run(TOKEN)
 > **`ctx`**는 명령어를 실행한 사람이 누군지와 어떤 채널에서 입력됐는지 등의 [**Context 정보**](https://discordpy.readthedocs.io/en/latest/ext/commands/commands.html#invocation-context)를 담고 있다.
 {: .prompt-info}
 
-![](/assets/img/discord%20bot/2_1.png)
+![수정 후 — 화면 예시](/assets/img/discord%20bot/2_1.png)
 
 `Command`를 쓰면 또 좋은 점이 내가 쓴 함수 중 명령어에 해당하는 것이 무엇인지 인지하고 있으며, 따로 추가하지 않아도 `help` 명령어로 봇에 설정된 명령어들의 목록을 보는 것이 가능하다는 점이다.
 
@@ -97,7 +110,7 @@ bot.run(TOKEN)
 @bot.command(name='hello', help="인사를 합니다")
 ```
 
-![](/assets/img/discord%20bot/2_2.png)
+![수정 후 — 화면 예시](/assets/img/discord%20bot/2_2.png)
 
 명령어 decorator에 `help` argument를 추가하면 설명도 달 수 있다. 어떤 명령어들이 있고 무엇을 하는지 사용자에게 보여줄 수 있는 가장 간단한 방법이다. 이런 식으로 `Client`에는 없는 추가 기능들이 `Bot`에 자잘하게 있다.
 
@@ -123,7 +136,7 @@ async def joined(ctx, member: discord.Member):
 
 멤버가 길드에 언제 참여했는지를 보여주는 명령어를 만들었다. `discord.Member`를 type으로 설정함으로써 길드에 참여하고 있는 사용자 객체를 받아들이는 변수로 지정했다. 그렇기에 `Member`의 attribute 중 하나인 `joined_at`을 받아와 출력할 수 있다.
 
-<img src="/assets/img/discord bot/2_3.png" alt="2_3" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/2_3.png" alt="2. 명령어에 Parameter 추가하기 — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 이런 식으로 `Member`가 현재 길드에 언제 참가했는지 보여준다. 참고로 `Member.display_name`은 채팅 등 디스코드 인터페이스에 보이는 길드 내 별명, `Member.name`은 사용자명, `Member.id`는 변하지 않는 사용자 고유 ID니, 적재적소에 활용할 수 있도록 하자.
 
@@ -141,11 +154,11 @@ async def multiply_error(ctx, error):
 > `Commands`에서 발생할 수 있는 exception 목록은 [여기](https://discordpy.readthedocs.io/en/latest/ext/commands/api.html?error#exceptions)서 확인할 수 있다.
 {: .prompt-info}
 
-![](/assets/img/discord%20bot/2_4.png) | ![](/assets/img/discord%20bot/2_5.png)
+![3. 명령어 Exception 관리하기 — 화면 예시](/assets/img/discord%20bot/2_4.png) | ![3. 명령어 Exception 관리하기 — 화면 예시](/assets/img/discord%20bot/2_5.png)
 
 정상적으로 정수가 주어졌을 때와 그렇지 않아 exception이 발생했을 때 각각 다른 응답을 하는 것을 볼 수 있다. 
 
-이외에도 parameter마다 설명을 추가하거나 생성된 리스트에서 변수를 정하는 식으로 오류를 원천 차단 하는 방법이 있지만 다음에 다른 명령어 시스템을 다룰 때 정리해 보겠다. 
+이외에도 parameter마다 설명을 추가하거나 생성된 리스트에서 변수를 정하는 식으로 오류를 원천 차단하는 방법이 있지만 다음에 다른 명령어 시스템을 다룰 때 정리해 보겠다.
 
 ## 부록
 

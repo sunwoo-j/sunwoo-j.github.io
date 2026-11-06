@@ -1,11 +1,21 @@
 ---
 title: 선택지가 많으면 정말 재미있는 게임일까? — 의미 있는 선택의 게임 디자인
 date: 2026-10-15 09:00:00 +0900
-categories: [Game Design]
-tags: [gdc-notes, gdc, game design, meaningful choice, level design]
+categories:
+- Game Design
+tags:
+- gdc-notes
+- gdc
+- game design
+- meaningful choice
+- level design
 description: 의미 있는 선택은 어떻게 만들어지는가? GDC 2014 Matthias Worch의 강연을 통해 선택지, 가능성의 공간, 플레이어의 의사결정과 게임 시스템 설계를 살펴본다.
+reviewed_at: 2026-11-06
+lang: ko
+english_title: Do More Options Make a Better Game? Designing Meaningful Choices
+english_description: Explore meaningful choice, possibility spaces, agency, and game systems through Matthias Worch’s GDC 2014 talk.
+translation_url: /en/posts/meaningful-choice-gdc-2014/
 ---
-
 > **부제:** GDC 2014 「Decisions That Matter」를 통해 살펴보는 의미 있는 선택의 게임 디자인
 
 게임에서 선택지가 많아질수록 플레이어는 더 재미있게 느낄까?

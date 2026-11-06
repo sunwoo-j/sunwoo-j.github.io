@@ -1,12 +1,22 @@
 ---
 title: 디스코드 봇 DIY - 6. 모듈화와 실시간 기능 추가
-date: 2024-06-25 14:42:37 +/-TTTT
-last_modified_at: 2024-06-27 17:09:56 +/-TTTT
-categories: [Python, discord.py]
-tags: [python, discord, bot, modularization]
-description: Cog로 코드 모듈화와 실시간 수정 두 마리 토끼 잡기  
+date: 2024-06-25 14:42:37 +0900
+last_modified_at: 2024-06-27 17:09:56 +0900
+categories:
+- Python
+- discord.py
+tags:
+- python
+- discord
+- bot
+- modularization
+description: Cog로 코드 모듈화와 실시간 수정 두 마리 토끼 잡기
+reviewed_at: 2026-11-06
+lang: ko
+english_title: Discord Bot DIY — 6. Modular Code and Live Updates
+english_description: Organize features with Cogs and update extensions without restarting.
+translation_url: /en/posts/discord-bot-6/
 ---
-
 > 이 글에서 다루는 내용
 > - 카테고리별로 파일 만들어서 관리하기
 > - 메인 파일에 생성한 Cog들 불러오기
@@ -14,7 +24,7 @@ description: Cog로 코드 모듈화와 실시간 수정 두 마리 토끼 잡�
 
 ## Cog와 모듈화
 
-**Cog**는 `discord.py`에서 **모듈**이나 **익스텐션**을 뜻하는 용어이다. 지금은 `bot.py`에 모든 명령과 기능들이 다 섞여 있지만 Cog를 사용하면 카테고리별로 묶어 관리하는 것이 가능해진다. 이러면 자연스럽게 스파게티 코드가 되는 것도 미연에 방지할 수 있다.
+**Cog**는 명령어와 이벤트 리스너를 클래스로 묶는 `discord.py`의 기능이다. **익스텐션(extension)**은 `setup()` 진입점을 통해 불러오는 Python 모듈이며, 하나의 익스텐션에서 Cog를 등록할 수 있다. 지금은 `bot.py`에 모든 명령과 기능들이 다 섞여 있지만 Cog를 사용하면 카테고리별로 묶어 관리하는 것이 가능해진다. 이러면 자연스럽게 스파게티 코드가 되는 것도 미연에 방지할 수 있다.
 
 > Cog에 대한 예시와 자세한 설명은 [이곳](https://discordpy.readthedocs.io/en/stable/ext/commands/cogs.html)에서 볼 수 있다.
 {: .prompt-info}
@@ -61,7 +71,6 @@ class Welcome(commands.Cog):
         
         embed.set_author(name="디스코드 봇 DIY", icon_url='attachment://icon.gif')
         embed.set_thumbnail(url='https://picsum.photos/100/100')
-        embed.set_field_at
         embed.set_image(url='https://picsum.photos/600/400')
         embed.set_footer(text="Footer가 들어가는 공간", icon_url='attachment://icon.gif')
     
@@ -71,7 +80,7 @@ async def setup(bot):
     await bot.add_cog(Welcome(bot))
 ```
 
-Cog도 `discord.ext.commands` 확장 라이브러리에 속해있기 때문에 `commands.Cog`의 subclass를 우선 만들어 준다. 앞서 이벤트를 확인할 때는 `@bot.event` decorator를 사용해 이벤트에 대응하는 함수를 만들었지만, Cog의 경우에는 `@commands.Cog.listener` decorator를 대신 사용해야 한다. 마찬가지로 Slash Command도 `bot.py`에서 사용하던 `@bot.tree.command` 대신 `@application_commands.command`로 바꿔준다.
+Cog도 `discord.ext.commands` 확장 라이브러리에 속해있기 때문에 `commands.Cog`의 subclass를 우선 만들어 준다. 앞서 이벤트를 확인할 때는 `@bot.event` decorator를 사용해 이벤트에 대응하는 함수를 만들었지만, Cog의 경우에는 `@commands.Cog.listener` decorator를 대신 사용해야 한다. 마찬가지로 Slash Command도 `bot.py`에서 사용하던 `@bot.tree.command` 대신 `@app_commands.command`로 바꿔준다.
 
 > `@bot.command` decorator를 사용하는 **일반 명령어**는 `@commands.command`를 대신 사용한다.
 {: .prompt-info}
@@ -105,7 +114,7 @@ async def setup_hook():
 ...
 ```
 
-추가한 함수를 `setup_hook()` 이벤트에 넣어서 봇이 서버에 로그인했을 때 Cog를 불러올 수 있도록 설정해 주자. `on_ready()`은 여러 번 호출될 수 있는 반면에 `setup_hook()`은 실행 시 단 한 번만 호출되므로 Cog를 추가하는 목적에 적합하다. ~~이유는 잘 모르겠지만 `on_ready()`에 넣으니 아예 동작을 하지 않는다.~~
+추가한 함수를 `setup_hook()` 이벤트에 넣어서 봇이 서버에 로그인했을 때 Cog를 불러올 수 있도록 설정해 주자. `on_ready()`은 여러 번 호출될 수 있는 반면에 `setup_hook()`은 실행 시 단 한 번만 호출되므로 Cog를 추가하는 목적에 적합하다. `on_ready()`는 재연결 시 다시 호출될 수 있어 같은 익스텐션을 중복으로 불러오지 않도록 주의해야 한다.
 
 ### 3. View 및 인터페이스 Cog로 옮기기
 
@@ -176,7 +185,7 @@ async def load_extensions():
 
 `cogs/` 폴더 안에 있는 모든 Python 파일을 열어 Cog들을 불러오도록 수정했다.
 
-<img src="/assets/img/discord bot/6_1.png" alt="6_1" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
+<img src="/assets/img/discord bot/6_1.png" alt="bot.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
 
 `interface.py`를 포함한 모든 Cog가 추가된 것을 터미널에서 확인할 수 있다.
 
@@ -226,7 +235,7 @@ async def unload(ctx, extension: str):
 
 Unload할 때와 달리 새로 불러올 때는 tree의 명령어를 수정했을 수 있기 때문에 `bot.tree.sync()`로 **동기화**를 해주어야 한다.
 
-<img src="/assets/img/discord bot/6_2.png" alt="6_2" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/6_2.png" alt="bot.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 Interface Cog를 unload 했다가 다시 불러온 모습이다.
 
@@ -242,7 +251,7 @@ async def teardown(bot):
 
 `load_extension()`을 할 때 Cog의 `setup()`이 호출되는 것처럼 `unload_extension()`은 `teardown()`을 호출하게끔 되어있다. Unload 할 때 수행할 코드가 있다면 `teardown()` 함수 안에 추가하면 된다.
 
-<img src="/assets/img/discord bot/6_3.png" alt="6_3" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
+<img src="/assets/img/discord bot/6_3.png" alt="cogs/interface.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
 
 Unload를 할 때 `teardown()`에 적은 대로 메시지가 출력되는 것을 확인할 수 있다.
 
@@ -278,11 +287,11 @@ async def reload(ctx, extension: str):
 
 봇을 실행하는 도중에 `interface.py` 파일에 위처럼 새로운 명령어를 추가한 뒤 reload를 작동시켰다.
 
-<img src="/assets/img/discord bot/6_4.png" alt="6_4" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/6_4.png" alt="cogs/interface.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 성공이다. 봇을 다시 시작하지 않고도 새로 추가한 명령어를 사용할 수 있게 했다.
 
-<img src="/assets/img/discord bot/6_5.png" alt="6_5" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/6_5.png" alt="cogs/interface.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 도중에 오류가 발생하면 간단하게 메시지로 확인된다.
 
@@ -310,7 +319,7 @@ async def setup(bot):
 
 테스트를 위해 봇 동작 중에 `cogs/` 폴더 안에 `new.py`라는 파일과 **New Cog**를 새로 만들었다.
 
-<img src="/assets/img/discord bot/6_6.png" alt="6_6" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/6_6.png" alt="cogs/new.py — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 `$load new`를 해주니 봇 재시작 없이 추가한 명령어를 사용할 수 있다.
 
@@ -553,7 +562,6 @@ class Welcome(commands.Cog):
         
         embed.set_author(name="디스코드 봇 DIY", icon_url='attachment://icon.gif')
         embed.set_thumbnail(url='https://picsum.photos/100/100')
-        embed.set_field_at
         embed.set_image(url='https://picsum.photos/600/400')
         embed.set_footer(text="Footer가 들어가는 공간", icon_url='attachment://icon.gif')
     

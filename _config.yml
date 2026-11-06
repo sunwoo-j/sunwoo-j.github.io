@@ -164,6 +164,9 @@ kramdown:
       start_line: 1
 
 collections:
+  translations:
+    output: true
+    permalink: /en/posts/:name/
   tabs:
     output: true
     sort_by: order

@@ -1,12 +1,21 @@
 ---
 title: 디스코드 봇 DIY - 4. Application Command
-date: 2024-05-30 10:44:15 +/-TTTT
-last_modified_at: 2024-06-27 15:28:58 +/-TTTT
-categories: [Python, discord.py]
-tags: [python, discord, bot]
+date: 2024-05-30 10:44:15 +0900
+last_modified_at: 2024-06-27 15:28:58 +0900
+categories:
+- Python
+- discord.py
+tags:
+- python
+- discord
+- bot
 description: 내 디스코드 앱과 상호 작용을 하는 기본적인 방법들
+reviewed_at: 2026-11-06
+lang: ko
+english_title: Discord Bot DIY — 4. Application Commands
+english_description: Build slash commands and user and message context menus.
+translation_url: /en/posts/discord-bot-4/
 ---
-
 > 이 글에서 다루는 내용
 > - Application Command 이해하기
 > - Slash Command 설정하기
@@ -19,7 +28,7 @@ description: 내 디스코드 앱과 상호 작용을 하는 기본적인 방법
 > Application Command에 대한 자세한 내용은 [이곳](https://discord.com/developers/docs/tutorials/upgrading-to-application-commands)에서 볼 수 있다.
 {: .prompt-info}
 
-![](/assets/img/discord%20bot/4_1.png)
+![Application Command — 화면 예시](/assets/img/discord%20bot/4_1.png)
 
 세 종류의 Application Command를 표현한 이미지다. 왼쪽부터 **Slash Command**, **Message Command**, 그리고 **User Command**를 표현했다.
 
@@ -32,7 +41,7 @@ Message Command는 특정 메시지와 관련된 행동을 할 때 유용하다.
 - **User Command**<br>
 User Command는 특정 사용자와 관련된 행동을 할 때 유용하다. Message Command와 비슷하게 원하는 사용자의 아바타나 이름을 우클릭하면 나오는 <kbd>앱</kbd>에서 행동을 선택할 수 있다. 
 
-앞에서는 `discord.ext.commands.Bot`의 `command_prefix`로 본인이 원하는 명령어 인식 기호를 설정해 명령어를 입력하게 했지만, Slash Command를 사용한다면 모든 명령어 인식 기호가 **빗금으로 통일**된다. 대신에 디스코드 인터페이스에서 자동완성 기능이 지원되고 명령어나 paramter에 관한 설명도 별다른 설정 없이 보여줄 수 있다.
+앞에서는 `discord.ext.commands.Bot`의 `command_prefix`로 본인이 원하는 명령어 인식 기호를 설정해 명령어를 입력하게 했지만, Slash Command를 사용한다면 모든 명령어 인식 기호가 **빗금으로 통일**된다. 대신에 디스코드 인터페이스에서 자동완성 기능이 지원되고 명령어나 parameter에 관한 설명도 별다른 설정 없이 보여줄 수 있다.
 
 ### 1. 기존 명령어 Slash Command로 바꾸기
 
@@ -54,7 +63,7 @@ async def hello(interaction: discord.Interaction):
 
 일전에 만들었던 `hello` 명령어에 `tree`를 넣어 Slash Command로 만들었다. 다른 점으로는 `help` parameter가 `description`으로 이름이 바뀐다는 점과 `ctx` 대신 `interaction`을 받아와 사용한다는 점이 있다.
 
-<img src="/assets/img/discord bot/4_2.png" alt="4_2" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/4_2.png" alt="수정 후 — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 위에 보이는 것처럼 앞 글자만 입력해도 **/hello** 명령어를 고르는 선택지가 보인다. 이런 식으로 명령어 **자동완성**이 지원되며 명령어 설명 또한 직관적으로 명령어 아래 적혀있다. Parameter가 설정된 명령어도 Slash Command를 사용하면 더 직관적으로 바뀐다.
 
@@ -79,7 +88,7 @@ async def joined(interaction: discord.Interaction, 멤버: discord.Member):
 
 `app_commands` 모듈을 불러오면 `@app_commands.describe()`라는 decorator를 사용할 수 있다. 이 안에서 명령어에서 설정된 **parameter에 대한 설명**을 추가할 수 있는데, 위에서는 `member`라는 parameter에 관해 설명을 달아 주었다.
 
-<img src="/assets/img/discord bot/4_3.png" alt="4_3" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/4_3.png" alt="수정 후 — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 Parameter에 대한 설명을 알려주는 것은 물론이고, `discord.Member` 객체를 type으로 지정하니 길드에 있는 멤버들 목록을 자동으로 띄워준다. 수정 전에 사용자명을 직접 한 글자씩 입력했던 것과 비교하면 굉장히 편리하다. 더불어 잘못된 값을 넣지 못하게 알아서 **exception handling**을 해준다.
 
@@ -93,15 +102,15 @@ async def setup_hook():
     await bot.tree.sync()
 ```
 
-`setup_hook()` 이벤트에 `bot.tree.sync()`가 발동되게 만들어 놓으면 봇 **최초 구동 시**에 명령어 변경 사항이 반영된다. 디스코드 인터페이스를 한 번 새로고침(<kbd>Ctrl + R</kbd>)하면 변경된 명령어 목록이 보일 것이다.
+`setup_hook()` 초기화 훅에 `bot.tree.sync()`가 발동되게 만들어 놓으면 봇 **최초 구동 시**에 명령어 변경 사항이 반영된다. 디스코드 인터페이스를 한 번 새로고침(<kbd>Ctrl + R</kbd>)하면 변경된 명령어 목록이 보일 것이다.
 
-`setup_hook()`는 `on_ready()`와 비슷하면서도 다르다. `on_ready()`는 클라이언트가 디스코드와 **완전한 연결**을 생성했을 때 호출되는 이벤트지만, `setup_hook()`는 클라이언트가 **로그인**을 했을 때 발동되기에 모든 이벤트 중에 가장 먼저 발동된다. 또한, `on_ready()`는 연결이 끊겼다가 재생성 될 때 다시 호출될 수 있지만 `setup_hook()`는 봇 구동 시 **1회만** 호출된다.
+`setup_hook()`는 `on_ready()`와 비슷하면서도 다르다. `on_ready()`는 클라이언트가 디스코드와 **완전한 연결**을 생성했을 때 호출되는 이벤트지만, `setup_hook()`는 로그인 후 웹소켓에 연결하기 전에 호출되는 초기화 훅이다. 또한, `on_ready()`는 연결이 끊겼다가 재생성 될 때 다시 호출될 수 있지만 `setup_hook()`는 봇 구동 시 **1회만** 호출된다.
 
-![](/assets/img/discord%20bot/4_4.png)
+![2. 명령어 Sync 해주기 — 화면 예시](/assets/img/discord%20bot/4_4.png)
 
-터미널 메시지를 보면 연결이 끊겼다가 재생성 됐을 때 `on_ready()`가 다시 발동하는 것을 확인할 수 있다. 그러니 최초 1회에 한해 무언가를 하게 시키고 싶다면 `on_ready()` 대신에 `seteup_hook()` 이벤트를 활용하자.
+터미널 메시지를 보면 연결이 끊겼다가 재생성 됐을 때 `on_ready()`가 다시 발동하는 것을 확인할 수 있다. 그러니 최초 1회에 한해 무언가를 하게 시키고 싶다면 `on_ready()` 대신에 `setup_hook()` 초기화 훅를 활용하자.
 
-봇이 자동으로 `tree`를 동기화하지 않고 싶지 않다면 이벤트 대신 명령어로 만들어도 된다.
+봇이 자동으로 `tree`를 동기화하지 않게 하고 싶다면 이벤트 대신 명령어로 만들어도 된다.
 
 ```python
 ADMIN = int(os.getenv('ADMIN_ID'))
@@ -117,7 +126,7 @@ async def sync(ctx):
 
 일반 사용자가 액세스하지 못하도록 명령어를 입력한 사용자가 `.env`에서 지정한 **관리자**인지 확인하게 했고, Slash Command가 아니라 **일반 명령어**로 설정해서 일반 사용자들에게 보이지 않게 했다. 이러면 봇 구동 시 자동으로 동기화가 이루어지는 것이 아니라 명령어를 입력하여 **수동**으로 동기화를 진행한다.
 
-<img src="/assets/img/discord bot/4_5.png" alt="4_5" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/4_5.png" alt="2. 명령어 Sync 해주기 — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 관리자 계정으로 명령어를 입력하니 동기화가 성공적으로 실행되지만, 권한이 없는 사용자는 걸러지는 모습이다. 사용자의 권한 및 길드 내 역할별로 사용할 수 있는 명령어를 설정하는 것은 다음에 더 자세히 다룰 것이다.
 
@@ -142,13 +151,13 @@ async def joined_user_menu(interaction: discord.Interaction, member: discord.Mem
 
 Slash Command에서 argument로 조회할 멤버를 입력해야 했던 것과 달리, User Command는 처음부터 특정 사용자를 선택해 실행하는 거라 별도로 입력해 주어야 할 내용은 없다.
 
-![](/assets/img/discord%20bot/4_6.png)
+![User Command — 화면 예시](/assets/img/discord%20bot/4_6.png)
 
 이제 원하는 멤버의 아바타를 **우클릭**(모바일에서는 아바타 터치)하면 <kbd>앱</kbd> 안에 방금 추가한 <kbd>참가일</kbd> 기능이 있는 것을 볼 수 있다.
 
-<img src="/assets/img/discord bot/4_7.png" alt="4_7" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/4_7.png" alt="User Command — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
-명령어로 하던 것과 똑같게 잘 출력된다. 참가일 조회 Slash Command랑 User Command에 쓴 코드가 일치하지만, 아쉽게도 다수의 Application Command에 하나의 함수를 돌려쓰는 선택지는 없는 듯하다.
+명령어로 하던 것과 똑같게 잘 출력된다. 참가일 조회 Slash Command랑 User Command에 쓴 코드가 일치하지만, 공통 처리 내용을 별도의 비동기 함수로 분리하면 여러 명령어에서 재사용할 수 있다.
 
 마지막으로 Message Command를 만들어 보자. `@bot.tree.context_menu`를 사용하는 것은 User Command와 동일하지만, parameter에서 `discord.Member` 대신 `discord.Message`로 설정해 주어야 한다.
 
@@ -162,11 +171,11 @@ async def joined(interaction: discord.Interaction, message: discord.Message):
 
 간단하게 메시지의 글자 수를 세는 기능을 만들었다. `message.content`로 메시지의 내용을 가져와 `len()`으로 글자 수를 확인한다.
 
-![](/assets/img/discord%20bot/4_8.png)
+![User Command — 화면 예시](/assets/img/discord%20bot/4_8.png)
 
 글자 수를 확인할 메시지를 **우클릭**(모바일에서는 메시지 길게 터치)하고 <kbd>앱</kbd>에서 <kbd>글자 수</kbd>를 선택해 준다.
 
-<img src="/assets/img/discord bot/4_9.png" alt="4_9" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+<img src="/assets/img/discord bot/4_9.png" alt="User Command — 화면 예시" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
 
 선택한 메시지의 공백 포함 글자 수와 공백 제외 글자 수가 정상적으로 출력됐다.
 

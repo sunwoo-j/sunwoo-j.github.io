@@ -13,22 +13,32 @@
   {%- endif -%}
   {{ seo_tags }}
   {% include document-title.html %}
+  {% if page.translation_url %}
+  <link rel="alternate" hreflang="ko" href="{{ page.url | absolute_url }}">
+  <link rel="alternate" hreflang="en" href="{{ page.translation_url | absolute_url }}">
+  {% elsif page.original_url %}
+  <link rel="alternate" hreflang="ko" href="{{ page.original_url | absolute_url }}">
+  <link rel="alternate" hreflang="en" href="{{ page.url | absolute_url }}">
+  {% endif %}
   {% include favicons.html %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/lily.css' | relative_url }}">
+  {% include language-data.html %}
+  <script src="{{ '/assets/js/language.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/lily.js' | relative_url }}" defer></script>
 </head>
 <body id="top">
-  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+  <a class="skip-link" href="#main"><span data-i18n="skip">본문으로 건너뛰기</span></a>
   <header class="site-header">
-    <a href="{{ '/' | relative_url }}" class="brand" aria-label="Sunwoo Jung 홈"><span class="brand-mark" aria-hidden="true">{% include lily-symbol.html %}</span><span>SUNWOO<br>JUNG<span class="orange">.</span></span></a>
-    <a class="header-note mono" href="{{ '/' | relative_url }}#about">AN INDEPENDENT MIND.<br>ALWAYS IN PROGRESS.</a>
-    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" type="button">MENU <span aria-hidden="true">+</span></button>
-    <nav id="main-nav" aria-label="메인 메뉴"><a href="{{ '/' | relative_url }}#work">WORK <span>01</span></a><a href="{{ '/journal/' | relative_url }}">JOURNAL <span>02</span></a><a href="{{ '/' | relative_url }}#about">ABOUT <span>03</span></a><a class="nav-contact" href="{{ '/' | relative_url }}#contact">SAY HELLO <span aria-hidden="true">{% include lily-arrow.html direction='up-right' %}</span></a></nav>
+    <a href="{{ '/' | relative_url }}" class="brand" aria-label="Sunwoo Jung 홈" data-i18n-aria-label="homeLabel"><span class="brand-mark" aria-hidden="true">{% include lily-symbol.html %}</span><span>SUNWOO<br>JUNG<span class="orange">.</span></span></a>
+    <a class="header-note mono" href="{{ '/' | relative_url }}#about"><span data-i18n="headerNote">스스로 생각하고,<br>꾸준히 만들어 갑니다.</span></a>
+    {% include language-switch.html %}
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" type="button"><span data-i18n="menu">메뉴</span> <span aria-hidden="true">+</span></button>
+    <nav id="main-nav" aria-label="메인 메뉴" data-i18n-aria-label="navLabel"><a href="{{ '/' | relative_url }}#work"><span data-i18n="navWork">작업 <span>01</span></span></a><a href="{{ '/journal/' | relative_url }}"><span data-i18n="navJournal">기록 <span>02</span></span></a><a href="{{ '/' | relative_url }}#about"><span data-i18n="navAbout">소개 <span>03</span></span></a><a class="nav-contact" href="{{ '/' | relative_url }}#contact"><span data-i18n="hello">연락하기</span> <span aria-hidden="true">{% include lily-arrow.html direction='up-right' %}</span></a></nav>
   </header>
   <main id="main">{{ content }}</main>
-  <footer class="site-footer"><a class="footer-brand" href="{{ '/' | relative_url }}">SUNWOO JUNG<span class="orange">.</span></a><span class="mono">© {{ 'now' | date: '%Y' }} · MADE OF CURIOSITY.</span><div class="footer-links"><a href="https://github.com/sunwoo-j">GITHUB {% include lily-arrow.html direction='up-right' %}</a><a href="https://www.linkedin.com/in/sunwoojung">LINKEDIN {% include lily-arrow.html direction='up-right' %}</a><a href="#top" aria-label="맨 위로">BACK TO TOP {% include lily-arrow.html direction='up' %}</a><button class="motion-toggle" type="button" aria-pressed="false">MOTION: <span class="motion-state">ON</span></button></div></footer>
+  <footer class="site-footer"><a class="footer-brand" href="{{ '/' | relative_url }}">SUNWOO JUNG<span class="orange">.</span></a><span class="mono">© {{ 'now' | date: '%Y' }} · <span data-i18n="footerNote">호기심으로 만들어 갑니다.</span></span><div class="footer-links"><a href="https://github.com/sunwoo-j">GITHUB {% include lily-arrow.html direction='up-right' %}</a><a href="https://www.linkedin.com/in/sunwoojung">LINKEDIN {% include lily-arrow.html direction='up-right' %}</a><a href="#top" aria-label="맨 위로" data-i18n-aria-label="topLabel"><span data-i18n="backTop">맨 위로</span> {% include lily-arrow.html direction='up' %}</a><button class="motion-toggle" type="button" aria-pressed="false"><span data-i18n="motion">애니메이션:</span> <span class="motion-state">ON</span></button></div></footer>
 </body>
 </html>
