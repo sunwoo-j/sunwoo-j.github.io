@@ -132,10 +132,16 @@ html[lang=ko] .contact-title h2 [data-i18n]{font-size:.75em}
 .portfolio-shot--detail{grid-column:span 5}
 .portfolio-shot--compact{grid-column:span 4;max-width:360px}
 .portfolio-shot img{display:block;width:100%;height:auto}
-.portfolio-shot figcaption{padding:10px 12px;font-size:12px;line-height:1.5;color:var(--paper);border-top:1px solid var(--line)}
+.portfolio-stack{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 24px;margin-top:clamp(28px,5vw,56px)}
+.portfolio-stack-group{display:flex;list-style:none;margin:0;padding:0}
+.portfolio-stack-logo{display:grid;place-items:center;width:46px;aspect-ratio:1;border:2px solid var(--ink);border-radius:50%;background:var(--paper)}
+.portfolio-stack-logo+.portfolio-stack-logo{margin-inline-start:-7px}
+.portfolio-stack-logo img{display:block;width:25px;height:25px;object-fit:contain}
 @media(max-width:600px){
   .portfolio-page .page-title{font-size:clamp(48px,16vw,100px)}
   .portfolio-shot--feature{grid-column:1 / -1}
   .portfolio-shot--wide,.portfolio-shot--detail,.portfolio-shot--compact{grid-column:span 6}
-  .portfolio-shot figcaption{padding:8px;font-size:11px}
+  .portfolio-stack{gap:10px 14px}
+  .portfolio-stack-logo{width:40px}
+  .portfolio-stack-logo img{width:22px;height:22px}
 }

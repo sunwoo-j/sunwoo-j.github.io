@@ -17,6 +17,18 @@ def read(path):
 def write(path, metadata, body):
     path.write_text('---\n' + yaml.safe_dump(metadata, allow_unicode=True, sort_keys=False) + '---\n' + body, encoding='utf-8')
 
+def publication_date(metadata):
+    return date.fromisoformat(str(metadata['date'])[:10])
+
+def is_public_devlog(metadata):
+    tags = {tag.strip().casefold() for tag in metadata.get('tags', [])}
+    # Older Mechureal announcements lived in the devlog directory.
+    return (
+        not metadata.get('draft')
+        and not tags.intersection({'announcement', 'announcements'})
+        and publication_date(metadata) <= datetime.now(timezone.utc).date()
+    )
+
 def optional_figure(match):
     figure = match.group()
     image = re.search(r'data-optional-src=(["\'])(/images/[^"\']+)\1', figure)
@@ -29,13 +41,13 @@ def optional_figure(match):
 
 for path in sorted((source / 'src/content/devlog/ko').glob('*.md')):
     ko, body = read(path)
-    published = ko['date'] if isinstance(ko['date'], date) else date.fromisoformat(str(ko['date'])[:10])
-    if ko.get('draft') or published > datetime.now(timezone.utc).date():
+    if not is_public_devlog(ko):
         continue
+    published = publication_date(ko)
     slug = ko['slug']
     en_path = source / 'src/content/devlog/en' / path.name
     en, en_body = read(en_path) if en_path.exists() else (None, None)
-    if en and (en.get('draft') or date.fromisoformat(str(en['date'])[:10]) > datetime.now(timezone.utc).date()):
+    if en and not is_public_devlog(en):
         en, en_body = None, None
     name = 'mechureal-devlog-' + slug
     original = '/posts/' + name + '/'

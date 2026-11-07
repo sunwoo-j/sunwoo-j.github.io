@@ -1,0 +1,25 @@
+- - { icon: python, name: Python }
+  - { icon: csharp, name: 'C#' }
+  - { icon: java, name: Java }
+  - { icon: javascript, name: JavaScript }
+- - { icon: html5, name: HTML5 }
+  - { icon: css3, name: CSS3 }
+  - { icon: nodejs, name: Node.js }
+- - { icon: mysql, name: MySQL }
+  - { icon: postgresql, name: PostgreSQL }
+  - { icon: sqlite, name: SQLite }
+  - { icon: mongodb, name: MongoDB }
+- - { icon: git, name: Git }
+  - { icon: github, name: GitHub }
+- - { icon: vscode, name: Visual Studio Code }
+  - { icon: pycharm, name: PyCharm }
+  - { icon: intellij, name: IntelliJ IDEA }
+  - { icon: unity, name: Unity }
+- - { icon: blender, name: Blender }
+  - { icon: photoshop, name: Adobe Photoshop }
+  - { icon: premierepro, name: Adobe Premiere Pro }
+  - { icon: aftereffects, name: Adobe After Effects }
+  - { icon: animate, name: Adobe Animate }
+- - { icon: word, name: Microsoft Word }
+  - { icon: excel, name: Microsoft Excel }
+  - { icon: powerpoint, name: Microsoft PowerPoint }
