@@ -44,8 +44,8 @@ OSM의 기본 요소는 점인 <strong>노드(node)</strong>, 점들을 순서�
 
 이 글에서는 이 중에서 도로의 연결과 건물의 윤곽에 집중한다. 도시의 기본 배치를 정하는 데 필요한 정보이기 때문이다.
 
-<figure class="optional-image" hidden>
-  <img data-optional-src="https://mechureal.github.io/images/devlog/osm-to-unity/osm-points-and-outlines.png" alt="점을 연결한 도로와 닫힌 선으로 표현한 건물 외곽선을 보여 주는 개념도" />
+<figure class="optional-image">
+  <img src="https://mechureal.github.io/images/devlog/osm-to-unity/osm-points-and-outlines.png" alt="점을 연결한 도로와 닫힌 선으로 표현한 건물 외곽선을 보여 주는 개념도" />
   <figcaption>점과 선으로 나타낸 도로와 건물 윤곽의 개념도.</figcaption>
 </figure>
 
@@ -57,8 +57,8 @@ OSM의 위치는 위도와 경도로 기록된다. 반면 Unity에서는 기준�
 
 예를 들어 기준점에서 동쪽으로 100미터, 북쪽으로 50미터 떨어진 지점은 높이를 0으로 가정하면 `(100, 0, 50)`으로 표현할 수 있다. 위도·경도의 숫자를 그대로 Unity에 넣는 것과는 다르다. 특히 경도 1도에 해당하는 거리는 위도에 따라 달라지므로 단순히 같은 숫자를 곱해서는 안 된다.
 
-<figure class="optional-image" hidden>
-  <img data-optional-src="https://mechureal.github.io/images/devlog/osm-to-unity/local-coordinate-example.png" alt="원점에서 동쪽 100미터, 북쪽 50미터인 지점을 Unity 좌표 (100, 0, 50)으로 나타낸 개념도" />
+<figure class="optional-image">
+  <img src="https://mechureal.github.io/images/devlog/osm-to-unity/local-coordinate-example.png" alt="원점에서 동쪽 100미터, 북쪽 50미터인 지점을 Unity 좌표 (100, 0, 50)으로 나타낸 개념도" />
   <figcaption>기준점에서 떨어진 거리를 미터 단위의 게임 좌표로 표현한 개념도.</figcaption>
 </figure>
 
@@ -80,8 +80,8 @@ Unity에서는 먼저 파일을 읽고, 이를 편집 가능한 게임 지도 �
 
 여기서 기본값으로 채운 높이는 실제 건물을 측정한 값이 아니다. 지도에서 가져온 정보와 게임을 위해 보충한 값을 구분해야 하는 이유다. 외벽의 재질이나 창문 배치도 윤곽만으로는 알 수 없으므로 별도의 표현 규칙이 필요하다.
 
-<figure class="optional-image" hidden>
-  <img data-optional-src="https://mechureal.github.io/images/devlog/osm-to-unity/unity-outlines-and-meshes.png" alt="Unity에서 건물 외곽선과 이를 바탕으로 생성한 입체 건물을 나란히 비교한 모습" />
+<figure class="optional-image">
+  <img src="https://mechureal.github.io/images/devlog/osm-to-unity/unity-outlines-and-meshes.png" alt="Unity에서 건물 외곽선과 이를 바탕으로 생성한 입체 건물을 나란히 비교한 모습" />
   <figcaption>건물 외곽선과 이를 바탕으로 생성한 입체 건물.</figcaption>
 </figure>
 

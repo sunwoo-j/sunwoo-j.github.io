@@ -52,8 +52,8 @@ Caption: Connected points trace roads; closed outlines describe the space occupi
 Preparation guide: docs/devlog/osm-to-unity-images.md
 -->
 
-<figure class="optional-image" hidden>
-  <img data-optional-src="https://mechureal.github.io/images/devlog/osm-to-unity/osm-points-and-outlines.png" alt="A concept diagram showing a road as connected points and a building footprint as a closed outline" />
+<figure class="optional-image">
+  <img src="https://mechureal.github.io/images/devlog/osm-to-unity/osm-points-and-outlines.png" alt="A concept diagram showing a road as connected points and a building footprint as a closed outline" />
   <figcaption>A conceptual diagram of roads and building footprints as points and lines.</figcaption>
 </figure>
 
@@ -73,8 +73,8 @@ Caption: Distances in meters from a reference point become positions in the game
 Preparation guide: docs/devlog/osm-to-unity-images.md
 -->
 
-<figure class="optional-image" hidden>
-  <img data-optional-src="https://mechureal.github.io/images/devlog/osm-to-unity/local-coordinate-example.png" alt="A concept diagram placing a point 100 meters east and 50 meters north at Unity coordinates (100, 0, 50)" />
+<figure class="optional-image">
+  <img src="https://mechureal.github.io/images/devlog/osm-to-unity/local-coordinate-example.png" alt="A concept diagram placing a point 100 meters east and 50 meters north at Unity coordinates (100, 0, 50)" />
   <figcaption>A conceptual example of distances from an origin expressed as game coordinates.</figcaption>
 </figure>
 
@@ -104,8 +104,8 @@ Caption: Adding width and height turns lines and outlines into road surfaces and
 Preparation guide: docs/devlog/osm-to-unity-images.md
 -->
 
-<figure class="optional-image" hidden>
-  <img data-optional-src="https://mechureal.github.io/images/devlog/osm-to-unity/unity-outlines-and-meshes.png" alt="Side-by-side Unity views of building outlines and the buildings generated from them" />
+<figure class="optional-image">
+  <img src="https://mechureal.github.io/images/devlog/osm-to-unity/unity-outlines-and-meshes.png" alt="Side-by-side Unity views of building outlines and the buildings generated from them" />
   <figcaption>Building outlines and the buildings generated from them.</figcaption>
 </figure>
 

@@ -17,6 +17,16 @@ def read(path):
 def write(path, metadata, body):
     path.write_text('---\n' + yaml.safe_dump(metadata, allow_unicode=True, sort_keys=False) + '---\n' + body, encoding='utf-8')
 
+def optional_figure(match):
+    figure = match.group()
+    image = re.search(r'data-optional-src=(["\'])(/images/[^"\']+)\1', figure)
+    if not image:
+        return figure
+    if not (source / 'public' / image[2].lstrip('/')).is_file():
+        return ''
+    figure = re.sub(r'(<figure\b[^>]*?)\s+hidden(?=[\s>])', r'\1', figure, count=1)
+    return figure.replace('data-optional-src=', 'src=', 1)
+
 for path in sorted((source / 'src/content/devlog/ko').glob('*.md')):
     ko, body = read(path)
     published = ko['date'] if isinstance(ko['date'], date) else date.fromisoformat(str(ko['date'])[:10])
@@ -31,7 +41,8 @@ for path in sorted((source / 'src/content/devlog/ko').glob('*.md')):
     original = '/posts/' + name + '/'
     translated = '/en/posts/' + name + '/'
     def content(text, lang):
-        text = re.sub(r'(?P<prefix>(?:src|href|data-optional-src)=["\'])/', r'\g<prefix>' + base + '/', text)
+        text = re.sub(r'<figure\b[^>]*>.*?</figure>', optional_figure, text, flags=re.S)
+        text = re.sub(r'(?P<prefix>(?:src|href)=["\'])/', r'\g<prefix>' + base + '/', text)
         text = re.sub(r'(?<=\]\()/', base + '/', text)
         label = '메추리알 원문 보기' if lang == 'ko' else 'Read the original on Mechureal'
         return '\n> [' + label + '](' + base + '/' + lang + '/devlog/' + slug + '/)\n' + text
