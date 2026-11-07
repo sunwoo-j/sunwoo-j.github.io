@@ -10,8 +10,20 @@ image: /assets/img/tiger-lily/social-preview.png
   <div class="hero-top mono" data-i18n="heroKicker">게임 개발과 디자인</div>
   <h1 id="hero-title"><span>SUNWOO</span><span class="surname">JUNG<span class="orange">.</span></span></h1>
   <div class="hero-art"><img src="{{ '/assets/img/tiger-lily/hero.webp' | relative_url }}" alt="검은 반점이 있는 선명한 형광 주황색 타이거 릴리" data-i18n-alt="heroAlt" width="1254" height="1254" fetchpriority="high"></div>
-  <div class="hero-bottom"><a class="round-link" href="{{ '/portfolio/' | relative_url }}"><span><span data-i18n="explore">포트폴리오 보기</span></span><span class="circle" aria-hidden="true">{% include lily-arrow.html direction='down-right' %}</span></a></div>
+  <div class="hero-bottom"><a class="round-link" href="#work"><span><span data-i18n="explore">작업 살펴보기</span></span><span class="circle" aria-hidden="true">{% include lily-arrow.html direction='down-right' %}</span></a></div>
 </section>
+
+<div class="ticker" lang="en" aria-label="Play. Make. Repeat.">
+  <div class="ticker-track" aria-hidden="true">
+    {% for group in (1..2) %}
+    <div class="ticker-group">
+      {% for i in (1..4) %}
+      <span>PLAY. MAKE. REPEAT.</span><span class="ticker-star">{% include lily-symbol.html %}</span>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
 
 <section class="intro section-pad" id="about" aria-labelledby="about-title">
   <h2 id="about-title" lang="en">ABOUT<span class="orange">.</span></h2>
