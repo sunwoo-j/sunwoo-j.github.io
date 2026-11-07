@@ -107,16 +107,15 @@ html{scroll-padding-top:0}
 .intro-symbol .lily-symbol{transition:transform .25s ease}
 .intro-symbol .lily-symbol:hover{transform:scale(1.08)}
 
-/* Keep the language toggle beside the menu on small screens. */
-.header-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.site-header nav{margin-left:auto}
-.language-switch{min-width:56px;min-height:40px;padding:6px 8px;border:1px solid #55554b;border-radius:4px;background:transparent;color:var(--paper);font:600 11px var(--body);cursor:pointer}
+/* Keep the navigation and language toggle together at the right edge. */
+.header-actions{display:flex;align-items:center;gap:clamp(12px,2vw,24px);flex-shrink:0;margin-inline-start:auto}
+.language-switch{appearance:none;min-width:56px;min-height:40px;padding:6px 8px;border:1px solid #55554b;border-radius:4px;background:transparent;color:var(--paper);font:600 11px var(--body);cursor:pointer}
 .language-switch:hover{color:var(--orange);border-color:var(--orange)}
 .translation-notice{max-width:772px;margin:30px auto 0;padding:16px 24px;border-left:3px solid var(--orange);color:var(--muted);font-size:14px;line-height:1.7}
 html[lang=ko] h2 [data-i18n],html[lang=ko] .page-title [data-i18n]{font-family:var(--body);font-size:.65em;line-height:1.25;letter-spacing:-.06em}
 html[lang=ko] .project-overlay strong [data-i18n]{font-family:var(--body);font-size:.75em;line-height:1.15}
 html[lang=ko] .contact-title h2 [data-i18n]{font-size:.75em}
-@media(max-width:700px){.site-header{gap:12px}.menu-toggle{gap:8px;padding:8px 10px}.menu-toggle [data-i18n]{font-size:11px;color:inherit}.translation-notice{margin-left:24px;margin-right:24px}}
+@media(max-width:700px){.site-header{gap:12px}.header-actions{gap:8px}.menu-toggle{gap:8px;padding:8px 10px}.menu-toggle [data-i18n]{font-size:11px;color:inherit}.translation-notice{margin-left:24px;margin-right:24px}}
 .hero-bottom{justify-content:flex-end}
 .contact-bottom{justify-content:flex-end}
 
