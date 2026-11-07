@@ -33,12 +33,13 @@
   <a class="skip-link" href="#main"><span data-i18n="skip">본문으로 건너뛰기</span></a>
   <header class="site-header">
     <a href="{{ '/' | relative_url }}" class="brand" aria-label="Sunwoo Jung 홈" data-i18n-aria-label="homeLabel"><span class="brand-mark" aria-hidden="true">{% include lily-symbol.html %}</span><span>SUNWOO<br>JUNG<span class="orange">.</span></span></a>
-    <a class="header-note mono" href="{{ '/' | relative_url }}#about"><span data-i18n="headerNote">스스로 생각하고,<br>꾸준히 만들어 갑니다.</span></a>
-    {% include language-switch.html %}
-    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" type="button"><span data-i18n="menu">메뉴</span> <span aria-hidden="true">+</span></button>
-    <nav id="main-nav" aria-label="메인 메뉴" data-i18n-aria-label="navLabel"><a href="{{ '/' | relative_url }}#work"><span data-i18n="navWork">작업 <span>01</span></span></a><a href="{{ '/journal/' | relative_url }}"><span data-i18n="navJournal">기록 <span>02</span></span></a><a href="{{ '/' | relative_url }}#about"><span data-i18n="navAbout">소개 <span>03</span></span></a><a class="nav-contact" href="{{ '/' | relative_url }}#contact"><span data-i18n="hello">연락하기</span> <span aria-hidden="true">{% include lily-arrow.html direction='up-right' %}</span></a></nav>
+    <nav id="main-nav" aria-label="메인 메뉴" data-i18n-aria-label="navLabel"><a href="{{ '/portfolio/' | relative_url }}"><span data-i18n="navWork">포트폴리오 <span>01</span></span></a><a href="{{ '/journal/' | relative_url }}"><span data-i18n="navJournal">기록 <span>02</span></span></a><a href="{{ '/' | relative_url }}#about"><span data-i18n="navAbout">소개 <span>03</span></span></a><a class="nav-contact" href="{{ '/' | relative_url }}#contact"><span data-i18n="hello">문의</span> <span aria-hidden="true">{% include lily-arrow.html direction='up-right' %}</span></a></nav>
+    <div class="header-actions">
+      {% include language-switch.html %}
+      <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" type="button"><span data-i18n="menu">메뉴</span> <span aria-hidden="true">+</span></button>
+    </div>
   </header>
   <main id="main">{{ content }}</main>
-  <footer class="site-footer"><a class="footer-brand" href="{{ '/' | relative_url }}">SUNWOO JUNG<span class="orange">.</span></a><span class="mono">© {{ 'now' | date: '%Y' }} · <span data-i18n="footerNote">호기심으로 만들어 갑니다.</span></span><div class="footer-links"><a href="https://github.com/sunwoo-j">GITHUB {% include lily-arrow.html direction='up-right' %}</a><a href="https://www.linkedin.com/in/sunwoojung">LINKEDIN {% include lily-arrow.html direction='up-right' %}</a><a href="#top" aria-label="맨 위로" data-i18n-aria-label="topLabel"><span data-i18n="backTop">맨 위로</span> {% include lily-arrow.html direction='up' %}</a><button class="motion-toggle" type="button" aria-pressed="false"><span data-i18n="motion">애니메이션:</span> <span class="motion-state">ON</span></button></div></footer>
+  <footer class="site-footer"><a class="footer-brand" href="{{ '/' | relative_url }}">SUNWOO JUNG<span class="orange">.</span></a><span class="mono">© {{ 'now' | date: '%Y' }}</span><div class="footer-links"><a href="https://github.com/sunwoo-j">GITHUB {% include lily-arrow.html direction='up-right' %}</a><a href="https://www.linkedin.com/in/sunwoojung">LINKEDIN {% include lily-arrow.html direction='up-right' %}</a><a href="#top" aria-label="맨 위로" data-i18n-aria-label="topLabel"><span data-i18n="backTop">맨 위로</span> {% include lily-arrow.html direction='up' %}</a><button class="motion-toggle" type="button" aria-pressed="false"><span data-i18n="motion">애니메이션:</span> <span class="motion-state">ON</span></button></div></footer>
 </body>
 </html>

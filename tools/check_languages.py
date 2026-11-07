@@ -46,7 +46,7 @@ def resolve(url, source):
         target /= 'index.html'
     return target.resolve(), unquote(parsed.fragment)
 
-paths = [SITE / 'index.html', SITE / 'journal/index.html', SITE / 'about/index.html']
+paths = [SITE / 'index.html', SITE / 'journal/index.html', SITE / 'portfolio/index.html', SITE / 'about/index.html']
 paths += sorted((SITE / 'posts').glob('*/index.html'))
 paths += sorted((SITE / 'en').rglob('index.html'))
 pages = {p.resolve(): Page(p) for p in paths}
@@ -74,6 +74,8 @@ for post in (ROOT / '_posts').glob('*.md'):
     slug = post.stem[11:]
     translation = ROOT / '_translations' / f'{slug}.md'
     original = post.read_text(encoding='utf-8')
+    if not translation.exists() and 'mechureal-devlog-' in slug:
+        continue  # A Mechureal post may not have a published translation yet.
     english = translation.read_text(encoding='utf-8')
     codes = lambda s: re.findall(r'```[^\n]*\n.*?```', s, re.S)
     if codes(original) != codes(english):
@@ -85,7 +87,7 @@ for post in (ROOT / '_posts').glob('*.md'):
 
 dictionary = (ROOT / '_includes/language-data.html').read_text(encoding='utf-8')
 dictionary = json.loads(dictionary[dictionary.index('{'):dictionary.rindex('}')+1])
-for p in [ROOT / 'index.html', ROOT / 'journal.html', *ROOT.glob('_layouts/lily*.html')]:
+for p in [ROOT / 'index.html', ROOT / 'journal.html', ROOT / 'portfolio.html', *ROOT.glob('_layouts/lily*.html')]:
     for key in re.findall(r'data-i18n(?:-aria-label|-placeholder|-alt)?="([^"]+)"', p.read_text(encoding='utf-8')):
         if key not in dictionary or set(dictionary[key]) != {'ko', 'en'}:
             errors.append(f'{p.name}: missing translation key {key}')

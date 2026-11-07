@@ -36,3 +36,7 @@ Final prompt:
 ## Cleanup
 
 Unused Chirpy home/post layouts and their exclusive sharing, reading-time, related-post, post-navigation, and pagination fragments were removed. Existing category, tag, archive, and about routes still use Chirpy, so their templates, styles, scripts, and build dependencies remain. The uncompressed hero duplicate and local build log were removed; social previews use the same WebP as the homepage. Journal lists all posts, so legacy homepage pagination is disabled. The supplied logo source and Markdown drafts are retained for editing.
+
+## Mechureal devlog synchronization
+
+The Pages workflow checks out the public Mechureal repository and runs `python tools/sync_mechureal.py <mechureal-checkout>` before building. It runs daily and on personal-site pushes; published Korean Markdown devlogs and available English translations are mirrored with links to their originals. Drafts and future-dated posts are excluded. Images remain hosted on Mechureal. Run the same command locally (with PyYAML installed) after updating that checkout. MDX posts require conversion to Markdown before they can be mirrored.

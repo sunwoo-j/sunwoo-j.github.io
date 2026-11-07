@@ -4,6 +4,7 @@
   if (!data) return;
   const messages = JSON.parse(data.textContent);
   const supported = ['ko', 'en'];
+  const languageButton = document.querySelector('.language-switch');
   const translate = (key, language) => messages[key]?.[language];
   const pageLanguage = document.documentElement.lang === 'en' ? 'en' : 'ko';
   let language = pageLanguage;
@@ -25,6 +26,7 @@
     if (destination && language !== pageLanguage) {
       const url = new URL(new URL(destination).pathname, location.origin);
       url.search = location.search;
+      url.hash = location.hash;
       url.searchParams.set('lang', language);
       if (persist) {
         try { localStorage.setItem('site-language', language); } catch { /* Optional storage. */ }
@@ -44,10 +46,13 @@
         if (value !== undefined) element.setAttribute(attribute, value);
       });
     });
-    document.querySelectorAll('[data-language]').forEach(button => {
-      button.setAttribute('aria-pressed', String(button.dataset.language === language));
-    });
-    document.querySelectorAll('.language-switch').forEach(group => { group.hidden = false; });
+    if (languageButton) {
+      const toEnglish = language === 'ko';
+      languageButton.textContent = toEnglish ? 'EN' : '한국어';
+      languageButton.lang = toEnglish ? 'en' : 'ko';
+      languageButton.setAttribute('aria-label', toEnglish ? 'Switch to English' : '한국어로 전환');
+      languageButton.hidden = false;
+    }
     document.querySelectorAll('[data-title-ko]').forEach(element => {
       element.textContent = element.getAttribute(`data-title-${language}`);
       element.lang = language;
@@ -81,8 +86,8 @@
     get current() { return language; },
     text(key) { return translate(key, language); }
   };
-  document.querySelectorAll('[data-language]').forEach(button => {
-    button.addEventListener('click', () => applyLanguage(button.dataset.language, true));
+  languageButton?.addEventListener('click', () => {
+    applyLanguage(language === 'ko' ? 'en' : 'ko', true);
   });
   // Giscus may finish loading after the first language application.
   window.addEventListener('message', event => {

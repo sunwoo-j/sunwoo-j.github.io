@@ -10,6 +10,8 @@ on:
       - LICENSE
 
   # Allows you to run this workflow manually from the Actions tab
+  schedule:
+    - cron: '17 2 * * *'
   workflow_dispatch:
 
 permissions:
@@ -34,6 +36,18 @@ jobs:
           # submodules: true
           # If using the 'assets' git submodule from Chirpy Starter, uncomment above
           # (See: https://github.com/cotes2020/chirpy-starter/tree/main/assets)
+
+      - name: Checkout Mechureal devlogs
+        uses: actions/checkout@v4
+        with:
+          repository: Mechureal/mechureal.github.io
+          path: .mechureal-source
+
+      - name: Sync published devlogs
+        run: |
+          python -m pip install PyYAML==6.0.2
+          python tools/sync_mechureal.py .mechureal-source
+          rm -rf .mechureal-source
 
       - name: Setup Pages
         id: pages

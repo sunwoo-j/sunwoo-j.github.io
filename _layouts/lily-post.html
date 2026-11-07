@@ -2,7 +2,7 @@
 layout: lily
 ---
 <article class="article-page">
-  <header class="article-header section-pad"><a class="text-link" href="{{ '/journal/' | relative_url }}">{% include lily-arrow.html direction='left' %} <span data-i18n="backJournal">글 목록으로</span></a><div class="article-meta mono"><span>{{ page.categories | join: ' / ' }}</span><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y.%m.%d' }}</time></div><h1>{{ page.title }}</h1>{% if page.description %}<p class="page-description">{{ page.description }}</p>{% endif %}<p class="byline mono"><span data-i18n="byline">글 · 정선우</span></p></header>
+  <header class="article-header section-pad"><a class="text-link" href="{{ '/journal/' | relative_url }}">{% include lily-arrow.html direction='left' %} <span data-i18n="backJournal">글 목록으로</span></a><div class="article-meta mono"><span>{{ page.categories | join: ' / ' }}</span><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y.%m.%d' }}</time></div><h1>{{ page.title }}</h1>{% if page.description %}<p class="page-description">{{ page.description }}</p>{% endif %}<p class="byline mono">{% if page.source_mechureal %}MECHUREAL · DEVLOG{% else %}<span data-i18n="byline">글 · 정선우</span>{% endif %}</p></header>
   {% if page.lang == 'en' and page.translation_key contains 'discord-bot' %}<p class="translation-notice">Code examples retain the original Korean command names, comments, and bot messages to match the screenshots.</p>{% endif %}
   <div class="article-body" lang="{{ page.lang | default: 'ko' }}">{{ content }}</div>
   {% if page.comments and site.comments.provider == 'giscus' %}
