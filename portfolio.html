@@ -11,30 +11,54 @@ permalink: /portfolio/
     <section class="portfolio-item" aria-labelledby="portfolioVR">
       <p class="portfolio-number mono">01 / VR</p>
       <h2 id="portfolioVR" data-i18n="portfolioVR">VR 열전달 햅틱 글러브</h2>
-      <p class="portfolio-description" data-i18n="portfolioVRCopy">Quest 2의 손 추적 데이터를 사용해 집기 동작과 가상 물체의 상호작용을 구현했습니다.</p>
+      <p class="portfolio-description" data-i18n="portfolioVRCopy">Quest 2에서 손가락과 손목의 위치를 실시간으로 받아 손의 움직임을 추적했습니다. 손가락을 오므리는 핀치와 손 전체로 쥐는 그랩 동작을 구분해 가상 물체를 집고 옮길 수 있게 했습니다. 데모 화면에는 손과 주변 물체의 온도를 함께 표시했습니다.</p>
       <div class="portfolio-gallery">
-        <img src="{{ '/assets/img/portfolio/vr-temperature.webp' | relative_url }}" width="936" height="529" alt="VR 장면에서 손과 음료 캔 옆에 표시된 온도" data-i18n-alt="portfolioAlt-vr-temperature" loading="lazy" decoding="async">
-        <img src="{{ '/assets/img/portfolio/vr-hand-tracking.webp' | relative_url }}" width="463" height="260" alt="불 가까이에서 손의 온도를 표시하는 VR 장면" data-i18n-alt="portfolioAlt-vr-hand-tracking" loading="lazy" decoding="async">
+        <figure class="portfolio-shot portfolio-shot--feature">
+          <img src="{{ '/assets/img/portfolio/vr-temperature.webp' | relative_url }}" width="936" height="529" alt="VR 장면에서 손과 음료 캔 옆에 표시된 온도" data-i18n-alt="portfolioAlt-vr-temperature" loading="lazy" decoding="async">
+          <figcaption data-i18n="portfolioCaption-vr-temperature">VR 온도 표시</figcaption>
+        </figure>
+        <figure class="portfolio-shot portfolio-shot--compact">
+          <img src="{{ '/assets/img/portfolio/vr-hand-tracking.webp' | relative_url }}" width="463" height="260" alt="불 가까이에서 손의 온도를 표시하는 VR 장면" data-i18n-alt="portfolioAlt-vr-hand-tracking" loading="lazy" decoding="async">
+          <figcaption data-i18n="portfolioCaption-vr-hand-tracking">불 근처에서 바뀌는 손 온도</figcaption>
+        </figure>
       </div>
     </section>
     <section class="portfolio-item" aria-labelledby="portfolioAR">
       <p class="portfolio-number mono">02 / AR</p>
       <h2 id="portfolioAR" data-i18n="portfolioAR">AR 구조물 부식 시각화</h2>
-      <p class="portfolio-description" data-i18n="portfolioARCopy">Unity와 AR Foundation으로 구조물에 부식 위험도를 색상으로 표시했습니다.</p>
+      <p class="portfolio-description" data-i18n="portfolioARCopy">구조물에 부착한 센서 데이터로 계산한 부식 위험도를 Unity의 3D 모델에 표시했습니다. AR Foundation으로 모델을 실제 구조물에 맞춰 겹치고, 위험도에 따라 초록색에서 빨간색으로 표시했습니다. HoloLens에서 실시간으로 표시할 수 있도록 모델과 셰이더를 최적화했습니다.</p>
       <div class="portfolio-gallery">
-        <img src="{{ '/assets/img/portfolio/ar-unity.webp' | relative_url }}" width="511" height="271" alt="Unity에서 확인한 구조물 시각화 모델" data-i18n-alt="portfolioAlt-ar-unity" loading="lazy" decoding="async">
-        <img src="{{ '/assets/img/portfolio/ar-overlay.webp' | relative_url }}" width="464" height="271" alt="실제 공간에 겹쳐 표시한 구조물 AR 모델" data-i18n-alt="portfolioAlt-ar-overlay" loading="lazy" decoding="async">
+        <figure class="portfolio-shot portfolio-shot--compact">
+          <img src="{{ '/assets/img/portfolio/ar-unity.webp' | relative_url }}" width="511" height="271" alt="Unity에서 확인한 구조물 시각화 모델" data-i18n-alt="portfolioAlt-ar-unity" loading="lazy" decoding="async">
+          <figcaption data-i18n="portfolioCaption-ar-unity">Unity의 구조물 모델</figcaption>
+        </figure>
+        <figure class="portfolio-shot portfolio-shot--compact">
+          <img src="{{ '/assets/img/portfolio/ar-overlay.webp' | relative_url }}" width="464" height="271" alt="실제 공간에 겹쳐 표시한 구조물 AR 모델" data-i18n-alt="portfolioAlt-ar-overlay" loading="lazy" decoding="async">
+          <figcaption data-i18n="portfolioCaption-ar-overlay">실제 공간에 띄운 AR 모델</figcaption>
+        </figure>
       </div>
     </section>
     <section class="portfolio-item" aria-labelledby="portfolioBlender">
       <p class="portfolio-number mono">03 / BLENDER</p>
       <h2 id="portfolioBlender" data-i18n="portfolioBlender">Blender 3D 작업</h2>
-      <p class="portfolio-description" data-i18n="portfolioBlenderCopy">실내 공간과 소품을 모델링하고 텍스처와 조명을 적용했습니다. 캐릭터 리깅도 작업했습니다.</p>
+      <p class="portfolio-description" data-i18n="portfolioBlenderCopy">실내 공간과 소품을 모델링한 뒤 UV를 펼쳐 텍스처를 칠하고, 셰이더 노드와 조명으로 재질과 공간을 표현했습니다. 캐릭터에는 뼈대를 만들어 리깅했고, 별도 작업에서 키프레임으로 동작을 제작했습니다.</p>
       <div class="portfolio-gallery">
-        <img src="{{ '/assets/img/portfolio/blender-library.webp' | relative_url }}" width="935" height="527" alt="높은 책장과 따뜻한 조명이 있는 3D 도서관" data-i18n-alt="portfolioAlt-blender-library" loading="lazy" decoding="async">
-        <img src="{{ '/assets/img/portfolio/blender-studio.webp' | relative_url }}" width="936" height="489" alt="테이블과 선반을 배치한 Blender 실내 장면" data-i18n-alt="portfolioAlt-blender-studio" loading="lazy" decoding="async">
-        <img src="{{ '/assets/img/portfolio/blender-bedroom.webp' | relative_url }}" width="883" height="460" alt="보라색 조명과 초승달 장식을 적용한 침실 모델" data-i18n-alt="portfolioAlt-blender-bedroom" loading="lazy" decoding="async">
-        <img src="{{ '/assets/img/portfolio/blender-rig.webp' | relative_url }}" width="885" height="460" alt="Blender에서 본 3D 캐릭터와 뼈대" data-i18n-alt="portfolioAlt-blender-rig" loading="lazy" decoding="async">
+        <figure class="portfolio-shot portfolio-shot--wide">
+          <img src="{{ '/assets/img/portfolio/blender-library.webp' | relative_url }}" width="935" height="527" alt="높은 책장과 따뜻한 조명이 있는 3D 도서관" data-i18n-alt="portfolioAlt-blender-library" loading="lazy" decoding="async">
+          <figcaption data-i18n="portfolioCaption-blender-library">도서관 렌더</figcaption>
+        </figure>
+        <figure class="portfolio-shot portfolio-shot--detail">
+          <img src="{{ '/assets/img/portfolio/blender-bedroom.webp' | relative_url }}" width="883" height="460" alt="보라색 조명과 초승달 장식을 적용한 침실 모델" data-i18n-alt="portfolioAlt-blender-bedroom" loading="lazy" decoding="async">
+          <figcaption data-i18n="portfolioCaption-blender-bedroom">침실의 재질과 조명</figcaption>
+        </figure>
+        <figure class="portfolio-shot portfolio-shot--wide">
+          <img src="{{ '/assets/img/portfolio/blender-studio.webp' | relative_url }}" width="936" height="489" alt="테이블과 선반을 배치한 Blender 실내 장면" data-i18n-alt="portfolioAlt-blender-studio" loading="lazy" decoding="async">
+          <figcaption data-i18n="portfolioCaption-blender-studio">실내 공간과 소품 모델링</figcaption>
+        </figure>
+        <figure class="portfolio-shot portfolio-shot--detail">
+          <img src="{{ '/assets/img/portfolio/blender-rig.webp' | relative_url }}" width="885" height="460" alt="Blender에서 본 3D 캐릭터와 뼈대" data-i18n-alt="portfolioAlt-blender-rig" loading="lazy" decoding="async">
+          <figcaption data-i18n="portfolioCaption-blender-rig">캐릭터 뼈대와 리깅</figcaption>
+        </figure>
       </div>
     </section>
   </div>
