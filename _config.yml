@@ -71,10 +71,6 @@ analytics:
   cloudflare:
     id: # fill in your Cloudflare Web Analytics token
 
-# Pageviews settings
-pageviews:
-  provider: goatcounter
-
 # Prefer color scheme setting.
 #
 # Note: Keep empty will follow the system prefer color by default,
@@ -101,9 +97,6 @@ avatar: /assets/img/mechuri_animated.gif
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
 social_preview_image: # string, local or CORS resources
-
-# boolean type, the global switch for TOC in posts.
-toc: true
 
 comments:
   # Global switch for the post comment system. Keeping it empty means disabled.
@@ -178,7 +171,6 @@ defaults:
     values:
       layout: lily-post
       comments: true # Enable comments in posts.
-      toc: true # Display TOC column in posts.
       # DO NOT modify the following parameter unless you are confident enough
       # to update the code of all other post links in this project.
       permalink: /posts/:title/
@@ -196,9 +188,6 @@ defaults:
       path: assets/js/dist
     values:
       swcache: true
-
-sass:
-  style: compressed
 
 compress_html:
   clippings: all

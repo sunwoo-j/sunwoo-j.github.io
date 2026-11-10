@@ -4,10 +4,6 @@ webfonts: /assets/lib/fonts/main.css
 
 # Libraries
 
-toc:
-  css: /assets/lib/tocbot/tocbot.min.css
-  js: /assets/lib/tocbot/tocbot.min.js
-
 fontawesome:
   css: /assets/lib/fontawesome-free/css/all.min.css
 

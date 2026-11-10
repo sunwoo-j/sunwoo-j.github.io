@@ -60,10 +60,8 @@ function build(filename, opts = {}) {
 
 export default [
   build('commons'),
-  build('home'),
   build('categories'),
   build('page'),
-  build('post'),
   build('misc'),
   build('app', { src: SRC_PWA }),
   build('sw', {
