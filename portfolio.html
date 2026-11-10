@@ -54,13 +54,36 @@ permalink: /portfolio/
       </div>
     </section>
   </div>
-  <div class="portfolio-stack" role="group" aria-label="사용 도구와 언어" data-i18n-aria-label="portfolioStack">
-    {% for group in site.data.portfolio_stack %}
-    <ul class="portfolio-stack-group" role="list">
-      {% for logo in group %}
-      <li class="portfolio-stack-logo"><img src="{{ logo.icon | append: '.svg' | prepend: '/assets/img/stack/' | relative_url }}" alt="{{ logo.name | escape }}" width="25" height="25" loading="lazy" decoding="async"></li>
+  <section class="portfolio-tools" aria-labelledby="portfolio-tools-title">
+    <div class="section-heading"><h2 id="portfolio-tools-title" lang="en">TOOLS<span class="orange">.</span></h2></div>
+    <div class="tool-graph">
+      <svg class="tool-edges" aria-hidden="true">
+        {% for group in site.data.portfolio_stack %}
+          {% for peer in group.links %}
+            <path class="tool-bridge" data-from="hub-{{ group.id }}" data-to="hub-{{ peer }}" style="--edge-color: {{ group.color }}"/>
+          {% endfor %}
+          {% for logo in group.tools %}
+            <line data-from="hub-{{ group.id }}" data-to="{{ logo.icon }}" style="--edge-color: {{ group.color }}"/>
+            {% for peer in logo.links %}
+              <line class="tool-tool-link" data-from="{{ logo.icon }}" data-to="{{ peer }}" style="--edge-color: {{ group.color }}"/>
+            {% endfor %}
+          {% endfor %}
+        {% endfor %}
+      </svg>
+      {% for group in site.data.portfolio_stack %}
+        <section class="tool-cluster" data-cluster="{{ group.id }}" aria-labelledby="tools-{{ group.id }}" style="--cluster-color: {{ group.color }}">
+          <h3 class="tool-hub mono" id="tools-{{ group.id }}" data-graph-node="hub-{{ group.id }}" data-i18n="tools-{{ group.id }}">{{ group.name }}</h3>
+          <ul class="tool-nodes" role="list">
+            {% for logo in group.tools %}
+              <li class="tool-node" style="--node-x: {{ logo.x }}%; --node-y: {{ logo.y }}%; --tool-color: {{ logo.color }}">
+                <button type="button" class="tool-logo" data-graph-node="{{ logo.icon }}" title="{{ logo.name | escape }}" aria-pressed="false">
+                  <img src="{{ logo.icon | append: '.svg' | prepend: '/assets/img/stack/' | relative_url }}?v=2" alt="{{ logo.name | escape }}" width="80" height="80" loading="lazy" decoding="async" draggable="false">
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
       {% endfor %}
-    </ul>
-    {% endfor %}
-  </div>
+    </div>
+  </section>
 </section>

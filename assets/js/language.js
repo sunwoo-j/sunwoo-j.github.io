@@ -20,6 +20,36 @@
     return document.querySelector(`link[rel="alternate"][hreflang="${language}"]`)?.href;
   }
 
+  function translatePage(root) {
+    root.querySelectorAll('[data-i18n]').forEach(element => {
+      const value = translate(element.dataset.i18n, language);
+      // Only this repository's static dictionary contains HTML, never URL or input data.
+      if (value !== undefined) element.innerHTML = value;
+    });
+    ['aria-label', 'placeholder', 'alt'].forEach(attribute => {
+      root.querySelectorAll(`[data-i18n-${attribute}]`).forEach(element => {
+        const value = translate(element.getAttribute(`data-i18n-${attribute}`), language);
+        if (value !== undefined) element.setAttribute(attribute, value);
+      });
+    });
+    root.querySelectorAll('[data-title-ko]').forEach(element => {
+      element.textContent = element.getAttribute(`data-title-${language}`);
+      element.lang = language;
+    });
+    root.querySelectorAll('[data-href-ko]').forEach(link => {
+      link.href = link.getAttribute(`data-href-${language}`);
+    });
+    // Preserve an explicit choice through navigation even when storage is unavailable.
+    root.querySelectorAll('a[href]').forEach(link => {
+      const raw = link.getAttribute('href');
+      if (raw.startsWith('#')) return;
+      const url = new URL(raw, location.href);
+      if (url.origin !== location.origin || !['http:', 'https:'].includes(url.protocol)) return;
+      url.searchParams.set('lang', language);
+      link.href = url.href;
+    });
+  }
+
   function applyLanguage(next, persist = false) {
     language = next;
     const destination = alternate(language);
@@ -35,17 +65,7 @@
       return;
     }
     document.documentElement.lang = language;
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-      const value = translate(element.dataset.i18n, language);
-      // Only this repository's static dictionary contains HTML, never URL or input data.
-      if (value !== undefined) element.innerHTML = value;
-    });
-    ['aria-label', 'placeholder', 'alt'].forEach(attribute => {
-      document.querySelectorAll(`[data-i18n-${attribute}]`).forEach(element => {
-        const value = translate(element.getAttribute(`data-i18n-${attribute}`), language);
-        if (value !== undefined) element.setAttribute(attribute, value);
-      });
-    });
+    translatePage(document);
     if (languageButton) {
       const toEnglish = language === 'ko';
       languageButton.textContent = toEnglish ? 'EN' : '한국어';
@@ -53,22 +73,6 @@
       languageButton.setAttribute('aria-label', toEnglish ? 'Switch to English' : '한국어로 전환');
       languageButton.hidden = false;
     }
-    document.querySelectorAll('[data-title-ko]').forEach(element => {
-      element.textContent = element.getAttribute(`data-title-${language}`);
-      element.lang = language;
-    });
-    document.querySelectorAll('[data-href-ko]').forEach(link => {
-      link.href = link.getAttribute(`data-href-${language}`);
-    });
-    // Preserve an explicit choice through navigation even when storage is unavailable.
-    document.querySelectorAll('a[href]').forEach(link => {
-      const raw = link.getAttribute('href');
-      if (raw.startsWith('#')) return;
-      const url = new URL(link.href, location.href);
-      if (url.origin !== location.origin || !['http:', 'https:'].includes(url.protocol)) return;
-      url.searchParams.set('lang', language);
-      link.href = url.href;
-    });
     if (persist || supported.includes(requested)) {
       try { localStorage.setItem('site-language', language); } catch { /* Optional storage. */ }
     }
@@ -84,7 +88,8 @@
 
   window.siteLanguage = {
     get current() { return language; },
-    text(key) { return translate(key, language); }
+    text(key) { return translate(key, language); },
+    translatePage
   };
   languageButton?.addEventListener('click', () => {
     applyLanguage(language === 'ko' ? 'en' : 'ko', true);

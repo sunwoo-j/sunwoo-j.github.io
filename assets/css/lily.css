@@ -118,6 +118,9 @@ html[lang=ko] .contact-title h2 [data-i18n]{font-size:.75em}
 @media(max-width:700px){.site-header{gap:12px}.header-actions{gap:8px}.menu-toggle{gap:8px;padding:8px 10px}.menu-toggle [data-i18n]{font-size:11px;color:inherit}.translation-notice{margin-left:24px;margin-right:24px}}
 .hero-bottom{justify-content:flex-end}
 .contact-bottom{justify-content:flex-end}
+.site-header nav a[aria-current="page"]{color:var(--orange)}
+html{scrollbar-gutter:stable}
+.review-list{margin-top:clamp(32px,6vw,72px)}
 
 .portfolio-page{min-height:75vh}
 .portfolio-list{margin-top:clamp(32px,6vw,72px);border-top:1px solid var(--line)}
@@ -132,16 +135,100 @@ html[lang=ko] .contact-title h2 [data-i18n]{font-size:.75em}
 .portfolio-shot--detail{grid-column:span 5}
 .portfolio-shot--compact{grid-column:span 4;max-width:360px}
 .portfolio-shot img{display:block;width:100%;height:auto}
-.portfolio-stack{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 24px;margin-top:clamp(28px,5vw,56px)}
-.portfolio-stack-group{display:flex;list-style:none;margin:0;padding:0}
-.portfolio-stack-logo{display:grid;place-items:center;width:46px;aspect-ratio:1;border:2px solid var(--ink);border-radius:50%;background:var(--paper)}
-.portfolio-stack-logo+.portfolio-stack-logo{margin-inline-start:-7px}
-.portfolio-stack-logo img{display:block;width:25px;height:25px;object-fit:contain}
+.portfolio-tools{margin-top:clamp(48px,7vw,96px)}
+.tool-graph{
+  --tool-size:clamp(49px,5.5vw,80px);
+  position:relative;
+  isolation:isolate;
+  max-width:1440px;
+  margin-inline:auto;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px 8px;
+}
+.tool-cluster{position:relative;aspect-ratio:3 / 2;min-height:205px}
+.tool-hub{
+  position:absolute;
+  z-index:2;
+  top:var(--hub-y,50%);
+  left:50%;
+  transform:translate(calc(-50% + var(--node-dx,0px)),calc(-50% + var(--node-dy,0px)));
+  padding:5px 8px;
+  color:var(--cluster-color);
+  background:var(--ink);
+  border-radius:4px;
+  font-size:clamp(11px,1.1vw,15px);
+  font-weight:600;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.tool-cluster[data-cluster="game"]{--hub-y:54%}
+.tool-cluster[data-cluster="creative"]{--hub-y:44%}
+.tool-cluster[data-cluster="office"]{--hub-y:57%}
+.tool-nodes{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.tool-node{
+  position:absolute;
+  left:var(--node-x);
+  top:var(--node-y);
+  width:var(--tool-size);
+}
+.tool-edges{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:visible;
+  pointer-events:none;
+}
+.tool-edges :is(line,path){
+  fill:none;
+  stroke:var(--edge-color);
+  stroke-width:1;
+  opacity:.32;
+  transition:opacity .2s;
+}
+.tool-edges .tool-bridge{stroke-width:1.4;opacity:.49}
+.tool-edges .tool-tool-link{opacity:.24}
+.tool-edges .is-related{opacity:.66}
+.tool-edges .is-incident{stroke-width:1.8;opacity:1}
+.tool-logo{
+  position:relative;
+  z-index:1;
+  display:grid;
+  place-items:center;
+  width:100%;
+  aspect-ratio:1;
+  padding:0;
+  border:0;
+  background:var(--tool-color);
+  border-radius:50%;
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+  transform:translate(calc(-50% + var(--node-dx,0px)),calc(-50% + var(--node-dy,0px))) scale(var(--node-scale,1));
+}
+.tool-graph.is-dragging,.tool-graph.is-dragging .tool-logo{cursor:grabbing}
+.tool-logo img{
+  display:block;
+  width:64%;
+  height:auto;
+  object-fit:contain;
+  pointer-events:none;
+}
+.tool-logo.is-current{z-index:3}
+@media(max-width:900px){
+  .tool-graph{grid-template-columns:repeat(2,minmax(0,1fr));--tool-size:clamp(47px,8vw,68px)}
+}
+@media(max-width:570px){
+  .tool-graph{grid-template-columns:minmax(0,1fr);--tool-size:clamp(44px,13vw,62px)}
+  .tool-cluster{width:100%;max-width:350px;justify-self:center}
+}
 @media(max-width:600px){
   .portfolio-page .page-title{font-size:clamp(48px,16vw,100px)}
   .portfolio-shot--feature{grid-column:1 / -1}
   .portfolio-shot--wide,.portfolio-shot--detail,.portfolio-shot--compact{grid-column:span 6}
-  .portfolio-stack{gap:10px 14px}
-  .portfolio-stack-logo{width:40px}
-  .portfolio-stack-logo img{width:22px;height:22px}
 }

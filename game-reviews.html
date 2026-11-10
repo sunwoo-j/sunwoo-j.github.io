@@ -1,0 +1,19 @@
+---
+layout: lily
+title: Game Reviews — Sunwoo Jung
+description: 플레이한 게임의 경험과 디자인을 돌아봅니다.
+permalink: /game-reviews/
+---
+<section class="journal-page section-pad" aria-labelledby="game-reviews-title">
+  <div class="section-kicker mono"><a href="{{ '/' | relative_url }}">{% include lily-arrow.html direction='left' %} <span data-i18n="backHome">홈으로</span></a></div>
+  <h1 id="game-reviews-title" class="page-title" lang="en">GAME <em>REVIEWS.</em></h1>
+  <p class="page-description" data-i18n="gameReviewsIntro">플레이한 게임의 경험과 디자인을 돌아봅니다.</p>
+  {% assign reviews = site.categories['Game Review'] %}
+  {% if reviews and reviews.size > 0 %}
+    <div class="journal-list review-list">
+      {% for post in reviews %}{% include lily-entry.html %}{% endfor %}
+    </div>
+  {% else %}
+    <p class="empty-state" data-i18n="gameReviewsEmpty">아직 게시된 게임 리뷰가 없습니다.</p>
+  {% endif %}
+</section>

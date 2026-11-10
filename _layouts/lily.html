@@ -29,22 +29,24 @@
   {% include language-data.html %}
   <script src="{{ '/assets/js/language.js' | relative_url }}?v={{ asset_version }}" defer></script>
   <script src="{{ '/assets/js/lily.js' | relative_url }}?v={{ asset_version }}" defer></script>
+  <script src="{{ '/assets/js/tools-graph.js' | relative_url }}?v={{ asset_version }}" defer></script>
 </head>
 <body id="top">
   <a class="skip-link" href="#main"><span data-i18n="skip">본문으로 건너뛰기</span></a>
   <header class="site-header">
-    <a href="{{ '/' | relative_url }}" class="brand" aria-label="Sunwoo Jung 홈" data-i18n-aria-label="homeLabel"><span class="brand-mark" aria-hidden="true">{% include lily-symbol.html %}</span><span>SUNWOO<br>JUNG<span class="orange">.</span></span></a>
+    <a href="{{ '/' | relative_url }}" class="brand" data-tab-link aria-label="Sunwoo Jung 홈" data-i18n-aria-label="homeLabel"><span class="brand-mark" aria-hidden="true">{% include lily-symbol.html %}</span><span>SUNWOO<br>JUNG<span class="orange">.</span></span></a>
     <div class="header-actions">
       <nav id="main-nav" aria-label="메인 메뉴" data-i18n-aria-label="navLabel">
-        <a href="{{ '/journal/' | relative_url }}"><span data-i18n="navJournal">기록 <span>01</span></span></a>
-        <a href="{{ '/portfolio/' | relative_url }}"><span data-i18n="navPortfolio">포트폴리오 <span>02</span></span></a>
+        <a href="{{ '/journal/' | relative_url }}" data-tab-link{% if page.url == '/journal/' %} aria-current="page"{% endif %}><span data-i18n="navJournal">기록 <span>01</span></span></a>
+        <a href="{{ '/game-reviews/' | relative_url }}" data-tab-link{% if page.url == '/game-reviews/' %} aria-current="page"{% endif %}><span data-i18n="navGameReviews">게임 리뷰 <span>02</span></span></a>
+        <a href="{{ '/portfolio/' | relative_url }}" data-tab-link{% if page.url == '/portfolio/' %} aria-current="page"{% endif %}><span data-i18n="navPortfolio">포트폴리오 <span>03</span></span></a>
         <a class="nav-contact" href="{{ '/' | relative_url }}#contact"><span data-i18n="hello">문의</span> <span aria-hidden="true">{% include lily-arrow.html direction='up-right' %}</span></a>
       </nav>
       {% include language-switch.html %}
       <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" type="button"><span data-i18n="menu">메뉴</span> <span aria-hidden="true">+</span></button>
     </div>
   </header>
-  <main id="main">{{ content }}</main>
+  <main id="main"{% if page.url == '/' or page.url == '/index.html' or page.url == '/journal/' or page.url == '/game-reviews/' or page.url == '/portfolio/' %} data-tab-view tabindex="-1"{% endif %}>{{ content }}</main>
   <footer class="site-footer"><a class="footer-brand" href="{{ '/' | relative_url }}">SUNWOO JUNG<span class="orange">.</span></a><span class="mono">© {{ 'now' | date: '%Y' }}</span><div class="footer-links"><a href="https://github.com/sunwoo-j">GITHUB {% include lily-arrow.html direction='up-right' %}</a><a href="https://www.linkedin.com/in/sunwoojung">LINKEDIN {% include lily-arrow.html direction='up-right' %}</a><a href="#top" aria-label="맨 위로" data-i18n-aria-label="topLabel"><span data-i18n="backTop">맨 위로</span> {% include lily-arrow.html direction='up' %}</a><button class="motion-toggle" type="button" aria-pressed="false"><span data-i18n="motion">애니메이션:</span> <span class="motion-state">ON</span></button></div></footer>
 </body>
 </html>

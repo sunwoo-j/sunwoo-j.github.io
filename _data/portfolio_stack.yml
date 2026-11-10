@@ -1,25 +1,57 @@
-- - { icon: python, name: Python }
-  - { icon: csharp, name: 'C#' }
-  - { icon: java, name: Java }
-  - { icon: javascript, name: JavaScript }
-- - { icon: html5, name: HTML5 }
-  - { icon: css3, name: CSS3 }
-  - { icon: nodejs, name: Node.js }
-- - { icon: mysql, name: MySQL }
-  - { icon: postgresql, name: PostgreSQL }
-  - { icon: sqlite, name: SQLite }
-  - { icon: mongodb, name: MongoDB }
-- - { icon: git, name: Git }
-  - { icon: github, name: GitHub }
-- - { icon: vscode, name: Visual Studio Code }
-  - { icon: pycharm, name: PyCharm }
-  - { icon: intellij, name: IntelliJ IDEA }
-  - { icon: unity, name: Unity }
-- - { icon: blender, name: Blender }
-  - { icon: photoshop, name: Adobe Photoshop }
-  - { icon: premierepro, name: Adobe Premiere Pro }
-  - { icon: aftereffects, name: Adobe After Effects }
-  - { icon: animate, name: Adobe Animate }
-- - { icon: word, name: Microsoft Word }
-  - { icon: excel, name: Microsoft Excel }
-  - { icon: powerpoint, name: Microsoft PowerPoint }
+- id: game
+  name: 3D · 게임
+  color: '#f3a27a'
+  links: [creative, development]
+  tools:
+    - { icon: unity, name: Unity, color: '#a9a9b3', x: 25, y: 26, links: [csharp] }
+    - { icon: unrealengine, name: Unreal Engine, color: '#a9bbc8', x: 75, y: 26 }
+    - { icon: maya, name: Autodesk Maya, color: '#193f4b', x: 75, y: 74 }
+    - { icon: blender, name: Blender, color: '#853e1b', x: 25, y: 74, links: [maya, aftereffects] }
+- id: creative
+  name: 디자인 · 영상
+  color: '#c2a5f6'
+  links: [web]
+  tools:
+    - { icon: photoshop, name: Adobe Photoshop, color: '#135582', x: 50, y: 17, links: [illustrator] }
+    - { icon: illustrator, name: Adobe Illustrator, color: '#ac571b', x: 79, y: 36 }
+    - { icon: animate, name: Adobe Animate, color: '#643074', x: 69, y: 78 }
+    - { icon: aftereffects, name: Adobe After Effects, color: '#5b469b', x: 31, y: 78, links: [premierepro] }
+    - { icon: premierepro, name: Adobe Premiere, color: '#574388', x: 21, y: 36 }
+- id: web
+  name: 웹
+  color: '#94c7f6'
+  links: [development, data]
+  tools:
+    - { icon: html5, name: HTML5, color: '#722e21', x: 25, y: 26, links: [css3] }
+    - { icon: css3, name: CSS3, color: '#273d85', x: 75, y: 26 }
+    - { icon: javascript, name: JavaScript, color: '#a68520', x: 75, y: 74, links: [nodejs] }
+    - { icon: nodejs, name: Node.js, color: '#244f32', x: 25, y: 74 }
+- id: development
+  name: 개발
+  color: '#edc978'
+  links: [data]
+  tools:
+    - { icon: python, name: Python, color: '#243d65', x: 50, y: 13, links: [pycharm] }
+    - { icon: java, name: Java, color: '#b0bdca', x: 75, y: 23 }
+    - { icon: csharp, name: 'C#', color: '#352057', x: 87, y: 50 }
+    - { icon: vscode, name: Visual Studio Code, color: '#163b62', x: 75, y: 77 }
+    - { icon: pycharm, name: PyCharm, color: '#37603d', x: 50, y: 87 }
+    - { icon: intellij, name: IntelliJ IDEA, color: '#623465', x: 25, y: 77 }
+    - { icon: git, name: Git, color: '#822e26', x: 13, y: 50, links: [github, vscode] }
+    - { icon: github, name: GitHub, color: '#9d8bb3', x: 25, y: 23 }
+- id: data
+  name: 데이터베이스
+  color: '#8ad6ad'
+  links: [office]
+  tools:
+    - { icon: mysql, name: MySQL, color: '#acb8c7', x: 25, y: 26 }
+    - { icon: postgresql, name: PostgreSQL, color: '#91b2d0', x: 75, y: 26 }
+    - { icon: sqlite, name: SQLite, color: '#224766', x: 75, y: 74 }
+    - { icon: mongodb, name: MongoDB, color: '#164f3b', x: 25, y: 74 }
+- id: office
+  name: 문서
+  color: '#edabaf'
+  tools:
+    - { icon: word, name: Microsoft Word, color: '#273b77', x: 50, y: 17 }
+    - { icon: excel, name: Microsoft Excel, color: '#1b573d', x: 75, y: 73 }
+    - { icon: powerpoint, name: Microsoft PowerPoint, color: '#753426', x: 25, y: 73 }

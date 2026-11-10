@@ -87,7 +87,7 @@ for post in (ROOT / '_posts').glob('*.md'):
 
 dictionary = (ROOT / '_includes/language-data.html').read_text(encoding='utf-8')
 dictionary = json.loads(dictionary[dictionary.index('{'):dictionary.rindex('}')+1])
-for p in [ROOT / 'index.html', ROOT / 'journal.html', ROOT / 'portfolio.html', *ROOT.glob('_layouts/lily*.html')]:
+for p in [ROOT / 'index.html', ROOT / 'journal.html', SITE / 'portfolio/index.html', *ROOT.glob('_layouts/lily*.html')]:
     for key in re.findall(r'data-i18n(?:-aria-label|-placeholder|-alt)?="([^"]+)"', p.read_text(encoding='utf-8')):
         if key not in dictionary or set(dictionary[key]) != {'ko', 'en'}:
             errors.append(f'{p.name}: missing translation key {key}')
